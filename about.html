@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pal Library - About Us</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        /* Custom Colors (Dark Mode Defaults - consistent with homepage) */
+        :root {
+            --primary-green: #22c55e;
+            /* Brand Green */
+            --primary-green-dark: #16a34a;
+            /* Darker Green for hover */
+            --accent-orange: #f97316;
+            /* Brand Orange */
+            --accent-orange-dark: #ea580c;
+            /* Darker Orange for hover */
+            --light-white: #ffffff;
+            /* Explicitly define white */
+            --dark-blue-black: #0f172a;
+            /* slate-900 */
+            --dark-blue-black-light: #1e293b;
+            /* slate-800 */
+            --red-danger: #ef4444;
+            /* red-500 for disclaimers/errors */
+            --red-danger-dark: #dc2626;
+            /* red-600 for hover */
+
+
+            /* Dark Mode Specific Variables */
+            --bg-body: var(--dark-blue-black);
+            --bg-section: var(--dark-blue-black);
+            /* For main sections */
+            --bg-card: var(--dark-blue-black-light);
+            /* For content cards */
+            --text-heading: var(--light-white);
+            --text-body: #e2e8f0;
+            /* light slate text */
+            --text-medium: #94a3b8;
+            /* slate-400 */
+            --border-color: rgba(255, 255, 255, 0.08);
+            /* Light border for dark elements */
+            --header-bg-scrolled: var(--dark-blue-black);
+            /* Opaque dark-blue-black when scrolled */
+            --header-box-shadow-scrolled: rgba(0, 0, 0, 0.5);
+            --card-box-shadow: rgba(0, 0, 0, 0.3);
+
+            /* Dropdown specific for dark mode */
+            --dropdown-bg: var(--dark-blue-black);
+            --dropdown-hover-bg: var(--dark-blue-black-light);
+        }
+
+        /* Light Mode Overrides */
+        body.light-mode {
+            /* Primary Green for Light Mode (Darker) */
+            --primary-green: #168a44;
+            /* Darker green for light mode */
+            --primary-green-dark: #0f6a31;
+            /* Even darker green for hover in light mode */
+
+            /* Backgrounds */
+            --bg-body: #f8fafc;
+            /* slate-50 */
+            --bg-section: #ffffff;
+            /* white for main sections */
+            --bg-card: #f1f5f9;
+            /* slate-100 for content cards */
+
+            /* Text Colors */
+            --text-heading: #1e293b;
+            /* dark slate */
+            --text-body: #475569;
+            /* slate-600 */
+            --text-medium: #64748b;
+            /* slate-500 */
+            --border-color: rgba(0, 0, 0, 0.1);
+            /* Darker border for light elements */
+
+            /* Header Specific Overrides for Light Mode */
+            --header-bg-scrolled: #ffffff;
+            /* Opaque white on scroll */
+            --header-box-shadow-scrolled: rgba(0, 0, 0, 0.15);
+
+            /* Card Specific Overrides for Light Mode */
+            --card-box-shadow: rgba(0, 0, 0, 0.1);
+
+            /* Dropdown specific for light mode */
+            --dropdown-bg: #ffffff;
+            --dropdown-hover-bg: #f1f5f9;
+            /* slate-100 */
+        }
+
+        /* Base Styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: var(--bg-body);
+            color: var(--text-body);
+            line-height: 1.6;
+            min-height: 100vh;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            /* Smooth theme transition */
+            color-scheme: dark;
+            /* Default color scheme for browser elements */
+        }
+
+        body.light-mode {
+            color-scheme: light;
+            /* Light color scheme for browser elements */
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            color: var(--text-heading);
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* --- Header --- */
+        .header {
+            background-color: var(--dark-blue-black);
+            /* Solid header background */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        body.light-mode .header {
+            background-color: var(--bg-section);
+            /* White header in light mode */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            width: 200px;
+            max-height: 100px;
+        }
+
+
+        .nav-links {
+            display: none;
+            /* Hidden by default on small screens */
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-links a,
+        .login-btn {
+            color: var(--text-heading);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-green);
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-btn {
+            cursor: pointer;
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            position: relative;
+            z-index: 101;
+        }
+
+        .dropdown-btn .arrow-icon {
+            font-size: 0.7em;
+            margin-left: 0.5em;
+            transition: transform 0.2s ease;
+            display: inline-block;
+        }
+
+        .dropdown:hover .dropdown-btn .arrow-icon {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: var(--dropdown-bg);
+            min-width: 200px;
+            box-shadow: 0 8px 16px 0px rgba(0, 0, 0, 0.4);
+            z-index: 100;
+            border-radius: 8px;
+            padding: 0.5rem 0;
+            top: calc(100% + 5px);
+            left: 50%;
+            transform: translateX(-50%);
+            border: 1px solid var(--border-color);
+            transition: background-color 0.3s ease;
+        }
+
+        .dropdown-content a {
+            color: var(--text-body);
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .dropdown-content a:hover {
+            background-color: var(--dropdown-hover-bg);
+            color: var(--primary-green);
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .login-btn {
+            background-color: var(--accent-orange);
+            color: var(--light-white);
+            padding: 0.6rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .login-btn:hover {
+            background-color: var(--accent-orange-dark);
+            transform: translateY(-1px);
+        }
+
+        .menu-toggle {
+            display: block;
+            background: none;
+            border: none;
+            color: var(--text-heading);
+            font-size: 2rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-heading);
+            transition: color 0.3s ease;
+            padding: 0.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+
+        .theme-toggle:hover {
+            color: var(--primary-green);
+        }
+
+        /* Mobile navigation overlay */
+        .mobile-nav-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-body);
+            z-index: 1001;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out, background-color 0.3s ease;
+        }
+
+        .mobile-nav-overlay.open {
+            transform: translateX(0);
+        }
+
+        .mobile-nav-overlay a {
+            color: var(--text-heading);
+            font-size: 1.8rem;
+            margin: 1rem 0;
+            text-decoration: none;
+            display: block;
+            transition: color 0.3s ease;
+        }
+
+        .mobile-nav-overlay a:hover {
+            color: var(--primary-green);
+        }
+
+        .close-menu-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            background: none;
+            border: none;
+            color: var(--text-heading);
+            font-size: 3rem;
+            cursor: pointer;
+        }
+
+        .mobile-nav-overlay .dropdown-content {
+            position: static;
+            display: none;
+            box-shadow: none;
+            background-color: transparent;
+            width: auto;
+            min-width: unset;
+            margin-top: 0;
+            transform: none;
+            border: none;
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+        }
+
+        .mobile-nav-overlay .dropdown-content.open-mobile-dropdown {
+            display: block;
+            max-height: 500px;
+            opacity: 1;
+        }
+
+        .mobile-nav-overlay .dropdown-content a {
+            font-size: 1.5rem;
+            padding: 0.5rem 0;
+            text-align: center;
+            color: var(--text-body);
+        }
+
+
+        /* --- Main Content Section for About Us --- */
+        .about-us-main {
+            padding: 4rem 0;
+            background-color: var(--bg-body);
+            min-height: calc(100vh - 150px);
+            /* Adjust height to account for header/footer */
+        }
+
+        .about-us-main h2 {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--primary-green);
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .about-content {
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+            max-width: 900px;
+            margin: 2.5rem auto 0 auto;
+            align-items: center;
+        }
+
+        .about-section {
+            background-color: var(--bg-card);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px var(--card-box-shadow);
+            border: 1px solid var(--border-color);
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+            width: 100%;
+            text-align: center;
+            /* Center text within sections */
+        }
+
+        .about-section h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-orange);
+            margin-bottom: 1rem;
+        }
+
+        .about-section p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-body);
+            margin-bottom: 0;
+        }
+
+        /* NEW: Disclaimer Section Styling */
+        .disclaimer-section {
+            background-color: var(--red-danger);
+            /* Red background */
+            color: var(--light-white);
+            /* White text */
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            /* More prominent shadow */
+            border: 2px solid var(--red-danger-dark);
+            /* Darker red border */
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+            line-height: 1.6;
+            margin-bottom: 2.5rem;
+            /* Space below it */
+            width: 100%;
+            /* Take full width of container */
+            box-sizing: border-box;
+            /* Include padding in width */
+        }
+
+        .disclaimer-section h3 {
+            color: var(--light-white);
+            /* Ensure heading is white */
+            font-size: 2.5rem;
+            /* Larger heading */
+            margin-bottom: 1rem;
+        }
+
+        .disclaimer-section p {
+            color: var(--light-white);
+            /* Ensure paragraph text is white */
+            font-size: 1.1rem;
+        }
+
+
+        /* --- Footer --- */
+        .footer {
+            background-color: var(--dark-blue-black-light);
+            color: var(--text-medium);
+            padding: 2.5rem 0;
+            text-align: center;
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border-color);
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .footer p {
+            margin: 0;
+            padding: 0.5rem 0;
+        }
+
+        .footer .disclaimer {
+            font-size: 0.85rem;
+            color: var(--text-body);
+            margin-top: 1rem;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.4;
+        }
+
+        /* --- Cookie Consent Banner --- */
+        .cookie-consent-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #ffffff;
+            padding: 1rem;
+            text-align: center;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.3);
+            transform: translateY(100%);
+            transition: transform 0.5s ease-out;
+        }
+
+        .cookie-consent-banner.show {
+            transform: translateY(0);
+        }
+
+        .cookie-consent-banner p {
+            margin: 0;
+            max-width: 800px;
+        }
+
+        .cookie-consent-banner button {
+            background-color: var(--primary-green);
+            color: var(--light-white);
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .cookie-consent-banner button:hover {
+            background-color: var(--primary-green-dark);
+            transform: translateY(-1px);
+        }
+
+        /* --- Responsive Design --- */
+        @media (min-width: 768px) {
+            .navbar {
+                justify-content: space-between;
+            }
+
+            .nav-links {
+                display: flex;
+            }
+
+            .menu-toggle {
+                display: none;
+            }
+
+            .navbar .theme-toggle {
+                order: 3;
+                margin-left: 1rem;
+            }
+
+            .navbar .login-btn {
+                order: 4;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .cookie-consent-banner {
+                flex-direction: column;
+            }
+
+            .cookie-consent-banner p {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <!--====================== HEADER ====================-->
+    <header class="header">
+        <div class="container navbar">
+            <div>
+                <img src="./img/logo1.png" class="logo" alt="">
+            </div>
+            <nav class="nav-links">
+                <a href="/">Home</a>
+                <div class="dropdown">
+                    <a href="#categories-section" class="dropdown-btn">Categories <span class="arrow-icon">▼</span></a>
+                    <div class="dropdown-content">
+                        <a href="./christian.html">Christian Books</a>
+                        <a href="./academic.html">Academic Books</a>
+                        <a href="./research_thesis.html">Research & Project Papers</a>
+                        <a href="./past_questions.html">Past Questions</a>
+                        <a href="./finance.html">Finance Books</a>
+                        <a href="./love.html">Relationship Books</a>
+                        <a href="./life.html">Life Books</a>
+                    </div>
+                </div>
+                <a href="./about.html">About Us</a>
+                <a href="./support.html">Support</a>
+            </nav>
+            <button id="theme-toggle" class="theme-toggle">☀️</button>
+            <a href="./login.html" class="login-btn">Login</a>
+            <button class="menu-toggle" id="menuToggle">&#9776;</button>
+        </div>
+    </header>
+
+
+    <!-- ====================================
+         ================ MOBILE MENU ============================== -->
+    <div class="mobile-nav-overlay" id="mobileNavOverlay">
+        <button class="close-menu-btn" id="closeMenuBtn">&times;</button>
+        <nav class="mobile-nav-links">
+            <a href="/">Home</a>
+            <div class="dropdown">
+                <a href="#categories-section" class="dropdown-btn">Categories <span class="arrow-icon">▼</span></a>
+                <div class="dropdown-content">
+                    <a href="./christian.html">Christian Books</a>
+                    <a href="./academic.html">Academic Books</a>
+                    <a href="./research_thesis.html">Research Papers</a>
+                    <a href="./past_questions.html">Project Thesis</a>
+                    <a href="./finance.html">Finance Books</a>
+                    <a href="./love.html">Relationship Books</a>
+                    <a href="./life.html">Life Books</a>
+                </div>
+            </div>
+            <a href="./about.html">About Us</a>
+            <a href="./support.html">Support</a>
+            <a href="./login.html" class="login-btn">Login</a>
+            <button id="mobile-theme-toggle" class="theme-toggle">☀️</button>
+        </nav>
+    </div>
+
+
+
+
+
+    <!-- Main Content for About Us -->
+    <main class="about-us-main">
+        <div class="container">
+            <h2>About Pal Library</h2>
+
+            <div class="about-content">
+                <!-- NEW: Disclaimer Section -->
+                <div class="disclaimer-section">
+                    <h3>Important Disclaimer</h3>
+                    <p>
+                        Please be aware that while Pal Library strives to provide accurate and reliable information,
+                        the content available on this platform is for educational and informational purposes only.
+                        We do not guarantee the completeness, accuracy, or timeliness of all materials.
+                        Users are encouraged to verify information from primary sources when necessary.
+                        Your use of this library is at your own discretion and risk.
+                    </p>
+                </div>
+
+                <div class="about-section">
+                    <h3>Our Mission</h3>
+                    <p>
+                        At Pal Library, our mission is to democratize access to knowledge and foster a vibrant learning
+                        community across Ghana. We strive to provide a comprehensive and easily accessible digital
+                        repository of academic, professional, and personal development resources, empowering individuals
+                        to achieve their educational and life goals.
+                    </p>
+                </div>
+
+                <div class="about-section">
+                    <h3>Our Vision</h3>
+                    <p>
+                        We envision a Ghana where every student, researcher, and lifelong learner has immediate access
+                        to the information they need, regardless of their location or socio-economic background. Pal
+                        Library aims to be the leading digital library platform in Ghana, recognized for its extensive
+                        collection, user-friendly interface, and commitment to educational equity.
+                    </p>
+                </div <div class="about-section">
+                <h3>Our Values</h3>
+                <ul>
+                    <li style="list-style: none; margin-bottom: 1rem;">
+                        <strong>Accessibility:</strong> Ensuring everyone can access knowledge.
+                    </li>
+                    <li style="list-style: none; margin-bottom: 1rem;">
+                        <strong>Empowerment:</strong> Equipping individuals with tools for growth.
+                    </li>
+                    <li style="list-style: none; margin-bottom: 1rem;">
+                        <strong>Collaboration:</strong> Partnering with institutions to enrich content.
+                    </li>
+                    <li style="list-style: none; margin-bottom: 1rem;">
+                        <strong>Integrity:</strong> Upholding copyright and academic honesty.
+                    </li>
+                    <li style="list-style: none;">
+                        <strong>Innovation:</strong> Continuously improving our platform and services.
+                    </li>
+                </ul>
+            </div>
+
+            <div class="about-section">
+                <h3>Terms of Usage</h3>
+                <p>
+                    By accessing and using Pal Library, you agree to comply with and be bound by the following terms and
+                    conditions of use. These terms govern your use of the website and all its content. Unauthorized use
+                    of this website may give rise to a claim for damages and/or be a criminal offense.
+                </p>
+                <p>
+                    You agree not to reproduce, duplicate, copy, sell, resell or exploit any portion of the Service, use
+                    of the Service, or access to the Service without express written permission by us. All content
+                    provided on Pal Library is for personal, non-commercial use only. Any commercial use, reproduction,
+                    or distribution of the content without prior written consent from Pal Library or the respective
+                    content owners is strictly prohibited.
+                </p>
+                <p>
+                    We reserve the right to modify these terms at any time without prior notice. Your continued use of
+                    the site following any changes signifies your acceptance of the updated terms.
+                </p>
+            </div>
+
+            <div class="about-section">
+                <h3>Privacy Policy</h3>
+                <p>
+                    Pal Library is committed to protecting your privacy. This policy outlines how we collect, use, and
+                    safeguard your personal information. We collect information that you voluntarily provide to us, such
+                    as your name, email address, and university affiliation during registration. We also collect
+                    non-personal information, such as browser type and IP address, to improve our services.
+                </p>
+                <p>
+                    Your personal information is used to provide you with access to our library resources, to
+                    personalize your experience, and to communicate with you about updates and relevant information. We
+                    do not sell, trade, or otherwise transfer your personally identifiable information to outside
+                    parties without your consent, except as required by law.
+                </p>
+                <p>
+                    We implement a variety of security measures to maintain the safety of your personal information when
+                    you enter, submit, or access your personal information. By using our site, you consent to our
+                    privacy policy.
+                </p>
+            </div>
+
+            <div class="about-section">
+                <h3>Content Policy</h3>
+                <p>
+                    Pal Library adheres to strict content policies to ensure quality, relevance, and legality. We host
+                    academic and course materials directly from our partner universities in Ghana. For other categories
+                    (e.g., Christian, Finance, Relationship, Life Books), we provide summaries and link to external,
+                    legally hosted sources (e.g., Amazon, Internet Archive).
+                </p>
+                <p>
+                    We do not host content from non-partner sources to ensure strict adherence to copyright laws and to
+                    maintain academic integrity. All content uploaded by partner institutions must comply with relevant
+                    copyright laws and academic standards. Any reported violations will be promptly investigated and
+                    addressed.
+                </p>
+            </div>
+
+            <div class="about-section">
+                <h3>Our Story</h3>
+                <p>
+                    Pal Library was founded with a simple yet powerful idea: to bridge the gap in access to quality
+                    educational resources in Ghana. Recognizing the challenges faced by students and researchers in
+                    obtaining up-to-date materials, we set out to create a digital platform that brings the library to
+                    their fingertips. Starting with partnerships with local universities, we've grown to include a
+                    diverse range of books and papers, all curated to support learning and development.
+                </p>
+            </div>
+        </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Pal Library. All rights reserved. Connecting Ghanaian knowledge to the world.</p>
+            <p class="disclaimer">
+                Disclaimer: Pal Library directly hosts course materials and academic resources from our partner
+                universities in Ghana.
+                For other book categories (e.g., Christian, Finance, Relationship, Life Books), we provide summaries and
+                link directly to their respective legal storage on the internet (e.g., Amazon, Internet Archive).
+                We do not host content from non-partner sources to ensure strict adherence to copyright laws and to
+                maintain academic integrity.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Cookie Consent Banner HTML -->
+    <div class="cookie-consent-banner" id="cookieConsentBanner">
+        <p>This website uses cookies to ensure you get the best experience on our website. By continuing to use this
+            site, you agree to our use of cookies.</p>
+        <button id="acceptCookiesBtn">Accept Cookies</button>
+    </div>
+
+    <script>
+        // --- Theme Toggle Functionality ---
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const mobileThemeToggleBtn = document.getElementById('mobile-theme-toggle');
+        const body = document.body;
+
+        const prefersLightMode = window.matchMedia('(prefers-color-scheme: light)');
+
+        function setTheme(isLight) {
+            if (isLight) {
+                body.classList.add('light-mode');
+                themeToggleBtn.textContent = '🌙'; // Moon icon for dark mode toggle
+                mobileThemeToggleBtn.textContent = '🌙';
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.classList.remove('light-mode');
+                themeToggleBtn.textContent = '☀️'; // Sun icon for light mode toggle
+                mobileThemeToggleBtn.textContent = '☀️';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Initialize theme based on localStorage or system preference
+        function initializeTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                setTheme(savedTheme === 'light');
+            } else {
+                setTheme(false); // Force dark mode if no preference is saved
+            }
+        }
+
+        // Listen for system theme changes
+        prefersLightMode.addEventListener('change', (event) => {
+            // Only update if no explicit user preference is saved
+            if (!localStorage.getItem('theme')) {
+                setTheme(event.matches);
+            }
+        });
+
+        // Toggle theme on button click
+        themeToggleBtn.addEventListener('click', () => {
+            setTheme(!body.classList.contains('light-mode'));
+        });
+        mobileThemeToggleBtn.addEventListener('click', () => {
+            setTheme(!body.classList.contains('light-mode'));
+        });
+
+        // --- Smooth Scrolling for navigation links (adapted for this page) ---
+        document.querySelectorAll('nav a[href^="index.html#"], nav a[href$="-page.html"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                // If it's a link to the current page, allow default behavior
+                if (this.getAttribute('href') === 'about-us-page.html' || this.getAttribute('href').startsWith('#')) {
+                    // For dropdowns on mobile, toggle the dropdown
+                    if (this.classList.contains('dropdown-btn') && window.innerWidth < 768) {
+                        e.preventDefault();
+                        const dropdownContent = this.nextElementSibling;
+                        const arrowIcon = this.querySelector('.arrow-icon');
+                        if (dropdownContent) {
+                            dropdownContent.classList.toggle('open-mobile-dropdown');
+                            if (arrowIcon) {
+                                arrowIcon.style.transform = dropdownContent.classList.contains('open-mobile-dropdown') ? 'rotate(180deg)' : 'rotate(0deg)';
+                            }
+                        }
+                        return; // Don't proceed with page scroll for dropdown toggle
+                    }
+                    return; // Allow default navigation for direct links on this page or internal anchors
+                }
+
+                // For links back to homepage with specific sections
+                e.preventDefault();
+                const targetHref = this.getAttribute('href');
+                window.location.href = targetHref; // Redirect to homepage with hash
+            });
+        });
+
+        // --- Mobile Menu Toggle ---
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileNavOverlay = document.getElementById('mobileNavOverlay');
+        const closeMenuBtn = document.getElementById('closeMenuBtn');
+
+        if (menuToggle && mobileNavOverlay && closeMenuBtn) {
+            menuToggle.addEventListener('click', () => {
+                mobileNavOverlay.classList.add('open');
+                mobileNavOverlay.querySelectorAll('.dropdown-content.open-mobile-dropdown').forEach(dropdown => {
+                    dropdown.classList.remove('open-mobile-dropdown');
+                    const btn = dropdown.previousElementSibling;
+                    const arrowIcon = btn ? btn.querySelector('.arrow-icon') : null;
+                    if (arrowIcon) {
+                        arrowIcon.style.transform = 'rotate(0deg)';
+                    }
+                });
+            });
+
+            closeMenuBtn.addEventListener('click', () => {
+                mobileNavOverlay.classList.remove('open');
+                mobileNavOverlay.querySelectorAll('.dropdown-content.open-mobile-dropdown').forEach(dropdown => {
+                    dropdown.classList.remove('open-mobile-dropdown');
+                    const btn = dropdown.previousElementSibling;
+                    const arrowIcon = btn ? btn.querySelector('.arrow-icon') : null;
+                    if (arrowIcon) {
+                        arrowIcon.style.transform = 'rotate(0deg)';
+                    }
+                });
+            });
+
+            mobileNavOverlay.querySelectorAll('.mobile-nav-links a:not(.dropdown-btn)').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileNavOverlay.classList.remove('open');
+                    mobileNavOverlay.querySelectorAll('.dropdown-content.open-mobile-dropdown').forEach(dropdown => {
+                        dropdown.classList.remove('open-mobile-dropdown');
+                        const btn = dropdown.previousElementSibling;
+                        const arrowIcon = btn ? btn.querySelector('.arrow-icon') : null;
+                        if (arrowIcon) {
+                            arrowIcon.style.transform = 'rotate(0deg)';
+                        }
+                    });
+                });
+            });
+        }
+
+        // --- Cookie Consent Banner Logic ---
+        const cookieBanner = document.getElementById('cookieConsentBanner');
+        const acceptCookiesBtn = document.getElementById('acceptCookiesBtn');
+        const cookieConsentKey = 'palLibraryCookieConsent';
+
+        function showCookieBanner() {
+            if (!localStorage.getItem(cookieConsentKey)) {
+                cookieBanner.classList.add('show');
+            }
+        }
+
+        function acceptCookies() {
+            localStorage.setItem(cookieConsentKey, 'true');
+            cookieBanner.classList.remove('show');
+        }
+
+        if (acceptCookiesBtn) {
+            acceptCookiesBtn.addEventListener('click', acceptCookies);
+        }
+
+        // --- Placeholder for Login Button ---
+        document.querySelectorAll('.login-btn').forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                alert('Login functionality will be available soon!');
+            });
+        });
+
+        // Initial Load
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeTheme();
+            showCookieBanner(); // Show banner on page load
+        });
+    </script>
+</body>
+
+</html>

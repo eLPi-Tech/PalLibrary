@@ -1,0 +1,1883 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pal Library - Librarian Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome 6 for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        xintegrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Custom Colors (Dark Mode Defaults - consistent with homepage) */
+        :root {
+            --primary-green: #22c55e;
+            /* Brand Green */
+            --primary-green-dark: #16a34a;
+            /* Darker Green for hover */
+            --accent-orange: #f97316;
+            /* Brand Orange */
+            --accent-orange-dark: #ea580c;
+            /* Darker Orange for hover */
+            --light-white: #ffffff;
+            /* Explicitly define white */
+            --dark-blue-black: #0f172a;
+            /* slate-900 */
+            --dark-blue-black-light: #1e293b;
+            /* slate-800 */
+            --red-danger: #ef4444;
+            /* red-500 for delete */
+            --red-danger-dark: #dc2626;
+            /* red-600 for delete hover */
+
+
+            /* Dark Mode Specific Variables */
+            --bg-body: var(--dark-blue-black);
+            --bg-section: var(--dark-blue-black);
+            /* For main sections */
+            --bg-card: var(--dark-blue-black-light);
+            /* For cards/profile background */
+            --text-heading: var(--light-white);
+            --text-body: #e2e8f0;
+            /* light slate text */
+            --text-medium: #94a3b8;
+            /* slate-400 */
+            --border-color: rgba(255, 255, 255, 0.08);
+            /* Light border for dark elements */
+            --header-bg-scrolled: var(--dark-blue-black);
+            /* Opaque dark-blue-black when scrolled */
+            --header-box-shadow-scrolled: rgba(0, 0, 0, 0.5);
+            --card-box-shadow: rgba(0, 0, 0, 0.3);
+
+            /* Menu specific for dark mode */
+            --menu-bg: var(--dark-blue-black-light);
+            --menu-item-hover-bg: rgba(34, 197, 94, 0.2);
+            --menu-text: var(--text-body);
+        }
+
+        /* Light Mode Overrides */
+        body.light-mode {
+            /* Primary Green for Light Mode (Darker) */
+            --primary-green: #168a44;
+            /* Darker green for light mode */
+            --primary-green-dark: #0f6a31;
+            /* Even darker green for hover in light mode */
+
+            /* Backgrounds */
+            --bg-body: #f8fafc;
+            /* slate-50 */
+            --bg-section: #ffffff;
+            /* white for main sections */
+            --bg-card: #f1f5f9;
+            /* slate-100 for cards/profile background */
+
+            /* Text Colors */
+            --text-heading: #1e293b;
+            /* dark slate */
+            --text-body: #475569;
+            /* slate-600 */
+            --text-medium: #64748b;
+            /* slate-500 */
+            --border-color: rgba(0, 0, 0, 0.1);
+            /* Darker border for light elements */
+
+            /* Header Specific Overrides for Light Mode */
+            --header-bg-scrolled: #ffffff;
+            /* Opaque white on scroll */
+            --header-box-shadow-scrolled: rgba(0, 0, 0, 0.15);
+
+            /* Card Specific Overrides for Light Mode */
+            --card-box-shadow: rgba(0, 0, 0, 0.1);
+
+            /* Menu specific for light mode */
+            --menu-bg: var(--bg-card);
+            --menu-item-hover-bg: #e2e8f0;
+            /* slate-200 */
+            --menu-text: var(--text-body);
+        }
+
+        /* Base Styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: var(--bg-body);
+            color: var(--text-body);
+            line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            /* Smooth theme transition */
+            color-scheme: dark;
+            /* Default color scheme for browser elements */
+        }
+
+        body.light-mode {
+            color-scheme: light;
+            /* Light color scheme for browser elements */
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            color: var(--text-heading);
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* --- Header --- */
+        .header {
+            background-color: var(--dark-blue-black);
+            /* Solid header background */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        body.light-mode .header {
+            background-color: var(--bg-section);
+            /* White header in light mode */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-top {
+            /* Renamed from navbar for clarity */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            /* Padding for the top bar (logo, toggle) */
+        }
+
+        .logo {
+            width: 200px;
+            max-height: 100px;
+        }
+
+        .menu-toggle {
+            background: none;
+            border: none;
+            color: var(--text-heading);
+            font-size: 2rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .menu-toggle:hover {
+            color: var(--primary-green);
+        }
+
+        /* Theme Toggle Button */
+        .theme-toggle {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            /* Larger icon */
+            cursor: pointer;
+            color: var(--text-heading);
+            /* Use text-heading for icon color */
+            transition: color 0.3s ease;
+            padding: 0.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            /* Adjust line height for icon centering */
+            margin-left: 1rem;
+            /* Space from menu toggle */
+        }
+
+        .theme-toggle:hover {
+            color: var(--primary-green);
+        }
+
+        /* --- Desktop Navigation (Below Header, Large Screens Only) --- */
+        .desktop-nav-container {
+            display: none;
+            /* Hidden by default (for mobile) */
+            border-top: 1px solid var(--border-color);
+            /* Separator line */
+            padding: 0.8rem 0;
+            /* Vertical padding for the nav bar itself */
+            transition: border-color 0.3s ease;
+        }
+
+        .header-nav-desktop {
+            display: flex;
+            justify-content: space-evenly;
+            /* Evenly space items */
+            align-items: center;
+            width: 100%;
+            padding: 0 1rem;
+            /* Horizontal padding for nav items alignment */
+        }
+
+        .header-nav-desktop a {
+            color: var(--menu-text);
+            font-size: 1.1rem;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            transition: background-color 0.2s ease, color 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            /* Space between icon and text */
+            border-radius: 8px;
+            white-space: nowrap;
+            /* Prevent text from wrapping */
+        }
+
+        .header-nav-desktop a:hover {
+            background-color: var(--menu-item-hover-bg);
+            color: var(--primary-green);
+        }
+
+        .header-nav-desktop a.active {
+            background-color: var(--primary-green);
+            color: var(--light-white);
+            font-weight: 600;
+        }
+
+
+        /* --- Mobile Full-Screen Sidebar --- */
+        .mobile-full-screen-sidebar {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            /* Cover entire screen */
+            height: 100%;
+            /* Cover entire screen */
+            background-color: var(--dark-blue-black);
+            /* Dark background for sidebar */
+            z-index: 1002;
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            /* Center items vertically */
+            align-items: center;
+            /* Center items horizontally */
+            padding: 0 1rem;
+        }
+
+        body.light-mode .mobile-full-screen-sidebar {
+            background-color: var(--bg-body);
+            /* Light background for sidebar */
+        }
+
+        .mobile-full-screen-sidebar.open {
+            transform: translateX(0);
+        }
+
+        .mobile-full-screen-sidebar .close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            background: none;
+            border: none;
+            color: var(--text-heading);
+            font-size: 3rem;
+            cursor: pointer;
+        }
+
+        .mobile-full-screen-sidebar nav a {
+            padding: 1.2rem 1.5rem;
+            color: var(--text-heading);
+            text-decoration: none;
+            display: flex;
+            /* For icon and text alignment */
+            align-items: center;
+            gap: 1rem;
+            /* Space between icon and text */
+            transition: background-color 0.2s ease, color 0.2s ease;
+            font-size: 1.8rem;
+            /* Larger font size for mobile */
+            font-weight: 500;
+            width: 100%;
+            /* Full width in mobile menu */
+            justify-content: center;
+            /* Center text and icon */
+        }
+
+        .mobile-full-screen-sidebar nav a:hover {
+            background-color: rgba(34, 197, 94, 0.2);
+            /* Light green tint on hover */
+            color: var(--primary-green);
+        }
+
+        .mobile-full-screen-sidebar nav a.active {
+            background-color: var(--primary-green);
+            color: var(--light-white);
+            font-weight: 600;
+        }
+
+
+        /* --- Main Content Layout --- */
+        .dashboard-main {
+            padding: 2rem 0;
+        }
+
+        /* --- Librarian Profile Section --- */
+        .librarian-profile-section {
+            background-color: var(--bg-card);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px var(--card-box-shadow);
+            display: flex;
+            flex-direction: column;
+            /* Stack on small screens */
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .profile-picture-container {
+            width: 150px;
+            /* Increased size for a social media feel */
+            height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 5px solid var(--primary-green);
+            /* Green border for picture */
+            flex-shrink: 0;
+            /* Prevent shrinking */
+        }
+
+        .profile-picture {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .librarian-details {
+            text-align: center;
+            /* Center on small screens */
+            flex-grow: 1;
+            /* Allow details to take available space */
+        }
+
+        .librarian-details h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--primary-green);
+            margin-bottom: 0.5rem;
+        }
+
+        .librarian-details p {
+            font-size: 1.1rem;
+            color: var(--text-body);
+            margin-bottom: 0.3rem;
+        }
+
+        .librarian-details .id {
+            font-size: 0.95rem;
+            color: var(--text-medium);
+            font-style: italic;
+        }
+
+        .librarian-stats {
+            display: flex;
+            flex-direction: column;
+            /* Stack stats on small screens */
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+            width: 100%;
+            /* Take full width on small screens */
+            max-width: 300px;
+            /* Limit width on larger screens */
+        }
+
+        .stat-card {
+            background-color: var(--bg-body);
+            /* Darker background for stat cards */
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+            border: 1px solid var(--border-color);
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        body.light-mode .stat-card {
+            background-color: var(--bg-section);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .stat-card .count {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--accent-orange);
+            line-height: 1;
+        }
+
+        .stat-card .label {
+            font-size: 0.9rem;
+            color: var(--text-medium);
+            margin-top: 0.5rem;
+        }
+
+        /* --- Dynamic Content Section (New) --- */
+        .dashboard-content-area {
+            background-color: var(--bg-card);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px var(--card-box-shadow);
+            border: 1px solid var(--border-color);
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+            min-height: 400px;
+            /* Ensure a minimum height for the section */
+            display: flex;
+            /* Use flex for centering/layout of content */
+            flex-direction: column;
+            justify-content: center;
+            /* Center content vertically by default */
+            align-items: center;
+            /* Center content horizontally by default */
+            text-align: center;
+        }
+
+        .dashboard-content-area h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-green);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+            width: 100%;
+            text-align: center;
+        }
+
+        /* Quote Section Styling (Default) */
+        .quote-section {
+            display: flex;
+            /* Ensure quote takes full space */
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            /* Take full height of parent */
+            gap: 1rem;
+            width: 100%;
+            /* Make quote section take full width of content area */
+        }
+
+        .quote-section blockquote {
+            font-size: 1.8rem;
+            font-style: italic;
+            color: var(--text-heading);
+            margin: 0;
+            padding: 0 1rem;
+            max-width: 800px;
+            text-align: center;
+            /* Explicitly center text within the blockquote */
+        }
+
+        .quote-section cite {
+            font-size: 1.1rem;
+            color: var(--text-medium);
+            display: block;
+            margin-top: 1rem;
+            text-align: center;
+            /* Ensure cite is also centered */
+        }
+
+        /* Manage Books Section Styling */
+        .manage-books-section,
+        .manage-students-section,
+        .reports-section,
+        .settings-section,
+        .reading-history-section-dynamic {
+            /* Added for dynamic reading history */
+            display: none;
+            /* Hidden by default */
+            width: 100%;
+            /* Take full width of content area */
+            flex-direction: column;
+            /* Stack elements */
+            align-items: center;
+            /* Center forms/content */
+        }
+
+        .manage-books-section.active,
+        .manage-students-section.active,
+        .reports-section.active,
+        .settings-section.active,
+        .reading-history-section-dynamic.active {
+            display: flex;
+            /* Show when active */
+        }
+
+        /* General form/table styling for dynamic sections */
+        .form-container,
+        .table-container {
+            width: 100%;
+            max-width: 800px;
+            margin-top: 1.5rem;
+            text-align: left;
+        }
+
+        .form-container label {
+            font-weight: 600;
+            color: var(--text-heading);
+            margin-bottom: 0.2rem;
+            display: block;
+        }
+
+        .form-container input[type="text"],
+        .form-container input[type="email"],
+        /* Added for email input */
+        .form-container input[type="file"],
+        /* Style for file input */
+        .form-container textarea,
+        .form-container select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: var(--bg-body);
+            color: var(--text-body);
+            font-size: 1rem;
+            transition: border-color 0.2s ease, background-color 0.2s ease;
+            margin-bottom: 1rem;
+        }
+
+        .form-container input[type="text"]:focus,
+        .form-container input[type="email"]:focus,
+        /* Focus style for email input */
+        .form-container input[type="file"]:focus,
+        /* Focus style for file input */
+        .form-container textarea:focus,
+        .form-container select:focus {
+            outline: none;
+            border-color: var(--primary-green);
+            box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.3);
+        }
+
+        .form-container textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        /* Style for file input specific appearance */
+        .form-container input[type="file"] {
+            padding: 0.7rem;
+            /* Slightly less padding to accommodate button */
+            cursor: pointer;
+        }
+
+
+        .form-buttons {
+            display: flex;
+            justify-content: flex-start;
+            /* Align buttons to start */
+            gap: 1rem;
+            margin-top: 0.5rem;
+            width: 100%;
+        }
+
+        .form-buttons button {
+            background-color: var(--primary-green);
+            color: var(--light-white);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .form-buttons button:hover {
+            background-color: var(--primary-green-dark);
+            transform: translateY(-2px);
+        }
+
+        .form-buttons button.secondary {
+            background-color: var(--text-medium);
+            /* Gray for secondary */
+        }
+
+        .form-buttons button.secondary:hover {
+            background-color: #5d6d7e;
+            /* Darker gray */
+        }
+
+        /* Table styling */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 0.8rem;
+            border: 1px solid var(--border-color);
+            text-align: left;
+            white-space: nowrap;
+            /* Prevent text wrapping */
+        }
+
+        .data-table th {
+            background-color: var(--dark-blue-black-light);
+            color: var(--text-heading);
+            font-weight: 600;
+        }
+
+        body.light-mode .data-table th {
+            background-color: var(--bg-body);
+        }
+
+        .data-table tbody tr:nth-child(even) {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        body.light-mode .data-table tbody tr:nth-child(even) {
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+
+        /* Reports Section Specifics */
+        .reports-section .report-options {
+            /* Target the container for report cards */
+            display: grid;
+            /* Use grid for a flexible, modern layout */
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            /* Responsive columns */
+            gap: 1.5rem;
+            /* Space between cards */
+            width: 100%;
+            max-width: 900px;
+            /* Limit width */
+            margin-top: 1.5rem;
+        }
+
+        .report-card {
+            /* Styles for individual report cards */
+            background-color: var(--bg-body);
+            color: var(--text-heading);
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            /* Subtle shadow */
+        }
+
+        body.light-mode .report-card {
+            background-color: var(--bg-section);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .report-card:hover {
+            background-color: var(--primary-green);
+            color: var(--light-white);
+            border-color: var(--primary-green);
+            transform: translateY(-5px);
+            /* Lift effect */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            /* More pronounced shadow */
+        }
+
+        body.light-mode .report-card:hover {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .report-card .fa-solid {
+            font-size: 3rem;
+            /* Larger icon size */
+            color: var(--primary-green);
+            /* Default icon color */
+            transition: color 0.2s ease;
+        }
+
+        .report-card:hover .fa-solid {
+            color: var(--light-white);
+            /* White icon on hover */
+        }
+
+        .report-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 0;
+            color: inherit;
+            /* Inherit color from parent (white on hover) */
+        }
+
+        .report-card p {
+            font-size: 0.9rem;
+            color: var(--text-medium);
+            margin: 0;
+            line-height: 1.4;
+            transition: color 0.2s ease;
+        }
+
+        .report-card:hover p {
+            color: rgba(255, 255, 255, 0.8);
+            /* Lighter text for description on hover */
+        }
+
+
+        /* Settings Section Specifics (kept from previous code) */
+        .settings-options {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 1rem;
+            width: 100%;
+            max-width: 700px;
+            margin-top: 1.5rem;
+        }
+
+        .settings-options button {
+            background-color: var(--bg-body);
+            color: var(--text-heading);
+            border: 1px solid var(--border-color);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            flex: 1 1 calc(50% - 0.5rem);
+            box-sizing: border-box;
+            min-width: 200px;
+        }
+
+        body.light-mode .settings-options button {
+            background-color: var(--bg-section);
+        }
+
+        .settings-options button:hover {
+            background-color: var(--primary-green);
+            color: var(--light-white);
+            border-color: var(--primary-green);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        body.light-mode .settings-options button:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .settings-options button:active,
+        .settings-options button:focus {
+            color: var(--light-white);
+        }
+
+        .settings-options button:hover .fa-solid {
+            color: var(--light-white);
+        }
+
+        .settings-options .fa-solid {
+            color: var(--primary-green);
+            font-size: 1.3rem;
+        }
+
+        .settings-options button.delete-account {
+            background-color: var(--red-danger);
+            color: var(--light-white);
+            border-color: var(--red-danger);
+        }
+
+        .settings-options button.delete-account:hover {
+            background-color: var(--red-danger-dark);
+            border-color: var(--red-danger-dark);
+            color: var(--light-white);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        body.light-mode .settings-options button.delete-account:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .settings-options button.delete-account:active,
+        .settings-options button.delete-account:focus {
+            color: var(--light-white);
+        }
+
+        .settings-options button.delete-account .fa-solid {
+            color: var(--light-white);
+        }
+
+        /* --- Responsive Design --- */
+        @media (min-width: 768px) {
+            .navbar-top {
+                /* Ensure logo and theme toggle are space-between */
+                justify-content: space-between;
+                padding-bottom: 0;
+                /* Remove bottom padding here as desktop-nav-container has its own */
+            }
+
+            .desktop-nav-container {
+                display: block;
+                /* Show desktop nav container */
+            }
+
+            .menu-toggle {
+                display: none;
+                /* Hide toggle on desktop */
+            }
+
+            .mobile-full-screen-sidebar {
+                display: none;
+                /* Hide mobile menu on desktop */
+            }
+
+            .librarian-profile-section {
+                flex-direction: row;
+                /* Row layout on larger screens */
+                text-align: left;
+                /* Align text left */
+            }
+
+            .profile-picture-container {
+                margin-right: 2rem;
+                /* Space between picture and text */
+            }
+
+            .librarian-details {
+                text-align: left;
+                /* Align text left on larger screens */
+            }
+
+            .librarian-stats {
+                flex-direction: row;
+                /* Row layout for stats on larger screens */
+                flex-grow: 1;
+                /* Allow stats to take available space */
+                max-width: none;
+                /* Remove max-width constraint */
+                justify-content: flex-end;
+                /* Push stats to the right */
+            }
+
+            .stat-card {
+                flex: 1;
+                /* Distribute space equally */
+                max-width: 200px;
+                /* Max width for individual stat cards */
+            }
+
+            .stat-card:first-child {
+                margin-right: 1.5rem;
+                /* Space between stat cards */
+            }
+
+            /* Adjust dynamic content area for desktop */
+            .dashboard-content-area {
+                align-items: flex-start;
+                /* Align content to start on desktop */
+                text-align: left;
+            }
+
+            .dashboard-content-area h2 {
+                text-align: left;
+            }
+
+            /* Quote section explicitly centered, regardless of parent's default alignment */
+            .quote-section {
+                text-align: center;
+                /* Keep quote centered */
+                align-items: center;
+                /* Keep children (blockquote, cite) centered */
+            }
+        }
+
+        @media (max-width: 767px) {
+            .desktop-nav-container {
+                display: none;
+                /* Hide desktop nav on mobile */
+            }
+
+            .menu-toggle {
+                display: block;
+                /* Show toggle on mobile */
+            }
+
+            /* mobile-full-screen-sidebar handles its own display based on .open class */
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container navbar-top">
+            <div>
+                <img src="./img/logo1.png" alt="Pal Library Logo" class="logo">
+            </div>
+            <div style="display: flex; align-items: center;">
+                <button id="theme-toggle" class="theme-toggle">☀️</button>
+                <button class="menu-toggle" id="menuToggle">&#9776;</button>
+            </div>
+        </div>
+        <!-- Desktop Navigation Container (visible only on large screens) -->
+        <div class="desktop-nav-container container">
+            <nav class="header-nav-desktop">
+                <a href="#" class="active" data-section="quote"><i class="fa-solid fa-gauge-high"></i> Dashboard</a>
+                <a href="#" data-section="manage-books"><i class="fa-solid fa-book-open-reader"></i> Manage Books</a>
+                <a href="#" data-section="manage-students"><i class="fa-solid fa-user-graduate"></i> Manage Students</a>
+                <a href="#" data-section="reports"><i class="fa-solid fa-chart-line"></i> Reports</a>
+                <a href="#" data-section="settings"><i class="fa-solid fa-gear"></i> Settings</a>
+                <a href="#" data-section="logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Mobile Full-Screen Sidebar Overlay -->
+    <div class="mobile-full-screen-sidebar" id="mobileMenuOverlay">
+        <button class="close-btn" id="closeMobileMenuBtn">&times;</button>
+        <nav>
+            <a href="#" class="active" data-section="quote"><i class="fa-solid fa-gauge-high"></i> Dashboard</a>
+            <a href="#" data-section="manage-books"><i class="fa-solid fa-book-open-reader"></i> Manage Books</a>
+            <a href="#" data-section="manage-students"><i class="fa-solid fa-user-graduate"></i> Manage Students</a>
+            <a href="#" data-section="reports"><i class="fa-solid fa-chart-line"></i> Reports</a>
+            <a href="#" data-section="settings"><i class="fa-solid fa-gear"></i> Settings</a>
+            <a href="#" data-section="logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <main class="dashboard-main">
+        <div class="container">
+            <!-- Librarian Profile Section -->
+            <section class="librarian-profile-section">
+                <div class="profile-picture-container">
+                    <img src="https://placehold.co/150x150/22c55e/ffffff?text=Librarian" alt="Librarian Profile Picture"
+                        class="profile-picture">
+                </div>
+                <div class="librarian-details">
+                    <h2>Dr. Ama Nkrumah</h2>
+                    <p>University of Ghana, Legon</p>
+                    <p class="id">Librarian ID: PL001-UG</p>
+                </div>
+                <div class="librarian-stats">
+                    <div class="count">1,250</div>
+                    <div class="label">Students Under Care</div>
+                </div>
+                <div class="stat-card">
+                    <div class="count">780</div>
+                    <div class="label">Books Managed</div>
+                </div>
+            </section>
+
+            <!-- Dynamic Content Area -->
+            <section class="dashboard-content-area" id="dashboardContentArea">
+                <!-- Content will be dynamically loaded here -->
+
+                <!-- Default: Quote Section -->
+                <div id="quote-section" class="quote-section">
+                    <blockquote>"A library is not a luxury but one of the necessities of life."</blockquote>
+                    <cite>Henry Ward Beecher</cite>
+                </div>
+
+                <!-- Manage Books Section -->
+                <div id="manage-books-section" class="manage-books-section">
+                    <h2>Manage Books</h2>
+                    <div class="form-container">
+                        <h3>Add New Book/Resource</h3>
+                        <form>
+                            <label for="bookTitle">Title</label>
+                            <input type="text" id="bookTitle" placeholder="e.g., Data Structures and Algorithms"
+                                required>
+
+                            <label for="bookAuthor">Author/Institution</label>
+                            <input type="text" id="bookAuthor" placeholder="e.g., University of Ghana, J. Doe" required>
+
+                            <label for="bookCategory">Category</label>
+                            <select id="bookCategory" required>
+                                <option value="">Select Category</option>
+                                <option value="Academic Books">Academic Books</option>
+                                <option value="Research Papers">Research Papers</option>
+                                <option value="Project Thesis">Project Thesis</option>
+                                <option value="Christian Books">Christian Books</option>
+                                <option value="Finance Books">Finance Books</option>
+                                <option value="Relationship Books">Relationship Books</option>
+                                <option value="Life Books">Life Books</option>
+                                <option value="Past Questions">Past Questions</option> <!-- Added Past Questions -->
+                            </select>
+
+                            <label for="bookType">Content Type</label>
+                            <select id="bookType" required>
+                                <option value="hosted">Hosted (University Material)</option>
+                                <option value="external">External Link (Life, Finance, etc.)</option>
+                            </select>
+
+                            <div id="hostedContentFields">
+                                <label for="documentLink">Document Link (PDF, DOCX)</label>
+                                <input type="text" id="documentLink"
+                                    placeholder="e.g., https://yourlibrary.org/docs/book.pdf">
+                            </div>
+
+                            <div id="externalContentFields" style="display: none;">
+                                <label for="externalLink">External URL</label>
+                                <input type="text" id="externalLink" placeholder="e.g., https://amazon.com/book-title">
+                                <label for="bookDescription">Description/Summary</label>
+                                <textarea id="bookDescription"
+                                    placeholder="Provide a brief summary for external books..."></textarea>
+                            </div>
+
+                            <div class="form-buttons">
+                                <button type="submit">Add Book</button>
+                                <button type="button" class="secondary">Clear Form</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="table-container">
+                        <h3>Existing Books</h3>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Author/Institution</th>
+                                    <th>Category</th>
+                                    <th>Type</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Introduction to Ghanaian Law</td>
+                                    <td>Prof. A. Mensah (UG)</td>
+                                    <td>Academic Books</td>
+                                    <td>Hosted</td>
+                                    <td><button class="small-action-btn edit-btn"><i
+                                                class="fa-solid fa-edit"></i></button> <button
+                                            class="small-action-btn delete-btn"><i
+                                                class="fa-solid fa-trash"></i></button></td>
+                                </tr>
+                                <tr>
+                                    <td>Economic Development in West Africa</td>
+                                    <td>Dr. E. Kofi</td>
+                                    <td>Research Papers</td>
+                                    <td>Hosted</td>
+                                    <td><button class="small-action-btn edit-btn"><i
+                                                class="fa-solid fa-edit"></i></button> <button
+                                            class="small-action-btn delete-btn"><i
+                                                class="fa-solid fa-trash"></i></button></td>
+                                </tr>
+                                <tr>
+                                    <td>The 7 Habits of Highly Effective People</td>
+                                    <td>S. Covey</td>
+                                    <td>Life Books</td>
+                                    <td>External</td>
+                                    <td><button class="small-action-btn edit-btn"><i
+                                                class="fa-solid fa-edit"></i></button> <button
+                                            class="small-action-btn delete-btn"><i
+                                                class="fa-solid fa-trash"></i></button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Manage Students Section -->
+                <div id="manage-students-section" class="manage-students-section">
+                    <h2>Manage Students</h2>
+
+                    <div class="form-container">
+                        <h3>Add New Students (Bulk Upload)</h3>
+                        <p class="text-medium" style="margin-bottom: 1rem;">Upload a CSV file containing student emails.
+                            Optional columns for 'Name' and 'StudentID' can also be included.</p>
+                        <p class="text-sm text-medium" style="margin-bottom: 1rem;">Example CSV format:
+                            <br><code>email,name,studentId</code>
+                            <br><code>john.doe@ug.edu.gh,John Doe,UG12345</code>
+                            <br><code>jane.smith@ug.edu.gh,,UG67890</code> (Name/ID optional)
+                        </p>
+                        <form id="add-students-bulk-form"> <!-- Changed ID for bulk form -->
+                            <label for="studentCsvFile">Upload Student CSV File</label>
+                            <input type="file" id="studentCsvFile" accept=".csv" required>
+
+                            <div class="form-buttons">
+                                <button type="submit" id="uploadStudentsBtn">Upload & Send Invitations</button>
+                                <button type="button" class="secondary" id="clearAddStudentsBulkFormBtn">Clear
+                                    Form</button> <!-- Changed ID -->
+                            </div>
+                            <p id="addStudentsBulkMessage" style="margin-top: 1rem;"></p> <!-- Changed ID -->
+                        </form>
+                    </div>
+
+                    <div class="form-container" style="margin-top: 2.5rem;">
+                        <!-- New form container for single student -->
+                        <h3>Add Single Student</h3>
+                        <p class="text-medium" style="margin-bottom: 1rem;">Enter details for one student. An invitation
+                            email will be sent.</p>
+                        <form id="add-single-student-form"> <!-- New form ID -->
+                            <label for="singleStudentName">Student Name</label>
+                            <input type="text" id="singleStudentName" placeholder="e.g., Alice Brown" required>
+
+                            <label for="singleStudentEmail">Student Email</label>
+                            <input type="email" id="singleStudentEmail" placeholder="e.g., alice.brown@ug.edu.gh"
+                                required>
+
+                            <label for="singleStudentId">Student ID</label>
+                            <input type="text" id="singleStudentId" placeholder="e.g., UG98765" required>
+
+                            <div class="form-buttons">
+                                <button type="submit" id="addSingleStudentBtn">Add Student</button>
+                                <button type="button" class="secondary" id="clearSingleStudentFormBtn">Clear
+                                    Form</button>
+                            </div>
+                            <p id="addSingleStudentMessage" style="margin-top: 1rem;"></p>
+                        </form>
+                    </div>
+
+                    <div class="table-container">
+                        <h3>Registered Students (from your institution)</h3>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Student Name</th>
+                                    <th>Email</th>
+                                    <th>Student ID</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="registeredStudentsTableBody">
+                                <!-- Student data will be dynamically loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Reports Section -->
+                <div id="reports-section" class="reports-section">
+                    <h2>Library Reports</h2>
+                    <div class="report-options">
+                        <div class="report-card">
+                            <i class="fa-solid fa-chart-pie"></i>
+                            <h3>Usage Statistics</h3>
+                            <p>View comprehensive data on resource access and popular categories.</p>
+                        </div>
+                        <div class="report-card">
+                            <i class="fa-solid fa-file-invoice"></i>
+                            <h3>Overdue Books Report</h3>
+                            <p>Track and manage books that are past their due dates.</p>
+                        </div>
+                        <div class="report-card">
+                            <i class="fa-solid fa-user-check"></i>
+                            <h3>Student Activity Log</h3>
+                            <p>Monitor individual student engagement and borrowing patterns.</p>
+                        </div>
+                        <div class="report-card">
+                            <i class="fa-solid fa-book-medical"></i>
+                            <h3>New Acquisitions Report</h3>
+                            <p>See a summary of recently added books and resources.</p>
+                        </div>
+                        <div class="report-card">
+                            <i class="fa-solid fa-database"></i>
+                            <h3>Collection Overview</h3>
+                            <p>Get a high-level summary of your entire library collection.</p>
+                        </div>
+                        <div class="report-card">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                            <h3>University Contributions</h3>
+                            <p>Analyze content contributions from partner universities.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings Section -->
+                <div id="settings-section" class="settings-section">
+                    <h2>Librarian Settings</h2>
+                    <div class="settings-options">
+                        <button><i class="fa-solid fa-key"></i> Change Password</button>
+                        <button><i class="fa-solid fa-bell"></i> Notification Preferences</button>
+                        <button><i class="fa-solid fa-user-tie"></i> Manage Profile</button>
+                        <button class="delete-account"><i class="fa-solid fa-user-slash"></i> Deactivate
+                            Account</button>
+                    </div>
+                </div>
+
+                <!-- Reading History Section (Moved from static to dynamic for consistency) -->
+                <div id="reading-history-section-dynamic" class="reading-history-section-dynamic">
+                    <h2>Your Recent Reading History</h2>
+                    <ul class="reading-list">
+                        <li class="reading-item">
+                            <img src="https://placehold.co/80x100/f97316/ffffff?text=Book+A" alt="Book A Cover"
+                                class="reading-thumbnail">
+                            <div class="reading-details">
+                                <h3>Fundamentals of Database Systems</h3>
+                                <p class="author-date">by <span>Elmasri & Navathe</span> - Read on July 10, 2025</p>
+                                <span class="read-status">Completed</span>
+                            </div>
+                        </li>
+                        <li class="reading-item">
+                            <img src="https://placehold.co/80x100/22c55e/ffffff?text=Paper+B"
+                                alt="Research Paper B Cover" class="reading-thumbnail">
+                            <div class="reading-details">
+                                <h3>Emerging Trends in AI for Education (Research Paper)</h3>
+                                <p class="author-date">by <span>Dr. J. Mensah</span> - Read on July 05, 2025</p>
+                                <span class="read-status">In Progress</span>
+                            </div>
+                        </li>
+                        <li class="reading-item">
+                            <img src="https://placehold.co/80x100/0f172a/ffffff?text=Thesis+C"
+                                alt="Project Thesis C Cover" class="reading-thumbnail">
+                            <div class="reading-details">
+                                <h3>Thesis on Renewable Energy Policies in Ghana</h3>
+                                <p class="author-date">by <span>K. Boateng (KNUST)</span> - Read on June 28, 2025</p>
+                                <span class="read-status">Completed</span>
+                            </div>
+                        </li>
+                        <li class="reading-item">
+                            <img src="https://placehold.co/80x100/f97316/ffffff?text=Book+D" alt="Finance Book Cover"
+                                class="reading-thumbnail">
+                            <div class="reading-details">
+                                <h3>The Total Money Makeover</h3>
+                                <p class="author-date">by <span>Dave Ramsey</span> - Read on June 20, 2025</p>
+                                <span class="read-status">Completed</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Logout will likely be handled by redirecting to a login page -->
+                <div id="logout-section" style="display: none;"></div>
+
+            </section>
+        </div>
+    </main>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc, collection, query, onSnapshot, addDoc, where } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Global Firebase references
+        let app;
+        let auth;
+        let db;
+        let currentUserId = null;
+        let isAuthReady = false;
+
+        // Configuration from Canvas environment
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'pal-library-default';
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+        // DOM Elements (existing)
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const body = document.body;
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+        const closeMobileMenuBtn = document.getElementById('closeMobileMenuBtn');
+        const dashboardContentArea = document.getElementById('dashboardContentArea');
+
+        // Dynamic sections
+        const dynamicSections = {
+            'quote': document.getElementById('quote-section'),
+            'manage-books': document.getElementById('manage-books-section'),
+            'manage-students': document.getElementById('manage-students-section'),
+            'reports': document.getElementById('reports-section'),
+            'settings': document.getElementById('settings-section'),
+            'logout': document.getElementById('logout-section') // Placeholder for logout action
+        };
+
+        // Manage Books Section specific elements
+        const bookTypeSelect = document.getElementById('bookType');
+        const hostedFields = document.getElementById('hostedContentFields');
+        const externalFields = document.getElementById('externalContentFields');
+        const manageBooksForm = document.querySelector('#manage-books-section form'); // Specific form for manage books
+
+        // Manage Students Section specific elements
+        // Bulk Upload elements
+        const studentCsvFile = document.getElementById('studentCsvFile');
+        const addStudentsBulkForm = document.getElementById('add-students-bulk-form'); // Changed ID
+        const addStudentsBulkMessage = document.getElementById('addStudentsBulkMessage'); // Changed ID
+        const clearAddStudentsBulkFormBtn = document.getElementById('clearAddStudentsBulkFormBtn'); // Changed ID
+        const uploadStudentsBtn = document.getElementById('uploadStudentsBtn'); // Renamed button
+
+        // NEW: Single Student Upload elements
+        const addSingleStudentForm = document.getElementById('add-single-student-form');
+        const singleStudentNameInput = document.getElementById('singleStudentName');
+        const singleStudentEmailInput = document.getElementById('singleStudentEmail');
+        const singleStudentIdInput = document.getElementById('singleStudentId');
+        const addSingleStudentBtn = document.getElementById('addSingleStudentBtn');
+        const clearSingleStudentFormBtn = document.getElementById('clearSingleStudentFormBtn');
+        const addSingleStudentMessage = document.getElementById('addSingleStudentMessage');
+
+
+        const registeredStudentsTableBody = document.getElementById('registeredStudentsTableBody');
+
+        let librarianUniversity = "University of Ghana"; // Default for demo, ideally fetched from librarian's profile
+
+        // --- Firebase Initialization and Authentication ---
+
+        /**
+         * Initializes Firebase and handles initial authentication.
+         */
+        const initializeFirebase = async () => {
+            try {
+                app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                db = getFirestore(app);
+
+                // Attempt to sign in with custom token if available, otherwise anonymously
+                if (initialAuthToken) {
+                    await signInWithCustomToken(auth, initialAuthToken);
+                } else {
+                    await signInAnonymously(auth);
+                }
+            } catch (error) {
+                console.error("Firebase custom token login failed, falling back to anonymous:", error);
+                try {
+                    await signInAnonymously(auth);
+                } catch (anonError) {
+                    console.error("Anonymous sign-in failed:", anonError);
+                }
+            }
+            isAuthReady = true;
+
+            // Set up authentication state observer
+            onAuthStateChanged(auth, async (user) => {
+                if (user) {
+                    currentUserId = user.uid;
+                    // Attempt to fetch librarian's university from their profile
+                    const librarianProfileRef = doc(db, 'artifacts', appId, 'users', currentUserId, 'profile', 'data');
+                    try {
+                        const profileSnap = await getDoc(librarianProfileRef);
+                        if (profileSnap.exists() && profileSnap.data().university) {
+                            librarianUniversity = profileSnap.data().university;
+                        } else {
+                            // If librarian profile doesn't have university, set a default or prompt
+                            console.warn("Librarian's university not found in profile, defaulting.");
+                        }
+                    } catch (profileError) {
+                        console.warn("Could not fetch librarian's university, using default:", profileError);
+                    }
+                    // Show dashboard after auth and potential profile fetch
+                    displaySection('quote'); // Show default dashboard section
+                } else {
+                    // Redirect to login page if no user (this dashboard is for authenticated librarians)
+                    window.location.href = 'index.html'; // Assuming index.html is the login page
+                }
+            });
+        };
+
+        // --- Theme Toggle Functionality ---
+        const prefersLightMode = window.matchMedia('(prefers-color-scheme: light)');
+
+        function setTheme(isLight) {
+            if (isLight) {
+                body.classList.add('light-mode');
+                themeToggleBtn.textContent = '🌙'; // Moon icon for dark mode toggle
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.classList.remove('light-mode');
+                themeToggleBtn.textContent = '☀️'; // Sun icon for light mode toggle
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        function initializeTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                setTheme(savedTheme === 'light');
+            } else {
+                setTheme(false); // Force dark mode if no preference is saved
+            }
+        }
+
+        prefersLightMode.addEventListener('change', (event) => {
+            if (!localStorage.getItem('theme')) {
+                setTheme(event.matches);
+            }
+        });
+
+        themeToggleBtn.addEventListener('click', () => {
+            setTheme(!body.classList.contains('light-mode'));
+        });
+
+        // --- Mobile Menu Toggle ---
+        function openMobileMenu() {
+            mobileMenuOverlay.classList.add('open');
+        }
+
+        function closeMobileMenu() {
+            mobileMenuOverlay.classList.remove('open');
+        }
+
+        // Event listeners for mobile menu
+        if (menuToggle) {
+            menuToggle.addEventListener('click', openMobileMenu);
+        }
+        if (closeMobileMenuBtn) {
+            closeMobileMenuBtn.addEventListener('click', closeMobileMenu);
+        }
+
+        // --- Dynamic Dashboard Content Management ---
+        function activateNavLink(sectionId) {
+            document.querySelectorAll('.header-nav-desktop a, #mobileMenuOverlay nav a').forEach(link => {
+                link.classList.remove('active');
+            });
+            document.querySelectorAll(`[data-section="${sectionId}"]`).forEach(link => {
+                link.classList.add('active');
+            });
+        }
+
+        function displaySection(sectionId) {
+            // Hide all dynamic sections first
+            for (const key in dynamicSections) {
+                if (dynamicSections[key]) {
+                    dynamicSections[key].classList.remove('active');
+                    dynamicSections[key].style.display = 'none'; // Ensure display is set to none
+                }
+            }
+
+            // Show the selected section
+            const targetSection = dynamicSections[sectionId];
+            if (targetSection) {
+                targetSection.classList.add('active');
+                targetSection.style.display = 'flex'; // Use flex for these sections for inner alignment
+            }
+
+            activateNavLink(sectionId);
+            closeMobileMenu(); // Close mobile menu if open
+
+            // Handle specific actions like logout and section-specific logic
+            if (sectionId === 'logout') {
+                alert('Logging out... (functionality to redirect to login page)');
+                // Here you would typically clear user session and redirect to login
+                signOut(auth).then(() => {
+                    window.location.href = 'index.html'; // Redirect to login page
+                }).catch((error) => {
+                    console.error("Error signing out:", error);
+                    alert("Logout failed. Please try again.");
+                });
+            } else if (sectionId === 'manage-books') {
+                // Logic for Manage Books (existing)
+                if (bookTypeSelect) { // Ensure element exists before attaching listener
+                    bookTypeSelect.onchange = function () {
+                        if (this.value === 'hosted') {
+                            hostedFields.style.display = 'block';
+                            externalFields.style.display = 'none';
+                        } else {
+                            hostedFields.style.display = 'none';
+                            externalFields.style.display = 'block';
+                        }
+                    };
+                    // Set initial state based on default value
+                    bookTypeSelect.value = 'hosted'; // Ensure default is set
+                    hostedFields.style.display = 'block';
+                    externalFields.style.display = 'none';
+                }
+
+                if (manageBooksForm) {
+                    manageBooksForm.onsubmit = function (e) {
+                        e.preventDefault();
+                        alert('Book added/updated! (Details will be processed by backend)');
+                        // Add actual book submission logic here (e.g., to Firestore)
+                        manageBooksForm.reset(); // Clear form after submission
+                        bookTypeSelect.value = 'hosted'; // Reset type dropdown
+                        hostedFields.style.display = 'block';
+                        externalFields.style.display = 'none';
+                    };
+                    const clearFormBtn = manageBooksForm.querySelector('button.secondary');
+                    if (clearFormBtn) {
+                        clearFormBtn.onclick = function () {
+                            manageBooksForm.reset();
+                            bookTypeSelect.value = 'hosted';
+                            hostedFields.style.display = 'block';
+                            externalFields.style.display = 'none';
+                            alert('Form cleared!');
+                        };
+                    }
+                }
+                targetSection.querySelectorAll('.small-action-btn').forEach(button => {
+                    button.onclick = function () {
+                        const action = this.classList.contains('edit-btn') ? 'Edit' : 'Delete';
+                        alert(`${action} functionality for this book coming soon!`);
+                    };
+                });
+            } else if (sectionId === 'manage-students') {
+                // Logic for Manage Students
+                fetchAndRenderStudents(); // Fetch and display students in the table
+
+                // Event listeners for the Bulk Add Students form
+                if (addStudentsBulkForm) {
+                    addStudentsBulkForm.addEventListener('submit', handleAddStudentsBulk);
+                }
+                if (clearAddStudentsBulkFormBtn) {
+                    clearAddStudentsBulkFormBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        studentCsvFile.value = ''; // Clear file input
+                        addStudentsBulkMessage.textContent = '';
+                        addStudentsBulkMessage.style.color = 'var(--text-body)';
+                    });
+                }
+
+                // NEW: Event listeners for the Single Add Student form
+                if (addSingleStudentForm) {
+                    addSingleStudentForm.addEventListener('submit', handleAddSingleStudent);
+                }
+                if (clearSingleStudentFormBtn) {
+                    clearSingleStudentFormBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        singleStudentNameInput.value = '';
+                        singleStudentEmailInput.value = '';
+                        singleStudentIdInput.value = '';
+                        addSingleStudentMessage.textContent = '';
+                        addSingleStudentMessage.style.color = 'var(--text-body)';
+                    });
+                }
+
+                // Placeholder actions for existing student buttons (if any)
+                targetSection.querySelectorAll('.small-action-btn').forEach(button => {
+                    button.onclick = function () {
+                        const action = this.classList.contains('view-btn') ? 'View Details' : 'Suspend';
+                        alert(`${action} functionality for this student coming soon!`);
+                    };
+                });
+            } else if (sectionId === 'reports') {
+                targetSection.querySelectorAll('.report-card').forEach(card => {
+                    card.onclick = function () {
+                        const reportName = this.querySelector('h3').textContent.trim();
+                        alert(`Generating "${reportName}" report... (functionality coming soon!)`);
+                    };
+                });
+            } else if (sectionId === 'settings') {
+                targetSection.querySelectorAll('.settings-options button').forEach(button => {
+                    button.onclick = function () {
+                        alert(`${this.textContent.trim()} functionality coming soon!`);
+                    };
+                });
+            }
+        }
+
+        // Helper to generate a random password
+        function generateRandomPassword(length = 12) {
+            const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+~`|}{[]:;?><,./-=";
+            let password = "";
+            for (let i = 0; i < length; i++) {
+                password += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return password;
+        }
+
+        // Function to handle adding students from CSV (Bulk Upload)
+        const handleAddStudentsBulk = async (e) => {
+            e.preventDefault();
+            addStudentsBulkMessage.textContent = 'Processing...';
+            addStudentsBulkMessage.style.color = 'var(--text-medium)';
+            uploadStudentsBtn.disabled = true; // Disable button during processing
+
+            const file = studentCsvFile.files[0];
+            if (!file) {
+                addStudentsBulkMessage.textContent = 'Please select a CSV file.';
+                addStudentsBulkMessage.style.color = 'var(--red-danger)';
+                uploadStudentsBtn.disabled = false;
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = async (event) => {
+                const csvContent = event.target.result;
+                const lines = csvContent.split('\n').filter(line => line.trim() !== '');
+                const results = [];
+                let successCount = 0;
+                let failCount = 0;
+
+                // Assuming first line is header: email,name,studentId
+                const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
+                const emailIndex = headers.indexOf('email');
+                const nameIndex = headers.indexOf('name');
+                const studentIdIndex = headers.indexOf('studentid');
+
+                if (emailIndex === -1) {
+                    addStudentsBulkMessage.textContent = 'CSV must contain an "email" column.';
+                    addStudentsBulkMessage.style.color = 'var(--red-danger)';
+                    uploadStudentsBtn.disabled = false;
+                    return;
+                }
+
+                for (let i = 1; i < lines.length; i++) { // Start from second line (data)
+                    const parts = lines[i].split(',').map(part => part.trim());
+                    const email = parts[emailIndex];
+                    const name = nameIndex !== -1 ? parts[nameIndex] : '';
+                    const studentId = studentIdIndex !== -1 ? parts[studentIdIndex] : '';
+
+                    if (!email) {
+                        results.push(`Skipped row ${i + 1}: Email is missing.`);
+                        failCount++;
+                        continue;
+                    }
+
+                    const tempPassword = generateRandomPassword(); // Generate a random password for each student
+
+                    try {
+                        // Create user in Firebase Auth
+                        const userCredential = await createUserWithEmailAndPassword(auth, email, tempPassword);
+                        const studentUid = userCredential.user.uid;
+
+                        // Store student profile in Firestore (public collection)
+                        const studentProfileRef = doc(db, 'artifacts', appId, 'public', 'data', 'students', studentUid);
+                        await setDoc(studentProfileRef, {
+                            name: name || '',
+                            email: email,
+                            studentId: studentId || '',
+                            university: librarianUniversity, // Tied to librarian's university
+                            userType: 'partner',
+                            createdAt: new Date().toISOString()
+                        });
+
+                        // Also ensure their main user profile reflects their userType and university
+                        // This is crucial for their login to work correctly
+                        const userAuthProfileRef = doc(db, 'artifacts', appId, 'users', studentUid, 'profile', 'data');
+                        await setDoc(userAuthProfileRef, {
+                            email: email,
+                            userType: 'partner',
+                            university: librarianUniversity
+                        }, { merge: true }); // Use merge to avoid overwriting existing fields
+
+                        results.push(`Successfully added: ${email} (Name: ${name || 'N/A'}, Student ID: ${studentId || 'N/A'})`);
+                        successCount++;
+
+                        // In a real application, you would now send an email to 'email'
+                        // with instructions to log in using 'tempPassword' and change it.
+                        // For this client-side demo, we just log it.
+                        console.log(`[SIMULATED EMAIL] To: ${email}, Subject: Your Pal Library Account Details`);
+                        console.log(`Please log in with your email (${email}) and temporary password: ${tempPassword}.`);
+                        console.log(`You will be prompted to change your password after first login.`);
+
+                    } catch (error) {
+                        let errorMessage = `Failed to add ${email}: `;
+                        if (error.code === 'auth/email-already-in-use') {
+                            errorMessage += 'Email already registered.';
+                        } else if (error.code === 'auth/invalid-email') {
+                            errorMessage += 'Invalid email format.';
+                        } else if (error.code === 'auth/weak-password') {
+                            errorMessage += 'Password is too weak (this should not happen with generated passwords unless Firebase rules are strict).';
+                        } else {
+                            errorMessage += error.message;
+                        }
+                        results.push(errorMessage);
+                        failCount++;
+                    }
+                }
+
+                addStudentsBulkMessage.innerHTML = `Processed ${lines.length - 1} entries. Success: ${successCount}, Failed: ${failCount}.<br><br>` + results.join('<br>');
+                addStudentsBulkMessage.style.color = failCount > 0 ? 'var(--red-danger)' : 'var(--primary-green)';
+                studentCsvFile.value = ''; // Clear file input
+                uploadStudentsBtn.disabled = false;
+                fetchAndRenderStudents(); // Refresh the student table
+            };
+            reader.readAsText(file); // Read the file as text
+        };
+
+        // NEW: Function to handle adding a single student
+        const handleAddSingleStudent = async (e) => {
+            e.preventDefault();
+            addSingleStudentMessage.textContent = 'Processing...';
+            addSingleStudentMessage.style.color = 'var(--text-medium)';
+            addSingleStudentBtn.disabled = true; // Disable button during processing
+
+            const name = singleStudentNameInput.value.trim();
+            const email = singleStudentEmailInput.value.trim();
+            const studentId = singleStudentIdInput.value.trim();
+
+            if (!name || !email || !studentId) {
+                addSingleStudentMessage.textContent = 'Please fill in all fields.';
+                addSingleStudentMessage.style.color = 'var(--red-danger)';
+                addSingleStudentBtn.disabled = false;
+                return;
+            }
+
+            const tempPassword = generateRandomPassword(); // Generate a random password for the student
+
+            try {
+                // Create user in Firebase Auth
+                const userCredential = await createUserWithEmailAndPassword(auth, email, tempPassword);
+                const studentUid = userCredential.user.uid;
+
+                // Store student profile in Firestore (public collection)
+                const studentProfileRef = doc(db, 'artifacts', appId, 'public', 'data', 'students', studentUid);
+                await setDoc(studentProfileRef, {
+                    name: name,
+                    email: email,
+                    studentId: studentId,
+                    university: librarianUniversity, // Tied to librarian's university
+                    userType: 'partner',
+                    createdAt: new Date().toISOString()
+                });
+
+                // Also ensure their main user profile reflects their userType and university
+                const userAuthProfileRef = doc(db, 'artifacts', appId, 'users', studentUid, 'profile', 'data');
+                await setDoc(userAuthProfileRef, {
+                    email: email,
+                    userType: 'partner',
+                    university: librarianUniversity
+                }, { merge: true });
+
+                addSingleStudentMessage.innerHTML = `Successfully added: ${name} (${email}). An invitation email has been simulated.`;
+                addSingleStudentMessage.style.color = 'var(--primary-green)';
+
+                // Simulate sending email
+                console.log(`[SIMULATED EMAIL] To: ${email}, Subject: Your Pal Library Account Details`);
+                console.log(`Please log in with your email (${email}) and temporary password: ${tempPassword}.`);
+                console.log(`You will be prompted to change your password after first login.`);
+
+                // Clear form fields
+                singleStudentNameInput.value = '';
+                singleStudentEmailInput.value = '';
+                singleStudentIdInput.value = '';
+
+                fetchAndRenderStudents(); // Refresh the student table
+            } catch (error) {
+                let errorMessage = `Failed to add student: `;
+                if (error.code === 'auth/email-already-in-use') {
+                    errorMessage += 'Email already registered.';
+                } else if (error.code === 'auth/invalid-email') {
+                    errorMessage += 'Invalid email format.';
+                } else if (error.code === 'auth/weak-password') {
+                    errorMessage += 'Password is too weak (this should not happen with generated passwords).';
+                } else {
+                    errorMessage += error.message;
+                }
+                addSingleStudentMessage.textContent = errorMessage;
+                addSingleStudentMessage.style.color = 'var(--red-danger)';
+            } finally {
+                addSingleStudentBtn.disabled = false; // Re-enable button
+            }
+        };
+
+
+        // Function to fetch and render students (filtered by librarian's university)
+        const fetchAndRenderStudents = () => {
+            if (!db || !librarianUniversity) { // Ensure db and librarianUniversity are initialized
+                console.warn("Firestore not initialized or librarian university not set, cannot fetch students.");
+                if (registeredStudentsTableBody) {
+                    registeredStudentsTableBody.innerHTML = `<tr><td colspan="3" style="text-align: center; color: var(--text-medium);">Loading student data...</td></tr>`;
+                }
+                return;
+            }
+            const studentsCollectionRef = collection(db, 'artifacts', appId, 'public', 'data', 'students');
+            // Query students only from the librarian's institution
+            const q = query(studentsCollectionRef, where("university", "==", librarianUniversity));
+
+            onSnapshot(q, (snapshot) => {
+                const studentsData = snapshot.docs.map(doc => ({
+                    id: doc.id,
+                    ...doc.data()
+                }));
+                renderStudentTable(studentsData);
+            }, (error) => {
+                console.error("Error fetching students: ", error);
+                if (registeredStudentsTableBody) {
+                    registeredStudentsTableBody.innerHTML = `<tr><td colspan="3" style="text-align: center; color: var(--red-danger);">Error loading student data.</td></tr>`;
+                }
+            });
+        };
+
+        // Function to render the student table
+        const renderStudentTable = (studentsToRender) => {
+            if (!registeredStudentsTableBody) return;
+
+            registeredStudentsTableBody.innerHTML = ''; // Clear existing rows
+
+            if (studentsToRender.length === 0) {
+                registeredStudentsTableBody.innerHTML = `<tr><td colspan="3" style="text-align: center; color: var(--text-medium);">No registered students found for your institution.</td></tr>`;
+                return;
+            }
+
+            studentsToRender.forEach(student => {
+                const row = registeredStudentsTableBody.insertRow();
+                row.innerHTML = `
+                    <td>${student.name || 'N/A'}</td>
+                    <td>${student.email || 'N/A'}</td>
+                    <td>${student.studentId || 'N/A'}</td>
+                    <td>
+                        <button class="small-action-btn view-btn" data-student-id="${student.id}"><i class="fa-solid fa-eye"></i></button>
+                        <button class="small-action-btn suspend-btn" data-student-id="${student.id}"><i class="fa-solid fa-ban"></i></button>
+                    </td>
+                `;
+            });
+
+            // Re-attach event listeners for action buttons
+            registeredStudentsTableBody.querySelectorAll('.view-btn').forEach(button => {
+                button.onclick = function () {
+                    const studentId = this.dataset.studentId;
+                    alert(`Viewing details for student ID: ${studentId} (functionality coming soon!)`);
+                };
+            });
+            registeredStudentsTableBody.querySelectorAll('.suspend-btn').forEach(button => {
+                button.onclick = function () {
+                    const studentId = this.dataset.studentId;
+                    alert(`Suspending student ID: ${studentId} (functionality coming soon!)`);
+                };
+            });
+        };
+
+        // --- Event Listeners (existing and new) ---
+
+        // Event listeners for desktop navigation links
+        document.querySelectorAll('.header-nav-desktop a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                displaySection(e.currentTarget.dataset.section);
+            });
+        });
+
+        // Event listeners for mobile navigation links
+        document.querySelectorAll('#mobileMenuOverlay nav a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                displaySection(e.currentTarget.dataset.section);
+            });
+        });
+
+        // Placeholder Actions for stat cards if needed
+        document.querySelectorAll('.stat-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const label = card.querySelector('.label').textContent;
+                alert(`Details for "${label}" will be shown here!`);
+            });
+        });
+
+        // Initial Load
+        document.addEventListener('DOMContentLoaded', initializeTheme);
+        initializeFirebase(); // Initialize Firebase when the page loads
+    </script>
+</body>
+
+</html>

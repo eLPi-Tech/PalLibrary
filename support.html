@@ -1,0 +1,1728 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pal Library - Support</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Custom Colors (Dark Mode Defaults - consistent with homepage) */
+        :root {
+            --primary-green: #22c55e;
+            /* Brand Green */
+            --primary-green-dark: #16a34a;
+            /* Darker Green for hover */
+            --accent-orange: #f97316;
+            /* Brand Orange */
+            --accent-orange-dark: #ea580c;
+            /* Darker Orange for hover */
+            --light-white: #ffffff;
+            /* Explicitly define white */
+            --dark-blue-black: #0f172a;
+            /* slate-900 */
+            --dark-blue-black-light: #1e293b;
+            /* slate-800 */
+            --red-danger: #ef4444;
+            /* red-500 for disclaimers/errors */
+            --red-danger-dark: #dc2626;
+            /* red-600 for hover */
+            --chatbot-bg: #2d3748;
+            /* Darker grey for chatbot background */
+            --chatbot-text-user: #e2e8f0;
+            /* Light text for user messages */
+            --chatbot-text-bot: #ffffff;
+            /* White text for bot messages */
+            --chatbot-input-bg: #4a5568;
+            /* Darker grey for input */
+            --chatbot-border: #4299e1;
+            /* Blue border for focus */
+
+
+            /* Dark Mode Specific Variables */
+            --bg-body: var(--dark-blue-black);
+            --bg-section: var(--dark-blue-black);
+            /* For main sections */
+            --bg-card: var(--dark-blue-black-light);
+            /* For content cards */
+            --text-heading: var(--light-white);
+            --text-body: #e2e8f0;
+            /* light slate text */
+            --text-medium: #94a3b8;
+            /* slate-400 */
+            --border-color: rgba(255, 255, 255, 0.08);
+            /* Light border for dark elements */
+            --header-bg-scrolled: var(--dark-blue-black);
+            /* Opaque dark-blue-black when scrolled */
+            --header-box-shadow-scrolled: rgba(0, 0, 0, 0.5);
+            --card-box-shadow: rgba(0, 0, 0, 0.3);
+
+            /* Dropdown specific for dark mode */
+            --dropdown-bg: var(--dark-blue-black);
+            --dropdown-hover-bg: var(--dark-blue-black-light);
+        }
+
+        /* Light Mode Overrides */
+        body.light-mode {
+            /* Primary Green for Light Mode (Darker) */
+            --primary-green: #168a44;
+            /* Darker green for light mode */
+            --primary-green-dark: #0f6a31;
+            /* Even darker green for hover in light mode */
+
+            /* Backgrounds */
+            --bg-body: #f8fafc;
+            /* slate-50 */
+            --bg-section: #ffffff;
+            /* white for main sections */
+            --bg-card: #f1f5f9;
+            /* slate-100 for content cards */
+
+            /* Text Colors */
+            --text-heading: #1e293b;
+            /* dark slate */
+            --text-body: #475569;
+            /* slate-600 */
+            --text-medium: #64748b;
+            /* slate-500 */
+            --border-color: rgba(0, 0, 0, 0.1);
+            /* Darker border for light elements */
+
+            /* Header Specific Overrides for Light Mode */
+            --header-bg-scrolled: #ffffff;
+            /* Opaque white on scroll */
+            --header-box-shadow-scrolled: rgba(0, 0, 0, 0.15);
+
+            /* Card Specific Overrides for Light Mode */
+            --card-box-shadow: rgba(0, 0, 0, 0.1);
+
+            /* Dropdown specific for light mode */
+            --dropdown-bg: #ffffff;
+            --dropdown-hover-bg: #f1f5f9;
+            /* slate-100 */
+
+            /* Chatbot light mode */
+            --chatbot-bg: #f1f5f9;
+            --chatbot-text-user: #475569;
+            --chatbot-text-bot: #1e293b;
+            --chatbot-input-bg: #ffffff;
+            --chatbot-border: #94a3b8;
+        }
+
+        /* Base Styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: var(--bg-body);
+            color: var(--text-body);
+            line-height: 1.6;
+            min-height: 100vh;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            /* Smooth theme transition */
+            color-scheme: dark;
+            /* Default color scheme for browser elements */
+        }
+
+        body.light-mode {
+            color-scheme: light;
+            /* Light color scheme for browser elements */
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            color: var(--text-heading);
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* --- Header --- */
+        .header {
+            background-color: var(--dark-blue-black);
+            /* Solid header background */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        body.light-mode .header {
+            background-color: var(--bg-section);
+            /* White header in light mode */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            width: 200px;
+            max-height: 100px;
+        }
+
+
+        .nav-links {
+            display: none;
+            /* Hidden by default on small screens */
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-links a,
+        .login-btn {
+            color: var(--text-heading);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-green);
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-btn {
+            cursor: pointer;
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            position: relative;
+            z-index: 101;
+        }
+
+        .dropdown-btn .arrow-icon {
+            font-size: 0.7em;
+            margin-left: 0.5em;
+            transition: transform 0.2s ease;
+            display: inline-block;
+        }
+
+        .dropdown:hover .dropdown-btn .arrow-icon {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: var(--dropdown-bg);
+            min-width: 200px;
+            box-shadow: 0 8px 16px 0px rgba(0, 0, 0, 0.4);
+            z-index: 100;
+            border-radius: 8px;
+            padding: 0.5rem 0;
+            top: calc(100% + 5px);
+            left: 50%;
+            transform: translateX(-50%);
+            border: 1px solid var(--border-color);
+            transition: background-color 0.3s ease;
+        }
+
+        .dropdown-content a {
+            color: var(--text-body);
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .dropdown-content a:hover {
+            background-color: var(--dropdown-hover-bg);
+            color: var(--primary-green);
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .login-btn {
+            background-color: var(--accent-orange);
+            color: var(--light-white);
+            padding: 0.6rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .login-btn:hover {
+            background-color: var(--accent-orange-dark);
+            transform: translateY(-1px);
+        }
+
+        .menu-toggle {
+            display: block;
+            background: none;
+            border: none;
+            color: var(--text-heading);
+            font-size: 2rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-heading);
+            transition: color 0.3s ease;
+            padding: 0.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+
+        .theme-toggle:hover {
+            color: var(--primary-green);
+        }
+
+        /* Mobile navigation overlay */
+        .mobile-nav-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-body);
+            z-index: 1001;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out, background-color 0.3s ease;
+        }
+
+        .mobile-nav-overlay.open {
+            transform: translateX(0);
+        }
+
+        .mobile-nav-overlay a {
+            color: var(--text-heading);
+            font-size: 1.8rem;
+            margin: 1rem 0;
+            text-decoration: none;
+            display: block;
+            transition: color 0.3s ease;
+        }
+
+        .mobile-nav-overlay a:hover {
+            color: var(--primary-green);
+        }
+
+        .close-menu-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            background: none;
+            border: none;
+            color: var(--text-heading);
+            font-size: 3rem;
+            cursor: pointer;
+        }
+
+        .mobile-nav-overlay .dropdown-content {
+            position: static;
+            display: none;
+            box-shadow: none;
+            background-color: transparent;
+            width: auto;
+            min-width: unset;
+            margin-top: 0;
+            transform: none;
+            border: none;
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+        }
+
+        .mobile-nav-overlay .dropdown-content.open-mobile-dropdown {
+            display: block;
+            max-height: 500px;
+            opacity: 1;
+        }
+
+        .mobile-nav-overlay .dropdown-content a {
+            font-size: 1.5rem;
+            padding: 0.5rem 0;
+            text-align: center;
+            color: var(--text-body);
+        }
+
+        /* --- Main Content Section for Support Page --- */
+        .support-main {
+            padding: 4rem 0;
+            background-color: var(--bg-body);
+            min-height: calc(100vh - 150px);
+            /* Adjust height to account for header/footer */
+        }
+
+        .support-main h2 {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--primary-green);
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .support-content {
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+            max-width: 900px;
+            margin: 2.5rem auto 0 auto;
+            align-items: center;
+        }
+
+        .support-section {
+            background-color: var(--bg-card);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px var(--card-box-shadow);
+            border: 1px solid var(--border-color);
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+            width: 100%;
+            text-align: left;
+            /* Align text left for forms/details */
+        }
+
+        .support-section h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-orange);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .support-section p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-body);
+            margin-bottom: 1rem;
+        }
+
+        /* Form specific styles */
+        .support-section form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-width: 500px;
+            /* Limit form width */
+            margin: 0 auto;
+            /* Center form */
+        }
+
+        .support-section label {
+            font-weight: 600;
+            color: var(--text-heading);
+            margin-bottom: 0.2rem;
+            display: block;
+        }
+
+        .support-section input[type="text"],
+        .support-section input[type="email"],
+        .support-section input[type="tel"],
+        /* Added for phone number */
+        .support-section textarea,
+        .support-section select {
+            /* Added for select */
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: var(--bg-body);
+            color: var(--text-body);
+            font-size: 1rem;
+            transition: border-color 0.2s ease, background-color 0.2s ease;
+        }
+
+        .support-section input[type="text"]:focus,
+        .support-section input[type="email"]:focus,
+        .support-section input[type="tel"]:focus,
+        /* Added for phone number */
+        .support-section textarea:focus,
+        .support-section select:focus {
+            /* Added for select */
+            outline: none;
+            border-color: var(--primary-green);
+            box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.3);
+        }
+
+        .support-section textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .support-section button {
+            background-color: var(--primary-green);
+            color: var(--light-white);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+            width: fit-content;
+            /* Adjust button width to content */
+            margin-top: 1rem;
+            align-self: flex-start;
+            /* Align button to the left within the form */
+        }
+
+        .support-section button:hover {
+            background-color: var(--primary-green-dark);
+            transform: translateY(-2px);
+        }
+
+        .support-section button.secondary {
+            background-color: var(--dark-blue-black-light);
+        }
+
+        .support-section button.secondary:hover {
+            background-color: #334155;
+            /* Darker slate on hover */
+        }
+
+        .support-section .help-email {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 1.1rem;
+            color: var(--text-heading);
+        }
+
+        .support-section .help-email a {
+            color: var(--primary-green);
+            font-weight: 600;
+        }
+
+        .support-section .help-email a:hover {
+            text-decoration: underline;
+        }
+
+        /* FAQs Specific Styles */
+        .faq-item {
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1.5rem;
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .faq-question {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-heading);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+        }
+
+        .faq-question .arrow {
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-question.active .arrow {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            font-size: 1.05rem;
+            color: var(--text-body);
+            line-height: 1.7;
+            padding-top: 0.5rem;
+            display: none;
+            /* Hidden by default */
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, padding-top 0.5s ease-out, opacity 0.5s ease-out;
+            opacity: 0;
+        }
+
+        .faq-answer.open {
+            display: block;
+            /* Show when open */
+            max-height: 500px;
+            /* Arbitrary large value to allow content to expand */
+            opacity: 1;
+            padding-top: 1rem;
+        }
+
+        /* Multi-step Form Specific Styles */
+        .multi-step-form-container {
+            background-color: var(--bg-card);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px var(--card-box-shadow);
+            border: 1px solid var(--border-color);
+            width: 100%;
+            max-width: 600px;
+            /* Max width for the form container */
+            margin: 0 auto;
+            /* Center the form */
+            box-sizing: border-box;
+            position: relative;
+            /* For positioning step indicators */
+        }
+
+        .multi-step-form-container h3 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: var(--primary-green);
+            /* Green heading */
+        }
+
+        .form-step {
+            display: none;
+            /* Hidden by default */
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .form-step.active {
+            display: block;
+            /* Show active step */
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+
+        .form-navigation button {
+            flex: 1;
+            margin: 0 0.5rem;
+            background-color: var(--primary-green);
+            color: var(--light-white);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .form-navigation button:hover {
+            background-color: var(--primary-green-dark);
+            transform: translateY(-2px);
+        }
+
+        .form-navigation button:disabled {
+            background-color: var(--text-medium);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .form-navigation button.secondary {
+            background-color: var(--dark-blue-black-light);
+        }
+
+        .form-navigation button.secondary:hover {
+            background-color: #334155;
+            /* Darker slate on hover */
+        }
+
+        .progress-indicator {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+            gap: 0.5rem;
+        }
+
+        .progress-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--text-medium);
+            transition: background-color 0.3s ease;
+        }
+
+        .progress-dot.active {
+            background-color: var(--primary-green);
+        }
+
+        .form-message {
+            margin-top: 1rem;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .form-message.success {
+            color: var(--primary-green);
+        }
+
+        .form-message.error {
+            color: var(--red-danger);
+        }
+
+
+        /* --- Footer --- */
+        .footer {
+            background-color: var(--dark-blue-black-light);
+            color: var(--text-medium);
+            padding: 2.5rem 0;
+            text-align: center;
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border-color);
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .footer p {
+            margin: 0;
+            padding: 0.5rem 0;
+        }
+
+        .footer .disclaimer {
+            font-size: 0.85rem;
+            color: var(--text-body);
+            margin-top: 1rem;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.4;
+        }
+
+        /* --- Cookie Consent Banner --- */
+        .cookie-consent-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #ffffff;
+            padding: 1rem;
+            text-align: center;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.3);
+            transform: translateY(100%);
+            transition: transform 0.5s ease-out;
+        }
+
+        .cookie-consent-banner.show {
+            transform: translateY(0);
+        }
+
+        .cookie-consent-banner p {
+            margin: 0;
+            max-width: 800px;
+        }
+
+        .cookie-consent-banner button {
+            background-color: var(--primary-green);
+            color: var(--light-white);
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .cookie-consent-banner button:hover {
+            background-color: var(--primary-green-dark);
+            transform: translateY(-1px);
+        }
+
+        /* --- Responsive Design --- */
+        @media (min-width: 768px) {
+            .navbar {
+                justify-content: space-between;
+            }
+
+            .nav-links {
+                display: flex;
+            }
+
+            .menu-toggle {
+                display: none;
+            }
+
+            .navbar .theme-toggle {
+                order: 3;
+                margin-left: 1rem;
+            }
+
+            .navbar .login-btn {
+                order: 4;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .cookie-consent-banner {
+                flex-direction: column;
+            }
+
+            .cookie-consent-banner p {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Chatbot Floating Icon */
+        .chatbot-icon {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--primary-green);
+            color: var(--light-white);
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            /* Adjusted for Font Awesome icon */
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            z-index: 1500;
+            transition: transform 0.2s ease, background-color 0.2s ease;
+        }
+
+        .chatbot-icon:hover {
+            transform: translateY(-3px);
+            background-color: var(--primary-green-dark);
+        }
+
+        /* Chatbot Container */
+        .chatbot-container {
+            position: fixed;
+            bottom: 90px;
+            /* Above the icon */
+            right: 20px;
+            width: 350px;
+            height: 450px;
+            background-color: var(--chatbot-bg);
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 1600;
+            transform: translateY(100%) scale(0.8);
+            opacity: 0;
+            visibility: hidden;
+            transition: transform 0.3s ease-out, opacity 0.3s ease-out, visibility 0.3s ease-out;
+        }
+
+        .chatbot-container.open {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .chatbot-header {
+            background-color: var(--primary-green);
+            color: var(--light-white);
+            padding: 1rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+        }
+
+        .chatbot-header .close-btn {
+            background: none;
+            border: none;
+            color: var(--light-white);
+            font-size: 1.8rem;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .chatbot-messages {
+            flex-grow: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            background-color: var(--chatbot-bg);
+        }
+
+        .chatbot-message {
+            max-width: 80%;
+            padding: 0.75rem 1rem;
+            border-radius: 15px;
+            word-wrap: break-word;
+        }
+
+        .chatbot-message.user {
+            background-color: var(--primary-green);
+            color: var(--chatbot-text-bot);
+            /* White text for user messages */
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+
+        .chatbot-message.bot {
+            background-color: var(--dark-blue-black-light);
+            color: var(--chatbot-text-user);
+            /* Light text for bot messages */
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+        }
+
+        .chatbot-message.loading {
+            background-color: var(--dark-blue-black-light);
+            color: var(--chatbot-text-user);
+            align-self: flex-start;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 0.7;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0.7;
+            }
+        }
+
+        .chatbot-input-area {
+            display: flex;
+            padding: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            background-color: var(--chatbot-bg);
+        }
+
+        .chatbot-input-area input {
+            flex-grow: 1;
+            padding: 0.75rem;
+            border: 1px solid var(--chatbot-border);
+            border-radius: 20px;
+            background-color: var(--chatbot-input-bg);
+            color: var(--chatbot-text-user);
+            outline: none;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .chatbot-input-area input::placeholder {
+            color: var(--text-medium);
+        }
+
+        .chatbot-input-area input:focus {
+            border-color: var(--primary-green);
+            box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.3);
+        }
+
+        .chatbot-input-area button {
+            background-color: var(--primary-green);
+            color: var(--light-white);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 10px;
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .chatbot-input-area button:hover {
+            background-color: var(--primary-green-dark);
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 767px) {
+            .chatbot-container {
+                width: 100%;
+                height: 80%;
+                /* Take more height on small screens */
+                bottom: 0;
+                right: 0;
+                border-radius: 0;
+                transform: translateY(100%);
+                /* Slide up from bottom */
+            }
+
+            .chatbot-icon {
+                bottom: 10px;
+                right: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!--====================== HEADER ====================-->
+    <header class="header">
+        <div class="container navbar">
+            <div>
+                <img src="./img/logo1.png" class="logo" alt="">
+            </div>
+            <nav class="nav-links">
+                <a href="/">Home</a>
+                <div class="dropdown">
+                    <a href="#categories-section" class="dropdown-btn">Categories <span class="arrow-icon">▼</span></a>
+                    <div class="dropdown-content">
+                        <a href="./christian.html">Christian Books</a>
+                        <a href="./academic.html">Academic Books</a>
+                        <a href="./research_thesis.html">Research & Project Papers</a>
+                        <a href="./past_questions.html">Past Questions</a>
+                        <a href="./finance.html">Finance Books</a>
+                        <a href="./love.html">Relationship Books</a>
+                        <a href="./life.html">Life Books</a>
+                    </div>
+                </div>
+                <a href="./about.html">About Us</a>
+                <a href="./support.html">Support</a>
+            </nav>
+            <button id="theme-toggle" class="theme-toggle">☀️</button>
+            <a href="./login.html" class="login-btn">Login</a>
+            <button class="menu-toggle" id="menuToggle">&#9776;</button>
+        </div>
+    </header>
+
+
+    <!-- ====================================
+         ================ MOBILE MENU ============================== -->
+    <div class="mobile-nav-overlay" id="mobileNavOverlay">
+        <button class="close-menu-btn" id="closeMenuBtn">&times;</button>
+        <nav class="mobile-nav-links">
+            <a href="/">Home</a>
+            <div class="dropdown">
+                <a href="#categories-section" class="dropdown-btn">Categories <span class="arrow-icon">▼</span></a>
+                <div class="dropdown-content">
+                    <a href="./christian.html">Christian Books</a>
+                    <a href="./academic.html">Academic Books</a>
+                    <a href="./research_thesis.html">Research Papers</a>
+                    <a href="./past_questions.html">Project Thesis</a>
+                    <a href="./finance.html">Finance Books</a>
+                    <a href="./love.html">Relationship Books</a>
+                    <a href="./life.html">Life Books</a>
+                </div>
+            </div>
+            <a href="./about.html">About Us</a>
+            <a href="./support.html">Support</a>
+            <a href="./login.html" class="login-btn">Login</a>
+            <button id="mobile-theme-toggle" class="theme-toggle">☀️</button>
+        </nav>
+    </div>
+
+
+
+    <!-- Main Content for Support Page -->
+    <main class="support-main">
+        <div class="container">
+            <h2>Support Pal Library</h2>
+
+            <div class="support-content">
+                <!-- Contact Support Section -->
+                <div class="support-section">
+                    <h3>Contact Us</h3>
+                    <p>
+                        Have questions, feedback, or need assistance? Please fill out the form below or reach out to us
+                        directly via email. Our support team is here to help!
+                    </p>
+                    <form id="contact-support-form">
+                        <label for="contact-name">Your Name</label>
+                        <input type="text" id="contact-name" placeholder="Enter your name" required>
+
+                        <label for="contact-email">Your Email</label>
+                        <input type="email" id="contact-email" placeholder="Enter your email address" required>
+
+                        <label for="contact-subject">Subject</label>
+                        <input type="text" id="contact-subject" placeholder="e.g., Technical Issue, Content Request"
+                            required>
+
+                        <label for="contact-message">Your Message</label>
+                        <textarea id="contact-message" placeholder="Describe your issue or request here..."
+                            required></textarea>
+
+                        <button type="submit">Send Message</button>
+                    </form>
+                    <p class="help-email">
+                        You can also email us directly at: <a
+                            href="mailto:support@pallibrary.com">support@pallibrary.com</a>
+                    </p>
+                </div>
+
+                <!-- Support Our Mission Section -->
+                <div class="support-section">
+                    <h3>Support Our Mission</h3>
+                    <p>
+                        Pal Library is dedicated to empowering learners across Ghana. Your support helps us expand our
+                        resources, improve our platform, and reach more students in need. There are several ways you can
+                        contribute:
+                    </p>
+                    <h4>Become an eduPAL Ambassador or Partner with Us</h4>
+                    <p>
+                        If you're passionate about education and want to contribute your time, skills, or resources,
+                        please fill out our multi-step form below.
+                    </p>
+
+                    <!-- Multi-step Form for Volunteer/Partner -->
+                    <div class="multi-step-form-container">
+                        <div class="progress-indicator" id="progress-indicator">
+                            <span class="progress-dot active"></span>
+                            <span class="progress-dot"></span>
+                            <span class="progress-dot"></span>
+                        </div>
+                        <form id="support-mission-form">
+                            <!-- Step 1: Personal Details -->
+                            <div class="form-step active" id="step-1">
+                                <h4>Step 1: Personal Details</h4>
+                                <label for="full-name">Full Name</label>
+                                <input type="text" id="full-name" name="fullName" placeholder="Your Full Name" required>
+
+                                <label for="personal-email">Email</label>
+                                <input type="email" id="personal-email" name="personalEmail"
+                                    placeholder="Your Email Address" required>
+
+                                <label for="phone-number">Phone Number (Optional)</label>
+                                <input type="tel" id="phone-number" name="phoneNumber"
+                                    placeholder="e.g., +233 24 123 4567">
+                            </div>
+
+                            <!-- Step 2: Organization Details -->
+                            <div class="form-step" id="step-2">
+                                <h4>Step 2: Organization & Social Media</h4>
+                                <label for="organization-name">Organization Name (Optional)</label>
+                                <input type="text" id="organization-name" name="organizationName"
+                                    placeholder="e.g., University of Ghana, NGO Name">
+
+                                <label for="position">Your Position (Optional)</label>
+                                <input type="text" id="position" name="position"
+                                    placeholder="e.g., Student, Lecturer, Volunteer Coordinator">
+
+                                <label for="social-media">Social Media Handles (Optional)</label>
+                                <input type="text" id="social-media" name="socialMedia"
+                                    placeholder="e.g., LinkedIn, Twitter, Facebook profiles">
+                            </div>
+
+                            <!-- Step 3: How You Can Help -->
+                            <div class="form-step" id="step-3">
+                                <h4>Step 3: How You Can Help Us</h4>
+                                <label for="help-type">I'd like to help as a:</label>
+                                <select id="help-type" name="helpType" required>
+                                    <option value="">Select an Option</option>
+                                    <option value="eduPAL Ambassador">eduPAL Ambassador (Volunteer)</option>
+                                    <option value="Content Contributor">Content Contributor (Academic/Research)</option>
+                                    <option value="Financial Supporter">Financial Supporter</option>
+                                    <option value="Technical Volunteer">Technical Volunteer (e.g., Web Dev, IT Support)
+                                    </option>
+                                    <option value="Other Collaboration">Other Collaboration/Partnership</option>
+                                </select>
+
+                                <label for="specific-ideas">Specific Skills or Ideas (Optional)</label>
+                                <textarea id="specific-ideas" name="specificIdeas"
+                                    placeholder="Tell us more about how you'd like to contribute, your skills, or any specific ideas you have."></textarea>
+
+                                <label for="availability">Availability / Preferred Contact Time (Optional)</label>
+                                <input type="text" id="availability" name="availability"
+                                    placeholder="e.g., Weekends, Mon-Fri 9-5 PM, best time to call">
+                            </div>
+
+                            <div class="form-navigation">
+                                <button type="button" class="prev-btn secondary" id="prev-step-btn"
+                                    disabled>Previous</button>
+                                <button type="button" class="next-btn" id="next-step-btn">Next</button>
+                                <button type="submit" class="submit-btn" id="submit-mission-btn"
+                                    style="display: none;">Submit</button>
+                            </div>
+                            <p id="mission-form-message" class="form-message"></p>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Frequently Asked Questions Section -->
+                <div class="support-section">
+                    <h3>Frequently Asked Questions (FAQs)</h3>
+                    <div class="faq-list">
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                How do I register for a Pal Library account? <span class="arrow">▼</span>
+                            </div>
+                            <div class="faq-answer">
+                                If you are a student from a partner university, your librarian will register your email,
+                                and you will receive an invitation to set up your password and profile. Sole users can
+                                register directly on the login page.
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                What kind of resources can I find on Pal Library? <span class="arrow">▼</span>
+                            </div>
+                            <div class="faq-answer">
+                                Pal Library offers a wide range of resources including academic books, research papers,
+                                project theses, past questions from partner universities, and external links to
+                                Christian, Finance, Relationship, and Life books.
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                Is Pal Library accessible on mobile devices? <span class="arrow">▼</span>
+                            </div>
+                            <div class="faq-answer">
+                                Yes, Pal Library is designed to be fully responsive and accessible on various devices,
+                                including desktops, tablets, and mobile phones.
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                How can I report a technical issue or broken link? <span class="arrow">▼</span>
+                            </div>
+                            <div class="faq-answer">
+                                You can report technical issues or broken links by using the "Contact Us" form on this
+                                page, or by emailing us directly at support@pallibrary.com. Please provide as much
+                                detail as possible.
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                How can my university partner with Pal Library? <span class="arrow">▼</span>
+                            </div>
+                            <div class="faq-answer">
+                                We are always open to new partnerships. Please reach out to us via the "Support Our
+                                Mission" section on this page, or email partnerships@pallibrary.com to discuss
+                                collaboration opportunities.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Pal Library. All rights reserved. Connecting Ghanaian knowledge to the world.</p>
+            <p class="disclaimer">
+                Disclaimer: Pal Library directly hosts course materials and academic resources from our partner
+                universities in Ghana.
+                For other book categories (e.g., Christian, Finance, Relationship, Life Books), we provide summaries and
+                link directly to their respective legal storage on the internet (e.g., Amazon, Internet Archive).
+                We do not host content from non-partner sources to ensure strict adherence to copyright laws and to
+                maintain academic integrity.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Cookie Consent Banner HTML -->
+    <div class="cookie-consent-banner" id="cookieConsentBanner">
+        <p>This website uses cookies to ensure you get the best experience on our website. By continuing to use this
+            site, you agree to our use of cookies.</p>
+        <button id="acceptCookiesBtn">Accept Cookies</button>
+    </div>
+
+    <!-- Chatbot Floating Icon -->
+    <div class="chatbot-icon" id="chatbot-icon">
+        <i class="fas fa-comments"></i>
+    </div>
+
+    <!-- Chatbot Container -->
+    <div class="chatbot-container" id="chatbot-container">
+        <div class="chatbot-header">
+            Pal Bot Support
+            <button class="close-btn" id="chatbot-close-btn">&times;</button>
+        </div>
+        <div class="chatbot-messages" id="chatbot-messages">
+            <!-- Chat messages will appear here -->
+            <div class="chatbot-message bot">Hello! I'm Pal Bot, your virtual assistant. How can I help you today?</div>
+        </div>
+        <div class="chatbot-input-area">
+            <input type="text" id="chatbot-input" placeholder="Type your message...">
+            <button id="chatbot-send-btn">➤</button>
+        </div>
+    </div>
+
+    <script>
+        // --- Theme Toggle Functionality ---
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const mobileThemeToggleBtn = document.getElementById('mobile-theme-toggle');
+        const body = document.body;
+
+        const prefersLightMode = window.matchMedia('(prefers-color-scheme: light)');
+
+        function setTheme(isLight) {
+            if (isLight) {
+                body.classList.add('light-mode');
+                themeToggleBtn.textContent = '🌙'; // Moon icon for dark mode toggle
+                mobileThemeToggleBtn.textContent = '🌙';
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.classList.remove('light-mode');
+                themeToggleBtn.textContent = '☀️'; // Sun icon for light mode toggle
+                mobileThemeToggleBtn.textContent = '☀️';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Initialize theme based on localStorage or system preference
+        function initializeTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                setTheme(savedTheme === 'light');
+            } else {
+                setTheme(false); // Force dark mode if no preference is saved
+            }
+        }
+
+        // Listen for system theme changes
+        prefersLightMode.addEventListener('change', (event) => {
+            // Only update if no explicit user preference is saved
+            if (!localStorage.getItem('theme')) {
+                setTheme(event.matches);
+            }
+        });
+
+        // Toggle theme on button click
+        themeToggleBtn.addEventListener('click', () => {
+            setTheme(!body.classList.contains('light-mode'));
+        });
+        mobileThemeToggleBtn.addEventListener('click', () => {
+            setTheme(!body.classList.contains('light-mode'));
+        });
+
+        // --- Smooth Scrolling for navigation links (adapted for this page) ---
+        document.querySelectorAll('nav a[href^="index.html#"], nav a[href$="-page.html"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                // If it's a link to the current page, allow default behavior
+                if (this.getAttribute('href') === 'support-page.html' || this.getAttribute('href').startsWith('#')) {
+                    // For dropdowns on mobile, toggle the dropdown
+                    if (this.classList.contains('dropdown-btn') && window.innerWidth < 768) {
+                        e.preventDefault();
+                        const dropdownContent = this.nextElementSibling;
+                        const arrowIcon = this.querySelector('.arrow-icon');
+                        if (dropdownContent) {
+                            dropdownContent.classList.toggle('open-mobile-dropdown');
+                            if (arrowIcon) {
+                                arrowIcon.style.transform = dropdownContent.classList.contains('open-mobile-dropdown') ? 'rotate(180deg)' : 'rotate(0deg)';
+                            }
+                        }
+                        return; // Don't proceed with page scroll for dropdown toggle
+                    }
+
+                    // Handle internal anchor links on the same page
+                    if (this.getAttribute('href').startsWith('#')) {
+                        e.preventDefault(); // Prevent default hash behavior
+                        const targetId = this.getAttribute('href').substring(1);
+                        const targetElement = document.getElementById(targetId);
+                        if (targetElement) {
+                            targetElement.scrollIntoView({ behavior: 'smooth' });
+                        }
+                        return;
+                    }
+                    return; // Allow default navigation for direct links on this page
+                }
+
+                // For links back to homepage with specific sections
+                e.preventDefault();
+                const targetHref = this.getAttribute('href');
+                window.location.href = targetHref; // Redirect to homepage with hash
+            });
+        });
+
+        // --- Mobile Menu Toggle ---
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileNavOverlay = document.getElementById('mobileNavOverlay');
+        const closeMenuBtn = document.getElementById('closeMenuBtn');
+
+        if (menuToggle && mobileNavOverlay && closeMenuBtn) {
+            menuToggle.addEventListener('click', () => {
+                mobileNavOverlay.classList.add('open');
+                mobileNavOverlay.querySelectorAll('.dropdown-content.open-mobile-dropdown').forEach(dropdown => {
+                    dropdown.classList.remove('open-mobile-dropdown');
+                    const btn = dropdown.previousElementSibling;
+                    const arrowIcon = btn ? btn.querySelector('.arrow-icon') : null;
+                    if (arrowIcon) {
+                        arrowIcon.style.transform = 'rotate(0deg)';
+                    }
+                });
+            });
+
+            closeMenuBtn.addEventListener('click', () => {
+                mobileNavOverlay.classList.remove('open');
+                mobileNavOverlay.querySelectorAll('.dropdown-content.open-mobile-dropdown').forEach(dropdown => {
+                    dropdown.classList.remove('open-mobile-dropdown');
+                    const btn = dropdown.previousElementSibling;
+                    const arrowIcon = btn ? btn.querySelector('.arrow-icon') : null;
+                    if (arrowIcon) {
+                        arrowIcon.style.transform = 'rotate(0deg)';
+                    }
+                });
+            });
+
+            mobileNavOverlay.querySelectorAll('.mobile-nav-links a:not(.dropdown-btn)').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileNavOverlay.classList.remove('open');
+                    mobileNavOverlay.querySelectorAll('.dropdown-content.open-mobile-dropdown').forEach(dropdown => {
+                        dropdown.classList.remove('open-mobile-dropdown');
+                        const btn = dropdown.previousElementSibling;
+                        const arrowIcon = btn ? btn.querySelector('.arrow-icon') : null;
+                        if (arrowIcon) {
+                            arrowIcon.style.transform = 'rotate(0deg)';
+                        }
+                    });
+                });
+            });
+        }
+
+        // --- Cookie Consent Banner Logic ---
+        const cookieBanner = document.getElementById('cookieConsentBanner');
+        const acceptCookiesBtn = document.getElementById('acceptCookiesBtn');
+        const cookieConsentKey = 'palLibraryCookieConsent';
+
+        function showCookieBanner() {
+            if (!localStorage.getItem(cookieConsentKey)) {
+                cookieBanner.classList.add('show');
+            }
+        }
+
+        function acceptCookies() {
+            localStorage.setItem(cookieConsentKey, 'true');
+            cookieBanner.classList.remove('show');
+        }
+
+        if (acceptCookiesBtn) {
+            acceptCookiesBtn.addEventListener('click', acceptCookies);
+        }
+
+
+
+        // Contact Support Form Submission (Placeholder)
+        const contactSupportForm = document.getElementById('contact-support-form');
+        if (contactSupportForm) {
+            contactSupportForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const name = document.getElementById('contact-name').value;
+                const email = document.getElementById('contact-email').value;
+                const subject = document.getElementById('contact-subject').value;
+                const message = document.getElementById('contact-message').value;
+
+                alert(`Thank you, ${name}! Your message with subject "${subject}" has been received. We will respond to ${email} shortly.`);
+                contactSupportForm.reset(); // Clear the form
+            });
+        }
+
+        // FAQ Accordion Logic
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                const isActive = question.classList.contains('active');
+
+                // Close all other open FAQs
+                document.querySelectorAll('.faq-question.active').forEach(activeQuestion => {
+                    if (activeQuestion !== question) {
+                        activeQuestion.classList.remove('active');
+                        activeQuestion.nextElementSibling.classList.remove('open');
+                    }
+                });
+
+                // Toggle the clicked FAQ
+                question.classList.toggle('active');
+                answer.classList.toggle('open');
+            });
+        });
+
+        // --- Multi-step Form Logic for Support Our Mission ---
+        const supportMissionForm = document.getElementById('support-mission-form');
+        const formSteps = document.querySelectorAll('.form-step');
+        const prevBtn = document.getElementById('prev-step-btn');
+        const nextBtn = document.getElementById('next-step-btn');
+        const submitMissionBtn = document.getElementById('submit-mission-btn');
+        const progressDots = document.querySelectorAll('.progress-dot');
+        const missionFormMessage = document.getElementById('mission-form-message');
+
+        let currentStep = 0;
+
+        function showStep(stepIndex) {
+            formSteps.forEach((step, index) => {
+                if (index === stepIndex) {
+                    step.classList.add('active');
+                } else {
+                    step.classList.remove('active');
+                }
+            });
+
+            // Update progress dots
+            progressDots.forEach((dot, index) => {
+                if (index === stepIndex) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+
+            // Update button visibility
+            prevBtn.disabled = stepIndex === 0;
+            nextBtn.style.display = stepIndex === formSteps.length - 1 ? 'none' : 'inline-block';
+            submitMissionBtn.style.display = stepIndex === formSteps.length - 1 ? 'inline-block' : 'none';
+        }
+
+        function validateStep(stepIndex) {
+            const currentFormStep = formSteps[stepIndex];
+            const requiredInputs = currentFormStep.querySelectorAll('[required]');
+            let isValid = true;
+
+            requiredInputs.forEach(input => {
+                if (!input.value.trim()) {
+                    isValid = false;
+                    input.style.borderColor = 'var(--red-danger)'; // Highlight empty required fields
+                } else {
+                    input.style.borderColor = 'var(--border-color)'; // Reset border
+                }
+            });
+            return isValid;
+        }
+
+        function nextStep() {
+            if (validateStep(currentStep)) {
+                currentStep++;
+                showStep(currentStep);
+                missionFormMessage.textContent = ''; // Clear message on next step
+            } else {
+                missionFormMessage.textContent = 'Please fill in all required fields.';
+                missionFormMessage.classList.remove('success');
+                missionFormMessage.classList.add('error');
+            }
+        }
+
+        function prevStep() {
+            currentStep--;
+            showStep(currentStep);
+            missionFormMessage.textContent = ''; // Clear message on prev step
+        }
+
+        function submitMissionForm(e) {
+            e.preventDefault();
+            if (validateStep(currentStep)) {
+                const formData = new FormData(supportMissionForm);
+                const data = {};
+                formData.forEach((value, key) => {
+                    data[key] = value;
+                });
+
+                console.log('Multi-step Form Data:', data); // Log data for demo
+                missionFormMessage.textContent = 'Thank you for your interest! We have received your application and will be in touch shortly.';
+                missionFormMessage.classList.remove('error');
+                missionFormMessage.classList.add('success');
+                supportMissionForm.reset(); // Clear the form
+                currentStep = 0; // Reset to first step
+                showStep(currentStep);
+            } else {
+                missionFormMessage.textContent = 'Please fill in all required fields before submitting.';
+                missionFormMessage.classList.remove('success');
+                missionFormMessage.classList.add('error');
+            }
+        }
+
+        // Event Listeners for Multi-step Form
+        if (nextBtn) nextBtn.addEventListener('click', nextStep);
+        if (prevBtn) prevBtn.addEventListener('click', prevStep);
+        if (submitMissionBtn) submitMissionBtn.addEventListener('click', submitMissionForm);
+
+        // --- Chatbot Logic ---
+        const chatbotIcon = document.getElementById('chatbot-icon');
+        const chatbotContainer = document.getElementById('chatbot-container');
+        const chatbotCloseBtn = document.getElementById('chatbot-close-btn');
+        const chatbotMessages = document.getElementById('chatbot-messages');
+        const chatbotInput = document.getElementById('chatbot-input');
+        const chatbotSendBtn = document.getElementById('chatbot-send-btn');
+
+        // Initial chat history with a model greeting
+        let chatHistory = [{ role: "model", parts: [{ text: "Hello! I'm Pal Bot, your virtual assistant. How can I help you today?" }] }];
+
+        const API_KEY = "AIzaSyCZGrAJpOq_3n2pSWIVNDSG0ylg_QP0tks";
+
+        const PAL_LIBRARY_CONTEXT = `
+            You are Pal Bot, a helpful and friendly AI assistant for Pal Library.
+            Pal Library's mission is to democratize access to knowledge in Ghana.
+            We provide academic, professional, and personal development resources.
+            Our vision is to be the leading digital library platform in Ghana, known for its extensive collection and user-friendly interface.
+            Our values include Accessibility, Empowerment, Collaboration, Integrity, and Innovation.
+
+            Terms of Usage: Users agree to non-commercial, personal use only. Reproduction or distribution without permission is prohibited. Terms can change without notice.
+            Privacy Policy: We collect voluntary info (name, email, university) and non-personal info (browser, IP). Used for access, personalization, and communication. We do not sell data. Security measures are in place.
+            Content Policy: We host academic/course materials directly from our partner universities in Ghana. For other categories (Christian, Finance, Relationship, Life Books), we provide summaries and link to external, legally hosted sources (Amazon, Internet Archive). We adhere to copyright and academic integrity.
+
+            FAQs:
+            - How to register: Partner university students are registered by librarians and receive an invitation. Sole users register directly on the login page.
+            - Resources: Academic books, research papers, project theses, past questions (from partners), external links to Christian, Finance, Relationship, and Life books.
+            - Mobile access: Fully responsive on desktops, tablets, and mobile phones.
+            - Report issues: Use the "Contact Us" form on the Support page or email support@pallibrary.com.
+            - University partnership: Contact partnerships@pallibrary.com.
+
+            If a user asks about contact details, or expresses dissatisfaction like "I'm not satisfied" or "This isn't helping", provide the following:
+            - If it's within Ghana work hours (Monday-Friday, 8 AM - 5 PM GMT+0): "I apologize if I couldn't fully assist you. For further help, you can use our live chat support during work hours (Monday-Friday, 8 AM - 5 PM GMT+0) or email us at support@pallibrary.com."
+            - If it's outside Ghana work hours: "I apologize if I couldn't fully assist you. Our live chat support is currently closed. Please email us at support@pallibrary.com and we'll get back to you as soon as possible."
+        `;
+
+        function appendMessage(sender, text) {
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('chatbot-message', sender);
+            messageElement.textContent = text;
+            chatbotMessages.appendChild(messageElement);
+            chatbotMessages.scrollTop = chatbotMessages.scrollHeight; // Scroll to bottom
+        }
+
+        function isWorkHoursGhana() {
+            const now = new Date();
+            const utcHours = now.getUTCHours();
+            const utcDay = now.getUTCDay(); // Sunday is 0, Monday is 1, ..., Saturday is 6
+
+            // Ghana time is GMT+0, so UTC hours are directly applicable
+            const ghanaHours = utcHours;
+
+            // Work hours: Monday to Friday, 8 AM to 5 PM (17:00)
+            const isWeekday = utcDay >= 1 && utcDay <= 5; // Monday to Friday
+            const isWithinHours = ghanaHours >= 8 && ghanaHours < 17; // 8 AM to before 5 PM
+
+            return isWeekday && isWithinHours;
+        }
+
+        async function getBotResponse(userMessage) {
+            const loadingMessage = appendMessage('bot loading', 'Typing...');
+            loadingMessage.classList.add('loading'); // Add loading class for animation
+
+            // Add user message to chat history for context
+            chatHistory.push({ role: "user", parts: [{ text: userMessage }] });
+
+            // Construct the payload for the Gemini API
+            // The context is now a separate "system" message at the beginning of the conversation.
+            // Then, we send the last few turns of the actual conversation.
+            const payload = {
+                contents: [
+                    { role: "user", parts: [{ text: PAL_LIBRARY_CONTEXT }] }, // System instruction as the first user message
+                    ...chatHistory.slice(-6) // Send the last 6 messages (including the initial bot greeting and user's first message)
+                ],
+            };
+
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+
+                chatbotMessages.removeChild(loadingMessage); // Remove loading message
+
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    const botText = result.candidates[0].content.parts[0].text;
+                    appendMessage('bot', botText);
+                    chatHistory.push({ role: "model", parts: [{ text: botText }] });
+                } else {
+                    appendMessage('bot', "I'm having trouble understanding that. Could you please rephrase?");
+                    chatHistory.push({ role: "model", parts: [{ text: "I'm having trouble understanding that. Could you please rephrase?" }] });
+                }
+            } catch (error) {
+                console.error("Error calling Gemini API:", error);
+                chatbotMessages.removeChild(loadingMessage); // Remove loading message
+                appendMessage('bot', "Oops! Something went wrong. Please try again later. If the problem persists, you can email us at support@pallibrary.com.");
+                chatHistory.push({ role: "model", parts: [{ text: "Oops! Something went wrong. Please try again later. If the problem persists, you can email us at support@pallibrary.com." }] });
+            }
+        }
+
+        function handleChatInput() {
+            const message = chatbotInput.value.trim();
+            if (message) {
+                appendMessage('user', message);
+                getBotResponse(message);
+                chatbotInput.value = '';
+            }
+        }
+
+        chatbotIcon.addEventListener('click', () => {
+            chatbotContainer.classList.toggle('open');
+            if (chatbotContainer.classList.contains('open')) {
+                chatbotInput.focus();
+            }
+        });
+
+        chatbotCloseBtn.addEventListener('click', () => {
+            chatbotContainer.classList.remove('open');
+        });
+
+        chatbotSendBtn.addEventListener('click', handleChatInput);
+        chatbotInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                handleChatInput();
+            }
+        });
+
+        // Initial Load
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeTheme();
+            showCookieBanner();
+            showStep(currentStep); // Display the first step of the multi-step form
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pal Library - Student Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" xintegrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Custom Colors (Dark Mode Defaults - consistent with homepage) */
+        :root {
+            --primary-green: #22c55e; /* Brand Green */
+            --primary-green-dark: #16a34a; /* Darker Green for hover */
+            --accent-orange: #f97316; /* Brand Orange */
+            --accent-orange-dark: #ea580c; /* Darker Orange for hover */
+            --light-white: #ffffff; /* Explicitly define white */
+            --dark-blue-black: #0f172a; /* slate-900 */
+            --dark-blue-black-light: #1e293b; /* slate-800 */
+            --red-danger: #ef4444; /* red-500 for delete */
+            --red-danger-dark: #dc2626; /* red-600 for delete hover */
+
+            /* Dark Mode Specific Variables */
+            --bg-body: var(--dark-blue-black);
+            --bg-section: var(--dark-blue-black); /* For main sections */
+            --bg-card: var(--dark-blue-black-light); /* For cards/profile background */
+            --text-heading: var(--light-white);
+            --text-body: #e2e8f0; /* light slate text */
+            --text-medium: #94a3b8; /* slate-400 */
+            --border-color: rgba(255, 255, 255, 0.08); /* Light border for dark elements */
+            --header-bg-scrolled: var(--dark-blue-black); /* Opaque dark-blue-black when scrolled */
+            --header-box-shadow-scrolled: rgba(0, 0, 0, 0.5);
+            --card-box-shadow: rgba(0, 0, 0, 0.3);
+
+            /* Menu specific for dark mode */
+            --menu-bg: var(--dark-blue-black-light);
+            --menu-item-hover-bg: rgba(34, 197, 94, 0.2);
+            --menu-text: var(--text-body);
+        }
+
+        /* Light Mode Overrides */
+        body.light-mode {
+            /* Primary Green for Light Mode (Darker) */
+            --primary-green: #168a44; /* Darker green for light mode */
+            --primary-green-dark: #0f6a31; /* Even darker green for hover in light mode */
+
+            /* Backgrounds */
+            --bg-body: #f8fafc; /* slate-50 */
+            --bg-section: #ffffff; /* white for main sections */
+            --bg-card: #f1f5f9; /* slate-100 for cards/profile background */
+            
+            /* Text Colors */
+            --text-heading: #1e293b; /* dark slate */
+            --text-body: #475569; /* slate-600 */
+            --text-medium: #64748b; /* slate-500 */
+            --border-color: rgba(0, 0, 0, 0.1); /* Darker border for light elements */
+
+            /* Header Specific Overrides for Light Mode */
+            --header-bg-scrolled: #ffffff; /* Opaque white on scroll */
+            --header-box-shadow-scrolled: rgba(0, 0, 0, 0.15);
+
+            /* Card Specific Overrides for Light Mode */
+            --card-box-shadow: rgba(0, 0, 0, 0.1);
+
+            /* Menu specific for light mode */
+            --menu-bg: var(--bg-card);
+            --menu-item-hover-bg: #e2e8f0; /* slate-200 */
+            --menu-text: var(--text-body);
+        }
+
+        /* Base Styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: var(--bg-body);
+            color: var(--text-body);
+            line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease; /* Smooth theme transition */
+            color-scheme: dark; /* Default color scheme for browser elements */
+        }
+
+        body.light-mode {
+            color-scheme: light; /* Light color scheme for browser elements */
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            color: var(--text-heading);
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* --- Header --- */
+        .header {
+            background-color: var(--dark-blue-black); /* Solid header background */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        body.light-mode .header {
+            background-color: var(--bg-section); /* White header in light mode */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-top { /* Renamed from navbar for clarity */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem; /* Padding for the top bar (logo, toggle) */
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary-green);
+        }
+
+        .menu-toggle {
+            background: none;
+            border: none;
+            color: var(--text-heading);
+            font-size: 2rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .menu-toggle:hover {
+            color: var(--primary-green);
+        }
+
+        /* Theme Toggle Button */
+        .theme-toggle {
+            background: none;
+            border: none;
+            font-size: 1.5rem; /* Larger icon */
+            cursor: pointer;
+            color: var(--text-heading); /* Use text-heading for icon color */
+            transition: color 0.3s ease;
+            padding: 0.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1; /* Adjust line height for icon centering */
+            margin-left: 1rem; /* Space from menu toggle */
+        }
+
+        .theme-toggle:hover {
+            color: var(--primary-green);
+        }
+
+        /* --- Desktop Navigation (Below Header, Large Screens Only) --- */
+        .desktop-nav-container {
+            display: none; /* Hidden by default (for mobile) */
+            border-top: 1px solid var(--border-color); /* Separator line */
+            padding: 0.8rem 0; /* Vertical padding for the nav bar itself */
+            transition: border-color 0.3s ease;
+        }
+
+        .header-nav-desktop {
+            display: flex;
+            justify-content: space-evenly; /* Evenly space items */
+            align-items: center;
+            width: 100%;
+            padding: 0 1rem; /* Horizontal padding for nav items alignment */
+        }
+
+        .header-nav-desktop a {
+            color: var(--menu-text);
+            font-size: 1.1rem;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            transition: background-color 0.2s ease, color 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem; /* Space between icon and text */
+            border-radius: 8px;
+            white-space: nowrap; /* Prevent text from wrapping */
+        }
+
+        .header-nav-desktop a:hover {
+            background-color: var(--menu-item-hover-bg);
+            color: var(--primary-green);
+        }
+
+        .header-nav-desktop a.active {
+            background-color: var(--primary-green);
+            color: var(--light-white);
+            font-weight: 600;
+        }
+
+
+        /* --- Mobile Full-Screen Sidebar --- */
+        .mobile-full-screen-sidebar {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%; /* Cover entire screen */
+            height: 100%; /* Cover entire screen */
+            background-color: var(--dark-blue-black); /* Dark background for sidebar */
+            z-index: 1002;
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Center items vertically */
+            align-items: center; /* Center items horizontally */
+            padding: 0 1rem;
+        }
+        body.light-mode .mobile-full-screen-sidebar {
+            background-color: var(--bg-body); /* Light background for sidebar */
+        }
+
+        .mobile-full-screen-sidebar.open {
+            transform: translateX(0);
+        }
+
+        .mobile-full-screen-sidebar .close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            background: none;
+            border: none;
+            color: var(--text-heading);
+            font-size: 3rem;
+            cursor: pointer;
+        }
+
+        .mobile-full-screen-sidebar nav a {
+            padding: 1.2rem 1.5rem;
+            color: var(--text-heading);
+            text-decoration: none;
+            display: flex; /* For icon and text alignment */
+            align-items: center;
+            gap: 1rem; /* Space between icon and text */
+            transition: background-color 0.2s ease, color 0.2s ease;
+            font-size: 1.8rem; /* Larger font size for mobile */
+            font-weight: 500;
+            width: 100%; /* Full width in mobile menu */
+            justify-content: center; /* Center text and icon */
+        }
+
+        .mobile-full-screen-sidebar nav a:hover {
+            background-color: rgba(34, 197, 94, 0.2); /* Light green tint on hover */
+            color: var(--primary-green);
+        }
+        .mobile-full-screen-sidebar nav a.active {
+            background-color: var(--primary-green);
+            color: var(--light-white);
+            font-weight: 600;
+        }
+
+
+        /* --- Main Content Layout --- */
+        .dashboard-main {
+            padding: 2rem 0;
+        }
+
+        /* --- Student Profile Section --- */
+        .student-profile-section { /* Renamed class from librarian-profile-section */
+            background-color: var(--bg-card);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px var(--card-box-shadow);
+            display: flex;
+            flex-direction: column; /* Stack on small screens */
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .profile-picture-container {
+            width: 150px; /* Increased size for a social media feel */
+            height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 5px solid var(--primary-green); /* Green border for picture */
+            flex-shrink: 0; /* Prevent shrinking */
+        }
+
+        .profile-picture {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .student-details { /* Renamed class from librarian-details */
+            text-align: center; /* Center on small screens */
+            flex-grow: 1; /* Allow details to take available space */
+        }
+
+        .student-details h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--primary-green);
+            margin-bottom: 0.5rem;
+        }
+
+        .student-details p {
+            font-size: 1.1rem;
+            color: var(--text-body);
+            margin-bottom: 0.3rem;
+        }
+
+        .student-details .id {
+            font-size: 0.95rem;
+            color: var(--text-medium);
+            font-style: italic;
+        }
+
+        .student-stats { /* Renamed class from librarian-stats */
+            display: flex;
+            flex-direction: column; /* Stack stats on small screens */
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+            width: 100%; /* Take full width on small screens */
+            max-width: 300px; /* Limit width on larger screens */
+        }
+
+        .stat-card {
+            background-color: var(--bg-body); /* Darker background for stat cards */
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+            border: 1px solid var(--border-color);
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+        body.light-mode .stat-card {
+            background-color: var(--bg-section);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .stat-card .count {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--accent-orange);
+            line-height: 1;
+        }
+
+        .stat-card .label {
+            font-size: 0.9rem;
+            color: var(--text-medium);
+            margin-top: 0.5rem;
+        }
+
+        /* --- Dynamic Content Section --- */
+        .dashboard-content-area {
+            background-color: var(--bg-card);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px var(--card-box-shadow);
+            border: 1px solid var(--border-color);
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+            min-height: 400px; /* Ensure a minimum height for the section */
+            display: flex; /* Use flex for centering/layout of content */
+            flex-direction: column;
+            justify-content: center; /* Center content vertically by default */
+            align-items: center; /* Center content horizontally by default */
+            text-align: center;
+        }
+
+        .dashboard-content-area h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-green);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+            width: 100%;
+            text-align: center;
+        }
+
+        /* Quote Section Styling */
+        .quote-section {
+            display: flex; /* Ensure quote takes full space */
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%; /* Take full height of parent */
+            gap: 1rem;
+            width: 100%; /* Make quote section take full width of content area */
+        }
+        .quote-section blockquote {
+            font-size: 1.8rem;
+            font-style: italic;
+            color: var(--text-heading);
+            margin: 0;
+            padding: 0 1rem;
+            max-width: 800px;
+            text-align: center; /* Explicitly center text within the blockquote */
+        }
+        .quote-section cite {
+            font-size: 1.1rem;
+            color: var(--text-medium);
+            display: block;
+            margin-top: 1rem;
+            text-align: center; /* Ensure cite is also centered */
+        }
+
+        /* Manage Preferences Styling */
+        .manage-preferences-section,
+        .history-section,
+        .settings-section {
+            display: none; /* Hidden by default */
+            width: 100%; /* Take full width of content area */
+            flex-direction: column; /* Stack elements */
+            align-items: center; /* Center forms/content */
+        }
+        .manage-preferences-section.active,
+        .history-section.active,
+        .settings-section.active {
+            display: flex; /* Show when active */
+        }
+        
+        .preference-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            width: 100%; /* Take full width of parent */
+            max-width: 600px; /* Increased max-width for more space */
+            margin-top: 1.5rem;
+            text-align: left;
+        }
+        .preference-form label {
+            font-weight: 600;
+            color: var(--text-heading);
+            margin-bottom: 0.2rem;
+            display: block;
+        }
+        .preference-form input[type="text"] {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: var(--bg-body);
+            color: var(--text-body);
+            font-size: 1rem;
+            transition: border-color 0.2s ease, background-color 0.2s ease;
+        }
+        .preference-form input[type="text"]:focus {
+            outline: none;
+            border-color: var(--primary-green);
+            box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.3);
+        }
+        .preference-form .form-buttons { /* New container for buttons */
+            display: flex;
+            justify-content: space-between; /* Space between the buttons */
+            gap: 1rem; /* Gap between buttons */
+            margin-top: 1rem;
+            width: 100%;
+        }
+        .preference-form button {
+            background-color: var(--primary-green);
+            color: var(--light-white);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            flex: 1; /* Allow buttons to grow and shrink */
+            min-width: 120px; /* Ensure buttons don't get too small */
+        }
+        .preference-form button:hover {
+            background-color: var(--primary-green-dark);
+        }
+
+        /* History Table Styling */
+        .history-table-container {
+            width: 100%;
+            overflow-x: auto; /* Enable horizontal scroll for table on small screens */
+            margin-top: 1.5rem;
+        }
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+        .history-table th, .history-table td {
+            padding: 0.8rem;
+            border: 1px solid var(--border-color);
+            white-space: nowrap; /* Prevent text wrapping in table cells */
+        }
+        .history-table th {
+            background-color: var(--dark-blue-black-light); /* Darker header for table */
+            color: var(--text-heading);
+            font-weight: 600;
+        }
+        body.light-mode .history-table th {
+            background-color: var(--bg-body); /* Lighter header for table */
+        }
+        .history-table tbody tr:nth-child(even) {
+            background-color: rgba(0, 0, 0, 0.05); /* Zebra stripping dark mode */
+        }
+        body.light-mode .history-table tbody tr:nth-child(even) {
+            background-color: rgba(0, 0, 0, 0.02); /* Zebra stripping light mode */
+        }
+        .history-table .read-status { /* Reuse status style */
+            font-size: 0.8em;
+            padding: 0.2em 0.5em;
+            white-space: nowrap;
+        }
+
+        /* Settings Section Styling */
+        .settings-options {
+            display: flex;
+            flex-direction: row; /* Changed to row for horizontal layout */
+            flex-wrap: wrap; /* Allow items to wrap to next line */
+            justify-content: space-between; /* Distribute items evenly */
+            gap: 1rem; /* Space between buttons */
+            width: 100%;
+            max-width: 700px; /* Increased max-width for more items */
+            margin-top: 1.5rem;
+        }
+        .settings-options button {
+            background-color: var(--bg-body);
+            color: var(--text-heading); /* Default text color for settings buttons */
+            border: 1px solid var(--border-color);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            flex: 1 1 calc(50% - 0.5rem); /* Two columns layout, max 50% width minus half the gap */
+            box-sizing: border-box; /* Include padding and border in the element's total width */
+            min-width: 200px; /* Prevent buttons from becoming too narrow */
+        }
+        body.light-mode .settings-options button {
+            background-color: var(--bg-section);
+        }
+        .settings-options button:hover {
+            background-color: var(--primary-green);
+            color: var(--light-white); /* Text should be white on hover */
+            border-color: var(--primary-green);
+            transform: translateY(-3px); /* Lift effect */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* More pronounced shadow on hover */
+        }
+        body.light-mode .settings-options button:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Lighter shadow for light mode */
+        }
+        /* Ensure text color remains white on active/click state for regular buttons */
+        .settings-options button:active,
+        .settings-options button:focus {
+            color: var(--light-white);
+        }
+
+        .settings-options button:hover .fa-solid {
+            color: var(--light-white);
+        }
+        .settings-options .fa-solid {
+            color: var(--primary-green);
+            font-size: 1.3rem;
+        }
+        /* Specific style for delete button */
+        .settings-options button.delete-account {
+            background-color: var(--red-danger); /* Red background for delete button */
+            color: var(--light-white); /* White text for delete button */
+            border-color: var(--red-danger);
+        }
+        .settings-options button.delete-account:hover {
+            background-color: var(--red-danger-dark); /* Darker red on hover */
+            border-color: var(--red-danger-dark);
+            color: var(--light-white); /* Ensure text is white on hover */
+            transform: translateY(-3px); /* Lift effect */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* More pronounced shadow on hover */
+        }
+        body.light-mode .settings-options button.delete-account:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Lighter shadow for light mode */
+        }
+        .settings-options button.delete-account:active, /* Ensure text remains white on click */
+        .settings-options button.delete-account:focus {
+            color: var(--light-white);
+        }
+        .settings-options button.delete-account .fa-solid {
+            color: var(--light-white); /* Ensure icon is white for delete button */
+        }
+
+
+        /* --- Responsive Design --- */
+        @media (min-width: 768px) {
+            .navbar-top { /* Ensure logo and theme toggle are space-between */
+                justify-content: space-between;
+                padding-bottom: 0; /* Remove bottom padding here as desktop-nav-container has its own */
+            }
+            .desktop-nav-container {
+                display: block; /* Show desktop nav container */
+            }
+            .menu-toggle {
+                display: none; /* Hide toggle on desktop */
+            }
+            .mobile-full-screen-sidebar {
+                display: none; /* Hide mobile menu on desktop */
+            }
+
+            .student-profile-section { /* Renamed class */
+                flex-direction: row; /* Row layout on larger screens */
+                text-align: left; /* Align text left */
+            }
+
+            .profile-picture-container {
+                margin-right: 2rem; /* Space between picture and text */
+            }
+
+            .student-details { /* Renamed class */
+                text-align: left; /* Align text left on larger screens */
+            }
+
+            .student-stats { /* Renamed class */
+                flex-direction: row; /* Row layout for stats on larger screens */
+                flex-grow: 1; /* Allow stats to take available space */
+                max-width: none; /* Remove max-width constraint */
+                justify-content: flex-end; /* Push stats to the right */
+            }
+
+            .stat-card {
+                flex: 1; /* Distribute space equally */
+                max-width: 200px; /* Max width for individual stat cards */
+            }
+            .stat-card:first-child {
+                margin-right: 1.5rem; /* Space between stat cards */
+            }
+            /* Adjust dynamic content area for desktop */
+            .dashboard-content-area {
+                align-items: flex-start; /* Align content to start on desktop */
+                text-align: left;
+            }
+            .dashboard-content-area h2 {
+                text-align: left;
+            }
+            /* Quote section explicitly centered, regardless of parent's default alignment */
+            .quote-section {
+                text-align: center; /* Keep quote centered */
+                align-items: center; /* Keep children (blockquote, cite) centered */
+            }
+        }
+
+        @media (max-width: 767px) {
+            .desktop-nav-container {
+                display: none; /* Hide desktop nav on mobile */
+            }
+            .menu-toggle {
+                display: block; /* Show toggle on mobile */
+            }
+            /* mobile-full-screen-sidebar handles its own display based on .open class */
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container navbar-top"> <!-- Renamed for clarity -->
+            <div class="logo">Pal Library</div>
+            <div style="display: flex; align-items: center;">
+                <button id="theme-toggle" class="theme-toggle">☀️</button> <!-- Theme Toggle -->
+                <button class="menu-toggle" id="menuToggle">&#9776;</button> <!-- Hamburger Menu (Mobile Only) -->
+            </div>
+        </div>
+        <!-- Desktop Navigation Container (visible only on large screens) -->
+        <div class="desktop-nav-container container">
+            <nav class="header-nav-desktop">
+                <a href="#" class="active" data-section="quote"><i class="fa-solid fa-gauge-high"></i> Dashboard</a>
+                <a href="#" data-section="manage-preferences"><i class="fa-solid fa-user-gear"></i> Manage Preferences</a>
+                <a href="#" data-section="history"><i class="fa-solid fa-clock-rotate-left"></i> History</a>
+                <a href="#" data-section="settings"><i class="fa-solid fa-gear"></i> Settings</a>
+                <a href="#" data-section="logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Mobile Full-Screen Sidebar Overlay -->
+    <div class="mobile-full-screen-sidebar" id="mobileMenuOverlay">
+        <button class="close-btn" id="closeMobileMenuBtn">&times;</button>
+        <nav>
+            <a href="#" class="active" data-section="quote"><i class="fa-solid fa-gauge-high"></i> Dashboard</a>
+            <a href="#" data-section="manage-preferences"><i class="fa-solid fa-user-gear"></i> Manage Preferences</a>
+            <a href="#" data-section="history"><i class="fa-solid fa-clock-rotate-left"></i> History</a>
+            <a href="#" data-section="settings"><i class="fa-solid fa-gear"></i> Settings</a>
+            <a href="#" data-section="logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <main class="dashboard-main">
+        <div class="container">
+            <!-- Student Profile Section -->
+            <section class="student-profile-section">
+                <div class="profile-picture-container">
+                    <img src="https://placehold.co/150x150/f97316/ffffff?text=Student" alt="Student Profile Picture" class="profile-picture">
+                </div>
+                <div class="student-details">
+                    <h2>Ms. Adwoa Mensah</h2>
+                    <p>Kwame Nkrumah University of Science and Technology (KNUST)</p>
+                    <p class="id">Student ID: PL001-KNUST</p>
+                </div>
+                <div class="student-stats">
+                    <div class="stat-card">
+                        <div class="count">15</div>
+                        <div class="label">Books Borrowed</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="count">5</div>
+                        <div class="label">Courses Enrolled</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Dynamic Content Area -->
+            <section class="dashboard-content-area" id="dashboardContentArea">
+                <!-- Content will be dynamically loaded here -->
+
+                <!-- Default: Quote Section -->
+                <div id="quote-section" class="quote-section">
+                    <blockquote>"The only true wisdom is in knowing you know nothing."</blockquote>
+                    <cite>Socrates</cite>
+                </div>
+
+                <!-- Manage Preferences Section -->
+                <div id="manage-preferences-section" class="manage-preferences-section">
+                    <h2>Manage Your Preferences</h2>
+                    <form class="preference-form">
+                        <label for="prefCategories">Preferred Categories (comma-separated)</label>
+                        <input type="text" id="prefCategories" placeholder="e.g., Science, History, Fiction">
+
+                        <label for="favAuthors">Favorite Authors (comma-separated)</label>
+                        <input type="text" id="favAuthors" placeholder="e.g., Ayi Kwei Armah, Chinua Achebe">
+
+                        <label for="interestTags">Tags of Interest (comma-separated)</label>
+                        <input type="text" id="interestTags" placeholder="e.g., African Literature, Digital Marketing">
+                        
+                        <div class="form-buttons">
+                            <button type="submit">Save Preferences</button>
+                            <button type="button">Clear Preferences</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- History Section -->
+                <div id="history-section" class="history-section">
+                    <h2>Reading & Borrow History</h2>
+                    <div class="history-table-container">
+                        <table class="history-table">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Author/Institution</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Introduction to Programming with Python</td>
+                                    <td>J. Ofori</td>
+                                    <td>July 15, 2025</td>
+                                    <td><span class="read-status">Completed</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Principles of Microeconomics</td>
+                                    <td>P. Samuelson</td>
+                                    <td>July 08, 2025</td>
+                                    <td><span class="read-status">In Progress</span></td>
+                                </tr>
+                                <tr>
+                                    <td>African History: A New Perspective</td>
+                                    <td>Prof. A. Kwame</td>
+                                    <td>June 29, 2025</td>
+                                    <td><span class="read-status">Completed</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Effective Communication Skills</td>
+                                    <td>M. Brown</td>
+                                    <td>June 22, 2025</td>
+                                    <td><span class="read-status">In Progress</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Project Management Essentials</td>
+                                    <td>E. Osei</td>
+                                    <td>May 30, 2025</td>
+                                    <td><span class="read-status">Completed</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Settings Section -->
+                <div id="settings-section" class="settings-section">
+                    <h2>Account Settings</h2>
+                    <div class="settings-options">
+                        <button><i class="fa-solid fa-key"></i> Change Password</button>
+                        <button><i class="fa-solid fa-bell"></i> Notification Settings</button>
+                        <button><i class="fa-solid fa-lock"></i> Privacy Settings</button>
+                        <button class="delete-account"><i class="fa-solid fa-trash-can"></i> Delete Account</button>
+                    </div>
+                </div>
+
+                <!-- Logout will likely be handled by redirecting to a login page -->
+                <div id="logout-section" style="display: none;"></div> 
+
+            </section>
+        </div>
+    </main>
+
+    <script>
+        // --- Theme Toggle Functionality ---
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const body = document.body;
+        const prefersLightMode = window.matchMedia('(prefers-color-scheme: light)');
+
+        function setTheme(isLight) {
+            if (isLight) {
+                body.classList.add('light-mode');
+                themeToggleBtn.textContent = '🌙'; // Moon icon for dark mode toggle
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.classList.remove('light-mode');
+                themeToggleBtn.textContent = '☀️'; // Sun icon for light mode toggle
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        function initializeTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                setTheme(savedTheme === 'light');
+            } else {
+                setTheme(false); // Force dark mode if no preference is saved
+            }
+        }
+
+        prefersLightMode.addEventListener('change', (event) => {
+            if (!localStorage.getItem('theme')) {
+                setTheme(event.matches);
+            }
+        });
+
+        themeToggleBtn.addEventListener('click', () => {
+            setTheme(!body.classList.contains('light-mode'));
+        });
+
+        document.addEventListener('DOMContentLoaded', initializeTheme);
+
+        // --- Mobile Menu Toggle ---
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+        const closeMobileMenuBtn = document.getElementById('closeMobileMenuBtn');
+
+        function openMobileMenu() {
+            mobileMenuOverlay.classList.add('open');
+        }
+
+        function closeMobileMenu() {
+            mobileMenuOverlay.classList.remove('open');
+        }
+
+        // Event listeners for mobile menu
+        if (menuToggle) {
+            menuToggle.addEventListener('click', openMobileMenu);
+        }
+        if (closeMobileMenuBtn) {
+            closeMobileMenuBtn.addEventListener('click', closeMobileMenu);
+        }
+
+        // --- Dynamic Dashboard Content Management ---
+        const dashboardContentArea = document.getElementById('dashboardContentArea');
+        const dynamicSections = {
+            'quote': document.getElementById('quote-section'),
+            'manage-preferences': document.getElementById('manage-preferences-section'),
+            'history': document.getElementById('history-section'),
+            'settings': document.getElementById('settings-section'),
+            'logout': document.getElementById('logout-section') // Placeholder for logout action
+        };
+
+        function activateNavLink(sectionId) {
+            // Remove 'active' from all links
+            document.querySelectorAll('.header-nav-desktop a, #mobileMenuOverlay nav a').forEach(link => {
+                link.classList.remove('active');
+            });
+            // Add 'active' to the relevant links
+            document.querySelectorAll(`[data-section="${sectionId}"]`).forEach(link => {
+                link.classList.add('active');
+            });
+        }
+
+        function displaySection(sectionId) {
+            // Hide all dynamic sections first
+            for (const key in dynamicSections) {
+                if (dynamicSections[key]) {
+                    dynamicSections[key].classList.remove('active');
+                    dynamicSections[key].style.display = 'none'; // Ensure display is set to none
+                }
+            }
+
+            // Show the selected section
+            const targetSection = dynamicSections[sectionId];
+            if (targetSection) {
+                targetSection.classList.add('active');
+                targetSection.style.display = 'flex'; // Use flex for these sections for inner alignment
+            }
+
+            activateNavLink(sectionId);
+
+            // Handle specific actions like logout
+            if (sectionId === 'logout') {
+                alert('Logging out... (functionality to redirect to login page)');
+                // Here you would typically clear user session and redirect to login
+            } else {
+                // Placeholder alerts for form submissions or button clicks within sections
+                if (sectionId === 'manage-preferences') {
+                    const form = targetSection.querySelector('.preference-form');
+                    if (form) {
+                        form.onsubmit = function(e) {
+                            e.preventDefault();
+                            alert('Preferences saved! (Categories: ' + document.getElementById('prefCategories').value + ', Authors: ' + document.getElementById('favAuthors').value + ', Tags: ' + document.getElementById('interestTags').value + ')');
+                        };
+                        form.querySelector('button[type="button"]').onclick = function() { // Clear button
+                            document.getElementById('prefCategories').value = '';
+                            document.getElementById('favAuthors').value = '';
+                            document.getElementById('interestTags').value = '';
+                            alert('Preferences cleared!');
+                        };
+                    }
+                } else if (sectionId === 'settings') {
+                    targetSection.querySelectorAll('.settings-options button').forEach(button => {
+                        button.onclick = function() {
+                            alert(`${this.textContent.trim()} functionality coming soon!`);
+                        };
+                    });
+                }
+            }
+            closeMobileMenu(); // Close mobile menu after selection
+        }
+
+        // Event listeners for desktop navigation links
+        document.querySelectorAll('.header-nav-desktop a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                displaySection(e.currentTarget.dataset.section);
+            });
+        });
+
+        // Event listeners for mobile navigation links
+        document.querySelectorAll('#mobileMenuOverlay nav a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                displaySection(e.currentTarget.dataset.section);
+            });
+        });
+
+        // --- Initial Load: Display Dashboard (Quote Section) ---
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeTheme();
+            displaySection('quote'); // Show the quote section by default
+        });
+
+        // --- Placeholder Actions for stat cards if needed ---
+        document.querySelectorAll('.stat-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const label = card.querySelector('.label').textContent;
+                alert(`Details for "${label}" will be shown here!`);
+            });
+        });
+
+    </script>
+</body>
+</html>

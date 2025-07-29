@@ -1,0 +1,1721 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pal Library - Your Academic & Life Resource Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        /* Custom Colors (Dark Mode Defaults) */
+        :root {
+            --primary-green: #22c55e;
+            /* Brand Green */
+            --primary-green-dark: #16a34a;
+            /* Darker Green for hover */
+            --accent-orange: #f97316;
+            /* Brand Orange */
+            --accent-orange-dark: #ea580c;
+            /* Darker Orange for hover */
+            --light-white: #ffffff;
+            /* Explicitly define white for all button text */
+
+            /* Dark Mode Specific Variables */
+            --bg-body: #0f172a;
+            /* slate-900 */
+            --bg-section-alt: #1e293b;
+            /* slate-800 for even sections */
+            --bg-card: #0f172a;
+            /* slate-900 for cards in odd sections */
+            --bg-card-alt: #1e293b;
+            /* slate-800 for cards in even sections */
+            --text-heading: #ffffff;
+            /* white */
+            --text-body: #e2e8f0;
+            /* light slate text */
+            --text-medium: #94a3b8;
+            /* slate-400 */
+            --text-input: #334155;
+            /* slate-700, for input text in light background */
+            --text-input-placeholder: #64748b;
+            /* slate-500 */
+            --border-color: rgba(255, 255, 255, 0.08);
+            /* Light border for dark cards */
+            --header-bg-scrolled: #0f172a;
+            /* Opaque dark-blue-black when scrolled */
+            --header-box-shadow-scrolled: rgba(0, 0, 0, 0.5);
+            --card-box-shadow: rgba(0, 0, 0, 0.3);
+            --card-box-shadow-hover: rgba(0, 0, 0, 0.4);
+            --overlay-bg: rgba(15, 23, 42, 0.6);
+            /* Slightly less opaque overlay */
+            --dropdown-bg: #0f172a;
+            /* Dark background for dropdown */
+            --dropdown-hover-bg: #1e293b;
+            /* Lighter dark-blue-black on dropdown hover */
+            --cookie-banner-bg: rgba(0, 0, 0, 0.8);
+            /* Semi-transparent black for cookie banner */
+            --cookie-banner-text: #ffffff;
+        }
+
+        /* Light Mode Overrides */
+        body.light-mode {
+            /* Primary Green for Light Mode (Darker) */
+            --primary-green: #168a44;
+            /* Darker green for light mode */
+            --primary-green-dark: #0f6a31;
+            /* Even darker green for hover in light mode */
+
+            /* Backgrounds */
+            --bg-body: #f8fafc;
+            /* slate-50 */
+            --bg-section-alt: #ffffff;
+            /* white for even sections */
+            --bg-card: #f8fafc;
+            /* slate-50 for cards in odd sections */
+            --bg-card-alt: #ffffff;
+            /* white for cards in even sections */
+
+            /* Text Colors */
+            --text-heading: #1e293b;
+            /* dark slate */
+            --text-body: #475569;
+            /* slate-600 */
+            --text-medium: #64748b;
+            /* slate-500 */
+            --text-input: #475569;
+            /* slate-600 */
+            --text-input-placeholder: #94a3b8;
+            /* slate-400 */
+            --border-color: rgba(0, 0, 0, 0.1);
+            /* Darker border for light cards */
+
+            /* Header Specific Overrides for Light Mode */
+            --header-bg-scrolled: #ffffff;
+            /* Opaque white on scroll */
+            --header-box-shadow-scrolled: rgba(0, 0, 0, 0.15);
+
+            /* Card Specific Overrides for Light Mode */
+            --card-box-shadow: rgba(0, 0, 0, 0.1);
+            --card-box-shadow-hover: rgba(0, 0, 0, 0.2);
+
+            /* Overlay for hero background (lighter for contrast in light mode) */
+            --overlay-bg: rgba(255, 255, 255, 0.7);
+
+            /* Dropdown background in light mode */
+            --dropdown-bg: #ffffff;
+            --dropdown-hover-bg: #f1f5f9;
+            /* slate-100 */
+            --cookie-banner-bg: rgba(255, 255, 255, 0.9);
+            /* Semi-transparent white for cookie banner */
+            --cookie-banner-text: #1e293b;
+        }
+
+        /* Base Styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: var(--bg-body);
+            color: var(--text-body);
+            line-height: 1.6;
+            min-height: 200vh;
+            /* For scrolling effect demonstration */
+            transition: background-color 0.3s ease, color 0.3s ease;
+            /* Smooth theme transition */
+            color-scheme: dark;
+            /* Default color scheme for browser elements */
+        }
+
+        body.light-mode {
+            color-scheme: light;
+            /* Light color scheme for browser elements */
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            color: var(--text-heading);
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* --- Header & Hero Background Wrapper --- */
+        .top-section-wrapper {
+            position: relative;
+            background: url('https://images.unsplash.com/photo-1507842217343-583fd22fd34b?fit=crop&w=1920&q=80') no-repeat center center / cover;
+            min-height: 80vh;
+            /* Ensure it covers hero */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .background-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--overlay-bg);
+            /* Use variable for dynamic overlay */
+            z-index: 1;
+            transition: background-color 0.3s ease;
+        }
+
+        /* --- Header --- */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 1rem 0;
+            background-color: transparent;
+            /* Totally transparent at rest */
+            box-shadow: none;
+            /* No shadow at rest */
+            transition: background-color 0.3s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease, transform 0.3s ease;
+            backdrop-filter: blur(0);
+            /* No blur at rest */
+        }
+
+        /* Header state when scrolled and shown (scrolling up) */
+        .header.scrolled-visible {
+            background-color: var(--header-bg-scrolled);
+            box-shadow: 0 6px 20px var(--header-box-shadow-scrolled);
+            backdrop-filter: blur(8px);
+            transform: translateY(0);
+            /* Make sure it's visible */
+        }
+
+        /* Header state when scrolled and hidden (scrolling down) */
+        .header.scrolled-hidden {
+            transform: translateY(-100%);
+            /* Hide it upwards */
+            background-color: var(--header-bg-scrolled);
+            /* Maintain background for smooth transition when re-appearing */
+            box-shadow: 0 6px 20px var(--header-box-shadow-scrolled);
+            backdrop-filter: blur(8px);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            /* For dropdown z-index */
+            z-index: 2;
+            /* Ensure navbar content is above overlay */
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary-green);
+        }
+
+        .nav-links {
+            display: none;
+            /* Hidden by default on small screens */
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-links a,
+        .login-btn {
+            color: var(--text-heading);
+            /* Use text-heading for nav links */
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-green);
+        }
+
+        /* Dropdown specific styles */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            /* Allows width to fit content */
+        }
+
+        .dropdown-btn {
+            cursor: pointer;
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            /* To make the dropdown clickable area larger */
+            position: relative;
+            z-index: 101;
+            /* Ensure dropdown button is above other nav items */
+        }
+
+        .dropdown-btn .arrow-icon {
+            font-size: 0.7em;
+            margin-left: 0.5em;
+            transition: transform 0.2s ease;
+            display: inline-block;
+            /* Essential for transform */
+        }
+
+        /* Hover for desktop dropdown */
+        .dropdown:hover .dropdown-btn .arrow-icon {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: var(--dropdown-bg);
+            min-width: 200px;
+            box-shadow: 0 8px 16px 0px rgba(0, 0, 0, 0.4);
+            z-index: 100;
+            /* Ensure dropdown is above content but below button */
+            border-radius: 8px;
+            padding: 0.5rem 0;
+            top: calc(100% + 5px);
+            /* Position slightly below the button */
+            left: 50%;
+            transform: translateX(-50%);
+            /* Center the dropdown */
+            border: 1px solid var(--border-color);
+            transition: background-color 0.3s ease;
+        }
+
+        .dropdown-content a {
+            color: var(--text-body);
+            /* Use text-body for dropdown items */
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .dropdown-content a:hover {
+            background-color: var(--dropdown-hover-bg);
+            color: var(--primary-green);
+        }
+
+        /* Show dropdown on hover over the entire .dropdown container */
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .login-btn {
+            background-color: var(--accent-orange);
+            color: var(--light-white);
+            /* Always white for brand button */
+            padding: 0.6rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .login-btn:hover {
+            background-color: var(--accent-orange-dark);
+            transform: translateY(-1px);
+        }
+
+        .menu-toggle {
+            display: block;
+            /* Show hamburger on small screens */
+            background: none;
+            border: none;
+            color: var(--text-heading);
+            font-size: 2rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        /* Theme Toggle Button */
+        .theme-toggle {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            /* Larger icon */
+            cursor: pointer;
+            color: var(--text-heading);
+            /* Use text-heading for icon color */
+            transition: color 0.3s ease;
+            padding: 0.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            /* Adjust line height for icon centering */
+        }
+
+        .theme-toggle:hover {
+            color: var(--primary-green);
+        }
+
+        /* Mobile navigation overlay */
+        .mobile-nav-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-body);
+            /* Use body background for overlay */
+            z-index: 1001;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out, background-color 0.3s ease;
+        }
+
+        .mobile-nav-overlay.open {
+            transform: translateX(0);
+        }
+
+        .mobile-nav-overlay a {
+            color: var(--text-heading);
+            /* Use text-heading for mobile nav links */
+            font-size: 1.8rem;
+            margin: 1rem 0;
+            text-decoration: none;
+            display: block;
+            /* Ensures vertical stacking */
+            transition: color 0.3s ease;
+        }
+
+        .mobile-nav-overlay a:hover {
+            color: var(--primary-green);
+        }
+
+        .close-menu-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            background: none;
+            border: none;
+            color: var(--text-heading);
+            font-size: 3rem;
+            cursor: pointer;
+        }
+
+        /* Mobile dropdown for categories */
+        .mobile-nav-overlay .dropdown-content {
+            position: static;
+            display: none;
+            /* Hidden by default on mobile, toggled by JS */
+            box-shadow: none;
+            background-color: transparent;
+            width: auto;
+            min-width: unset;
+            margin-top: 0;
+            transform: none;
+            border: none;
+            padding: 0;
+            /* Smooth opening/closing animation */
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+        }
+
+        .mobile-nav-overlay .dropdown-content.open-mobile-dropdown {
+            display: block;
+            /* Shown when JS toggles this class */
+            max-height: 500px;
+            /* Large enough to show all items */
+            opacity: 1;
+        }
+
+        .mobile-nav-overlay .dropdown-content a {
+            font-size: 1.5rem;
+            padding: 0.5rem 0;
+            text-align: center;
+            color: var(--text-body);
+            /* Use text-body for mobile dropdown items */
+        }
+
+
+        /* --- Hero Section --- */
+        .hero {
+            padding: 6rem 0;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+            /* Allow hero to fill remaining space */
+            position: relative;
+            /* Above overlay */
+            z-index: 2;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: var(--primary-green);
+            margin-bottom: 1rem;
+            text-shadow: 0 0 15px rgba(34, 197, 94, 0.4);
+        }
+
+        .hero-content p {
+            font-size: 1.3rem;
+            color: var(--text-medium);
+            max-width: 800px;
+            margin: 0 auto 2rem auto;
+        }
+
+        .hero-buttons .button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            transition: transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            margin: 0 0.8rem;
+        }
+
+        .hero-buttons .button-primary {
+            background-color: var(--primary-green);
+            color: var(--light-white);
+            /* Always white for primary button text */
+        }
+
+        .hero-buttons .button-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 20px rgba(34, 197, 94, 0.4);
+        }
+
+        .hero-buttons .button-secondary {
+            background-color: var(--accent-orange);
+            color: var(--light-white);
+            /* Always white for secondary button text */
+        }
+
+        .hero-buttons .button-secondary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 20px rgba(249, 115, 22, 0.4);
+        }
+
+        /* --- Category Sections --- */
+        .category-section {
+            padding: 4rem 0;
+            background-color: var(--bg-body);
+            /* Default for odd sections */
+            transition: background-color 0.3s ease;
+        }
+
+        .category-section:nth-child(even) {
+            background-color: var(--bg-section-alt);
+            /* Alternative background for even sections */
+        }
+
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 2rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+            /* Dynamic border color */
+            transition: border-color 0.3s ease;
+        }
+
+        .category-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary-green);
+        }
+
+        .view-all-btn {
+            background-color: var(--accent-orange);
+            /* Always orange background for good contrast with white text */
+            color: var(--light-white);
+            /* White text as requested */
+            padding: 0.5rem 1.2rem;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+            border: 1px solid var(--accent-orange);
+            /* Orange border */
+        }
+
+        /* No specific light-mode override for color/background needed as it's always orange now */
+
+        .view-all-btn:hover {
+            background-color: var(--accent-orange-dark);
+            color: var(--light-white);
+        }
+
+        /* Book Grid for Horizontal Scrolling */
+        .book-grid {
+            display: flex;
+            /* Use flexbox for horizontal layout */
+            overflow-x: auto;
+            /* Enable horizontal scrolling */
+            -webkit-overflow-scrolling: touch;
+            /* Smooth scrolling on iOS */
+            scroll-snap-type: x mandatory;
+            /* Snap to cards when scrolling */
+            gap: 1.5rem;
+            /* Reduced spacing between cards */
+            padding-bottom: 1rem;
+            /* Space for scrollbar */
+            margin-bottom: -1rem;
+            /* Counteract padding-bottom for overall layout */
+        }
+
+        .book-grid::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .book-grid::-webkit-scrollbar-track {
+            background: var(--bg-section-alt);
+            /* Track color */
+            border-radius: 10px;
+        }
+
+        .book-grid::-webkit-scrollbar-thumb {
+            background: var(--primary-green);
+            /* Thumb color */
+            border-radius: 10px;
+        }
+
+        .book-grid::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-green-dark);
+            /* Thumb hover color */
+        }
+
+
+        .book-card {
+            flex-shrink: 0;
+            /* Prevent cards from shrinking */
+            width: 250px;
+            /* Fixed width for cards in horizontal scroll */
+            background-color: var(--bg-card);
+            border-radius: 12px;
+            box-shadow: 0 6px 20px var(--card-box-shadow);
+            padding: 1.5rem;
+            text-align: center;
+            /* Center content horizontally within card */
+            transition: transform 0.2s ease, box-shadow 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            /* Ensures button is at bottom */
+            align-items: center;
+            scroll-snap-align: start;
+            /* Align cards to start when snapping */
+            height: 335px;
+            /* Adjusted fixed height to fit content better */
+        }
+
+        .category-section:nth-child(even) .book-card {
+            background-color: var(--bg-card-alt);
+            /* Alternative background for cards */
+        }
+
+        .book-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px var(--card-box-shadow-hover);
+        }
+
+        .book-thumbnail {
+            width: 170px;
+            /* Increased width */
+            height: 180px;
+            /* Reduced height */
+            object-fit: cover;
+            /* Cover the area, crop if necessary */
+            border-radius: 8px;
+            /* Slightly rounded corners for images */
+            margin-bottom: 0.5rem;
+            /* Reduced margin */
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            /* Light border for image */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        body.light-mode .book-thumbnail {
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+
+        .book-card h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            margin-bottom: 0.3rem;
+            /* Further reduced margin */
+        }
+
+        .book-card .author {
+            font-style: italic;
+            color: var(--text-medium);
+            margin-bottom: 0.6rem;
+            /* Further reduced margin */
+        }
+
+        .book-card .category-tag {
+            display: none;
+            /* Hidden as requested */
+        }
+
+        .book-action-btn {
+            display: block;
+            /* Make it a block-level button */
+            width: 80%;
+            /* Almost full width within card */
+            margin-top: auto;
+            /* Push button to the bottom */
+            background-color: var(--primary-green);
+            color: var(--light-white);
+            padding: 0.7rem 1.2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .book-action-btn:hover {
+            background-color: var(--primary-green-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+
+
+        /* --- Subscribe Section --- */
+        .subscribe-section {
+            background-color: var(--primary-green);
+            padding: 4rem 0;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .subscribe-section h2 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: var(--light-white);
+            /* Always white in this section */
+            margin-bottom: 1rem;
+        }
+
+        .subscribe-section p {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+            /* Slightly transparent white */
+            margin-bottom: 2rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .subscribe-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 500px;
+            margin: 0 auto;
+            gap: 1rem;
+        }
+
+        .subscribe-form input[type="email"] {
+            width: 100%;
+            padding: 0.8rem 1.2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            color: var(--text-input);
+            /* Dynamic text color for input */
+            background-color: var(--light-white);
+            /* Always white background for input */
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .subscribe-form input::placeholder {
+            color: var(--text-input-placeholder);
+            /* Dynamic placeholder color */
+        }
+
+
+        .subscribe-form button {
+            background-color: var(--dark-blue-black);
+            /* Dark blue for button in green section */
+            color: var(--light-white);
+            /* Always white for button text */
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            width: 100%;
+        }
+
+        .subscribe-form button:hover {
+            background-color: #000000;
+            transform: translateY(-2px);
+        }
+
+        /* --- Footer --- */
+        .footer {
+            background-color: var(--bg-section-alt);
+            /* Use alternative background for footer */
+            color: var(--text-medium);
+            padding: 2.5rem 0;
+            text-align: center;
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border-color);
+            /* Dynamic border color */
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .footer p {
+            margin: 0;
+            padding: 0.5rem 0;
+            /* Add some padding for readability */
+        }
+
+        .footer .disclaimer {
+            font-size: 0.85rem;
+            color: var(--text-body);
+            /* Slightly more prominent color for disclaimer */
+            margin-top: 1rem;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.4;
+        }
+
+
+        /* --- Cookie Consent Banner --- */
+        .cookie-consent-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--cookie-banner-bg);
+            color: var(--cookie-banner-text);
+            padding: 1rem;
+            text-align: center;
+            z-index: 2000;
+            /* Above everything */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.3);
+            transform: translateY(100%);
+            /* Start hidden below viewport */
+            transition: transform 0.5s ease-out, background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .cookie-consent-banner.show {
+            transform: translateY(0);
+            /* Slide into view */
+        }
+
+        .cookie-consent-banner p {
+            margin: 0;
+            max-width: 800px;
+        }
+
+        .cookie-consent-banner button {
+            background-color: var(--primary-green);
+            color: var(--light-white);
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .cookie-consent-banner button:hover {
+            background-color: var(--primary-green-dark);
+            transform: translateY(-1px);
+        }
+
+
+        /* --- Responsive Design --- */
+        @media (max-width: 767px) {
+            .view-all-btn {
+                padding: 0.4rem 0.8rem;
+                /* Smaller padding */
+                font-size: 0.8rem;
+                /* Smaller font size */
+                /* Ensure it doesn't wrap awkwardly */
+                white-space: nowrap;
+            }
+
+            .cookie-consent-banner {
+                flex-direction: column;
+            }
+
+            .cookie-consent-banner p {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .navbar {
+                justify-content: space-between;
+            }
+
+            .nav-links {
+                display: flex;
+                /* Show nav links on larger screens */
+            }
+
+            .menu-toggle {
+                display: none;
+                /* Hide hamburger on larger screens */
+            }
+
+            /* Place theme toggle next to login button */
+            .navbar .theme-toggle {
+                order: 3;
+                /* After nav links and logo */
+                margin-left: 1rem;
+                /* Space from login button */
+            }
+
+            .navbar .login-btn {
+                order: 4;
+            }
+
+
+            .hero-content h1 {
+                font-size: 5rem;
+            }
+
+            .hero-content p {
+                font-size: 1.4rem;
+            }
+
+            .hero-buttons {
+                display: flex;
+                justify-content: center;
+            }
+
+            .category-header h2 {
+                font-size: 3rem;
+            }
+
+            .subscribe-form {
+                flex-direction: row;
+                gap: 0.5rem;
+            }
+
+            .subscribe-form input[type="email"] {
+                flex-grow: 1;
+            }
+
+            .subscribe-form button {
+                width: auto;
+            }
+
+            .cookie-consent-banner {
+                flex-direction: row;
+                justify-content: center;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .hero-content h1 {
+                font-size: 6rem;
+            }
+
+            .hero {
+                padding: 8rem 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="top-section-wrapper">
+        <div class="background-overlay"></div>
+        <!-- Header -->
+        <header class="header">
+            <div class="container navbar">
+                <div class="logo">Pal Library</div>
+                <nav class="nav-links">
+                    <a href="#home">Home</a>
+                    <div class="dropdown">
+                        <a href="#categories-section" class="dropdown-btn">Categories <span
+                                class="arrow-icon">▼</span></a>
+                        <div class="dropdown-content">
+                            <a href="#christian-books-section">Christian Books</a>
+                            <a href="#academic-books-section">Academic Books</a>
+                            <a href="#research-papers-section">Research Papers</a>
+                            <a href="#project-thesis-section">Project Thesis</a>
+                            <a href="#finance-books-section">Finance Books</a>
+                            <a href="#relationship-books-section">Relationship Books</a>
+                            <a href="#life-books-section">Life Books</a>
+                        </div>
+                    </div>
+                    <a href="#about">About Us</a>
+                    <a href="#contact">Contact</a>
+                </nav>
+                <button id="theme-toggle" class="theme-toggle">☀️</button> <!-- Sun icon for light mode -->
+                <a href="#" class="login-btn">Login</a>
+                <button class="menu-toggle" id="menuToggle">&#9776;</button>
+            </div>
+        </header>
+
+        <!-- Mobile Navigation Overlay -->
+        <div class="mobile-nav-overlay" id="mobileNavOverlay">
+            <button class="close-menu-btn" id="closeMenuBtn">&times;</button>
+            <nav class="mobile-nav-links">
+                <a href="#home">Home</a>
+                <div class="dropdown">
+                    <a href="#categories-section" class="dropdown-btn">Categories <span class="arrow-icon">▼</span></a>
+                    <div class="dropdown-content">
+                        <a href="#christian-books-section">Christian Books</a>
+                        <a href="#academic-books-section">Academic Books</a>
+                        <a href="#research-papers-section">Research Papers</a>
+                        <a href="#project-thesis-section">Project Thesis</a>
+                        <a href="#finance-books-section">Finance Books</a>
+                        <a href="#relationship-books-section">Relationship Books</a>
+                        <a href="#life-books-section">Life Books</a>
+                    </div>
+                </div>
+                <a href="#about">About Us</a>
+                <a href="#contact">Contact</a>
+                <a href="#" class="login-btn">Login</a>
+                <button id="mobile-theme-toggle" class="theme-toggle">☀️</button> <!-- Sun icon for light mode -->
+            </nav>
+        </div>
+
+        <!-- Hero Section -->
+        <section class="hero" id="home">
+            <div class="container hero-content">
+                <h1>Discover Knowledge, Anytime, Anywhere.</h1>
+                <p>
+                    Dive into a vast collection of academic resources from over 20 Ghanaian universities and explore
+                    curated insights from Christian, Finance, and Relationship books.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#" class="button button-primary">Explore Academic</a>
+                    <a href="#" class="button button-secondary">Discover Life Books</a>
+                </div>
+            </div>
+        </section>
+    </div> <!-- End .top-section-wrapper -->
+
+    <!-- Categories Section Wrapper (main content area below hero) -->
+    <div id="categories-section">
+        <!-- Christian Books Section -->
+        <section class="category-section" id="christian-books-section">
+            <div class="container">
+                <div class="category-header">
+                    <h2>Christian Books</h2>
+                    <a href="#" class="view-all-btn">View All &rarr;</a>
+                </div>
+                <div class="book-grid">
+                    <div class="book-card">
+                        <img src="https://placehold.co/170x180/22c55e/ffffff?text=Christian+Book"
+                            alt="Mere Christianity Cover" class="book-thumbnail">
+                        <h3>Mere Christianity</h3>
+                        <p class="author">C.S. Lewis</p>
+                        <span class="category-tag">Christian Books</span>
+                        <a href="#" class="book-action-btn">View Book</a>
+                    </div>
+                    <div class="book-card">
+                        <img src="https://placehold.co/170x180/22c55e/ffffff?text=Christian+Book"
+                            alt="The Problem of Pain Cover" class="book-thumbnail">
+                        <h3>The Problem of Pain</h3>
+                        <p class="author">C.S. Lewis</p>
+                        <span class="category-tag">Christian Books</span>
+                        <a href="#" class="book-action-btn">View Book</a>
+                    </div>
+                    <div class="book-card">
+                        <img src="https://placehold.co/170x180/22c55e/ffffff?text=Christian+Book"
+                            alt="The Case for Christ Cover" class="book-thumbnail">
+                        <h3>The Case for Christ</h3>
+                        <p class="author">Lee Strobel</p>
+                        <span class="category-tag">Christian Books</span>
+                        <a href="#" class="book-action-btn">View Book</a>
+                    </div>
+                    <div class="book-card">
+                        <img src="https://placehold.co/170x180/22c55e/ffffff?text=Christian+Book"
+                            alt="Pilgrim's Progress Cover" class="book-thumbnail">
+                        <h3>Pilgrim's Progress</h3>
+                        <p class="author">John Bunyan</p>
+                        <span class="category-tag">Christian Books</span>
+                        <a href="#" class="book-action-btn">View Book</a>
+                    </div>
+                    <div class="book-card">
+                        <img src="https://placehold.co/170x180/22c55e/ffffff?text=Christian+Book+5" alt="Book 5 Cover"
+                            class="book-thumbnail">
+                        <h3>Book 5 Title</h3>
+                        <p class="author">Author 5</p>
+                        <span class="category-tag">Christian Books</span>
+                        <a href="#" class="book-action-btn">View Book</a>
+                    </div>
+                    <div class="book-card">
+                        <img src="https://placehold.co/170x180/22c55e/ffffff?text=Christian+Book+6" alt="Book 6 Cover"
+                            class="book-thumbnail">
+                        <h3>Book 6 Title</h3>
+                        <p class="author">Author 6</p>
+                        <span class="category-tag">Christian Books</span>
+                        <a href="#" class="book-action-btn">View Book</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Academic Books Section -->
+        <section class="category-section" id="academic-books-section">
+            <div class="container">
+                <div class="category-header">
+                    <h2>Academic Books</h2>
+                    <a href="#" class="view-all-btn">View All &rarr;</a>
+                </div>
+                <div class="book-grid">
+                    <div class="book-card">
+                        <img src="https://placehold.co/170x180/f97316/ffffff?text=Academic+Book"
+                            alt="Introduction to Economics Cover" class="book-thumbnail">
+                        <h3>Introduction to Economics</h3>
+                        <p class="author">Paul Krugman</p>
+                        <span class="category-tag">Academic Books</span>
+                        <a href="#" class="book-action-btn">View Book</a>
+                    </div>
+                    <div class="book-card">
+                        <img src="https://placehold.co/170x180/f97316/ffffff?text=Academic+Book"
+                            alt="Principles of Physics Cover" class="book-thumbnail">
+                        <h3>Principles of Physics</h3>
+                        <p class="author">Halliday & Resnick</p>
+                        <span class="category-tag">Academic Books</span>
+                        <a href="#" class="book-action-btn">View Book</a>
+                    </div>
+                    <div class="book-card">
+                        <img src="https://placehold.co/170x180/f97316/ffffff?text=Academic+Book"
+                            alt="Ghanaian Constitutional Law Cover" class="book-thumbnail">
+                        <h3>Ghanaian Constitutional Law</h3>
+                        <p class="author">S.O. Gyandoh Jr.</p>
+                        <span class="category-tag">Academic Books</span>
+                        <a href="#" class="book-action-btn">View Book</a>
+                    </div>
+                    <div class="book-card">
+                        <img src="https://placehold.co/170x180/f97316/ffffff?text=Academic+Book"
+                            alt="African History Cover" class="book-thumbnail">
+                        <h3>African History: A Survey</h3>
+                        <p class="author">Various Scholars</p>
+                        <span class="category-tag">Academic Books</span>
+                        <a href="#" class="book-action-btn">View Book</a>
+                    </div>
+                    <div class="book-card">
+                        <img src="https://placehold.co/170x180/f97316/ffffff?text=Academic+Book+5" alt="Book 5 Cover"
+                            class="book-thumbnail">
+                        <h3>Book 5 Title</h3>
+                        <p class="author">Author 5</p>
+                        <span class="category-tag">Academic Books</span>
+                        <a href="#" class="book-action-btn">View Book</a>
+                    </div>
+                    <div class="book-card">
+                        <img src="https://placehold.co/170x180/f97316/ffffff?text=Academic+Book+6" alt="Book 6 Cover"
+                            class="book-thumbnail">
+                        <h3>Book 6 Title</h3>
+                        <p class="author">Author 6</p>
+                        <span class="category-tag">Academic Books</span>
+                        <a href="#" class="book-action-btn">View Book</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Project Thesis Section -->
+        <section class="category-section" id="project-thesis-section">
+            <div class="container">
+                <div class="category-header">
+                    <h2>Project Thesis</h2>
+                    <a href="#" class="view-all-btn">View All &rarr;</a>
+                </div>
+                <div class="book-grid">
+                    <div class="book-card">
+                        <img src="https://placehold.co/170x180/1e293b/ffffff?text=Project+Thesis"
+                            alt="Mobile App Thesis Thumbnail" class="book-thumbnail">
+                        <h3>Development of a Mobile App for Campus Navigation</h3>
+                        <p class="author">J. Appiah (UG)</p>
+                        <span class="category-tag">Project Thesis</span>
+                        <a href="#" class="book-action-btn">View Paper</a>
+                    </div>
+                    <div class="book-card">
+                        <img src="https://placehold.co/170x180/1e293b/ffffff?text=Project+Thesis"
+                            alt="Water Quality Thesis Thumbnail" class="book-thumbnail">
+                        <h3>Analysis of Water Quality in Accra's Informal Settlements</h3>
+                        <p class="author">M. Kumasi (KNUST)</p>
+                        <span class="category-tag">Project Thesis</span>
+                        <a href="#" class="book-action-btn">View Paper</a>
+                    </div>
+                    <div class="book-card">
+                        <img src="https://placehold.co/170x180/1e293b/ffffff?text=Project+Thesis"
+                            alt="Online Learning Thesis Thumbnail" class="book-thumbnail">
+                        <h3>The Effectiveness of Online Learning Platforms in Ghanaian Universities</h3>
+                        <p class="author">N. Osei (UEW)</p>
+                        <span class="category-tag">Project Thesis</span>
+                        <a href="#" class="book-action-btn">View Paper</a>
+                    </div>
+                    <div class="book-card">
+                        <img src="https://placehold.co/170x180/1e293b/ffffff?text=Project+Thesis"
+                            alt="Solar Energy Thesis Thumbnail" class="book-thumbnail">
+                        <h3>Optimizing Solar Energy Systems for Residential Use in Ghana</h3>
+                        <p class="author">K. Mensah (UCC)</p>
+                        <span class="category-tag">Project Thesis</span>
+                        <a href="#" class="book-action-btn">View Paper</a>
+                    </div>
+                    <div class="book-card">
+                        <img src="https://placehold.co/170x180/1e293b/ffffff?text=Project+Thesis+5" alt="Book 5 Cover"
+                            class="book-thumbnail">
+                        <h3>Book 5 Title</h3>
+                        <p class="author">Author 5</p>
+                        <span class="category-tag">Project Thesis</span>
+                        <a href="#" class="book-action-btn">View Paper</a>
+                    </div>
+                    <div class="book-card">
+                        <img src="https://placehold.co/170x180/1e293b/ffffff?text=Project+Thesis+6" alt="Book 6 Cover"
+                            class="book-thumbnail">
+                        <h3>Book 6 Title</h3>
+                        <p class="author">Author 6</p>
+                        <span class="category-tag">Project Thesis</span>
+                        <a href="#" class="book-action-btn">View Paper</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Subscribe Section -->
+        <section class="subscribe-section">
+            <div class="container">
+                <h2>Stay Updated with Pal Library!</h2>
+                <p>
+                    Join our newsletter to receive the latest academic resources, new book summaries, and updates on
+                    partner universities directly in your inbox.
+                </p>
+                <form class="subscribe-form"
+                    onsubmit="event.preventDefault(); console.log('Subscribe form submitted!'); alert('Thank you for subscribing!'); this.reset();">
+                    <input type="email" placeholder="Enter your email address" required>
+                    <button type="submit">Subscribe Now</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Research Papers Section -->
+        <section class="category-section" id="research-papers-section">
+            <div class="container">
+                <div class="category-header">
+                    <h2>Research Papers</h2>
+                    <a href="#" class="view-all-btn">View All &rarr;</a>
+                </div>
+                <div class="book-grid">
+                    <div class="book-card">
+                        <img src="https://placehold.co/170x180/0f172a/ffffff?text=Research+Paper"
+                            alt="Microfinance Research Paper Thumbnail" class="book-thumbnail">
+                        <h3>Impact of Microfinance on Rural Development in Ghana</h3>
+                        <p class="author">Dr. A. Mensah</p>
+                        <span class="category-tag">Research Papers</span>
+                        <a href="#" class="book-action-btn">View Paper</a>
+                    </div>
+                    <div class="book-card">
+                        <img src="https://placehold.co/170x180/0f172a/ffffff?text=Research+Paper"
+                            alt="Agricultural Practices Paper Thumbnail" class="book-thumbnail">
+                        <h3>Sustainable Agricultural Practices in Northern Ghana</h3>
+                        <p class="author">Prof. E. Owusu</p>
+                        <span class="category-tag">Research Papers</span>
+                        <a href="#" class="book-action-btn">View Paper</a>
+                    </div>
+                    <div class="book-card">
+                        <img src="https://placehold.co/170x180/0f172a/ffffff?text=Research+Paper"
+                            alt="Climate Change Paper Thumbnail" class="book-thumbnail">
+                        <h3>Climate Change Adaptation Strategies in Coastal Communities</h3>
+                        <p class="author">Dr. K. Boateng</p>
+                        <span class="category-tag">Research Papers</span>
+                        <a href="#" class="book-action-btn">View Paper</a>
+                    </div>
+                    <div class="book-card">
+                        <img src="https://placehold.co/170x180/0f172a/ffffff?text=Research+Paper"
+                            alt="Traditional Leadership Paper Thumbnail" class="book-thumbnail">
+                        <h3>The Role of Traditional Leadership in Modern Governance</h3>
+                        <p class="author">Ms. G. Nkrumah</p>
+                        <span class="category-tag">Research Papers</span>
+                        <a href="#" class="book-action-btn">View Paper</a>
+                    </div>
+                    <div class="book-card">
+                        <img src="https://placehold.co/170x180/0f172a/ffffff?text=Research+Paper+5" alt="Book 5 Cover"
+                            class="book-thumbnail">
+                        <h3>Book 5 Title</h3>
+                        <p class="author">Author 5</p>
+                        <span class="category-tag">Research Papers</span>
+                        <a href="#" class="book-action-btn">View Paper</a>
+                    </div>
+                    <div class="book-card">
+                        <img src="https://placehold.co/170x180/0f172a/ffffff?text=Research+Paper+6" alt="Book 6 Cover"
+                            class="book-thumbnail">
+                        <h3>Book 6 Title</h3>
+                        <p class="author">Author 6</p>
+                        <span class="category-tag">Research Papers</span>
+                        <a href="#" class="book-action-btn">View Paper</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Finance Books Section -->
+        <section class="category-section" id="finance-books-section">
+            <div class="container">
+                <div class="category-header">
+                    <h2>Finance Books</h2>
+                    <a href="#" class="view-all-btn">View All &rarr;</a>
+                </div>
+                <div class="book-grid">
+                    <div class="book-card">
+                        <img src="https://placehold.co/170x180/f97316/ffffff?text=Finance+Book"
+                            alt="The Intelligent Investor Cover" class="book-thumbnail">
+                        <h3>The Intelligent Investor</h3>
+                        <p class="author">Benjamin Graham</p>
+                        <span class="category-tag">Finance Books</span>
+                        <a href="#" class="book-action-btn">View Book</a>
+                    </div>
+                    <div class="book-card">
+                        <img src="https://placehold.co/170x180/f97316/ffffff?text=Finance+Book"
+                            alt="Rich Dad Poor Dad Cover" class="book-thumbnail">
+                        <h3>Rich Dad Poor Dad</h3>
+                        <p class="author">Robert Kiyosaki</p>
+                        <span class="category-tag">Finance Books</span>
+                        <a href="#" class="book-action-btn">View Book</a>
+                    </div>
+                    <div class="book-card">
+                        <img src="https://placehold.co/170x180/f97316/ffffff?text=Finance+Book"
+                            alt="The Psychology of Money Cover" class="book-thumbnail">
+                        <h3>The Psychology of Money</h3>
+                        <p class="author">Morgan Housel</p>
+                        <span class="category-tag">Finance Books</span>
+                        <a href="#" class="book-action-btn">View Book</a>
+                    </div>
+                    <div class="book-card">
+                        <img src="https://placehold.co/170x180/f97316/ffffff?text=Finance+Book"
+                            alt="Your Money or Your Life Cover" class="book-thumbnail">
+                        <h3>Your Money or Your Life</h3>
+                        <p class="author">Vicki Robin</p>
+                        <span class="category-tag">Finance Books</span>
+                        <a href="#" class="book-action-btn">View Book</a>
+                    </div>
+                    <div class="book-card">
+                        <img src="https://placehold.co/170x180/f97316/ffffff?text=Finance+Book+5" alt="Book 5 Cover"
+                            class="book-thumbnail">
+                        <h3>Book 5 Title</h3>
+                        <p class="author">Author 5</p>
+                        <span class="category-tag">Finance Books</span>
+                        <a href="#" class="book-action-btn">View Book</a>
+                    </div>
+                    <div class="book-card">
+                        <img src="https://placehold.co/170x180/f97316/ffffff?text=Finance+Book+6" alt="Book 6 Cover"
+                            class="book-thumbnail">
+                        <h3>Book 6 Title</h3>
+                        <p class="author">Author 6</p>
+                        <span class="category-tag">Finance Books</span>
+                        <a href="#" class="book-action-btn">View Book</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Relationship Books Section -->
+        <section class="category-section" id="relationship-books-section">
+            <div class="container">
+                <div class="category-header">
+                    <h2>Relationship Books</h2>
+                    <a href="#" class="view-all-btn">View All &rarr;</a>
+                </div>
+                <div class="book-grid">
+                    <div class="book-card">
+                        <img src="https://placehold.co/170x180/22c55e/ffffff?text=Relationship+Book"
+                            alt="The 5 Love Languages Cover" class="book-thumbnail">
+                        <h3>The 5 Love Languages</h3>
+                        <p class="author">Gary Chapman</p>
+                        <span class="category-tag">Relationship Books</span>
+                        <a href="#" class="book-action-btn">View Book</a>
+                    </div>
+                    <div class="book-card">
+                        <img src="https://placehold.co/170x180/22c55e/ffffff?text=Relationship+Book"
+                            alt="Men Are from Mars Cover" class="book-thumbnail">
+                        <h3>Men Are from Mars, Women Are from Venus</h3>
+                        <p class="author">John Gray</p>
+                        <span class="category-tag">Relationship Books</span>
+                        <a href="#" class="book-action-btn">View Book</a>
+                    </div>
+                    <div class="book-card">
+                        <img src="https://placehold.co/170x180/22c55e/ffffff?text=Relationship+Book"
+                            alt="Attached Cover" class="book-thumbnail">
+                        <h3>Attached</h3>
+                        <p class="author">Amir Levine & Rachel Heller</p>
+                        <span class="category-tag">Relationship Books</span>
+                        <a href="#" class="book-action-btn">View Book</a>
+                    </div>
+                    <div class="book-card">
+                        <img src="https://placehold.co/170x180/22c55e/ffffff?text=Relationship+Book"
+                            alt="Seven Principles Marriage Cover" class="book-thumbnail">
+                        <h3>The Seven Principles for Making Marriage Work</h3>
+                        <p class="author">John M. Gottman</p>
+                        <span class="category-tag">Relationship Books</span>
+                        <a href="#" class="book-action-btn">View Book</a>
+                    </div>
+                    <div class="book-card">
+                        <img src="https://placehold.co/170x180/22c55e/ffffff?text=Relationship+Book+5"
+                            alt="Book 5 Cover" class="book-thumbnail">
+                        <h3>Book 5 Title</h3>
+                        <p class="author">Author 5</p>
+                        <span class="category-tag">Relationship Books</span>
+                        <a href="#" class="book-action-btn">View Book</a>
+                    </div>
+                    <div class="book-card">
+                        <img src="https://placehold.co/170x180/22c55e/ffffff?text=Relationship+Book+6"
+                            alt="Book 6 Cover" class="book-thumbnail">
+                        <h3>Book 6 Title</h3>
+                        <p class="author">Author 6</p>
+                        <span class="category-tag">Relationship Books</span>
+                        <a href="#" class="book-action-btn">View Book</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Life Books Section (General/Self-Help) -->
+        <section class="category-section" id="life-books-section">
+            <div class="container">
+                <div class="category-header">
+                    <h2>Life Books</h2>
+                    <a href="#" class="view-all-btn">View All &rarr;</a>
+                </div>
+                <div class="book-grid">
+                    <div class="book-card">
+                        <img src="https://placehold.co/170x180/f97316/ffffff?text=Life+Book" alt="Atomic Habits Cover"
+                            class="book-thumbnail">
+                        <h3>Atomic Habits</h3>
+                        <p class="author">James Clear</p>
+                        <span class="category-tag">Life Books</span>
+                        <a href="#" class="book-action-btn">View Book</a>
+                    </div>
+                    <div class="book-card">
+                        <img src="https://placehold.co/170x180/f97316/ffffff?text=Life+Book" alt="Grit Cover"
+                            class="book-thumbnail">
+                        <h3>Grit: The Power of Passion and Perseverance</h3>
+                        <p class="author">Angela Duckworth</p>
+                        <span class="category-tag">Life Books</span>
+                        <a href="#" class="book-action-btn">View Book</a>
+                    </div>
+                    <div class="book-card">
+                        <img src="https://placehold.co/170x180/f97316/ffffff?text=Life+Book" alt="7 Habits Cover"
+                            class="book-thumbnail">
+                        <h3>The 7 Habits of Highly Effective People</h3>
+                        <p class="author">Stephen Covey</p>
+                        <span class="category-tag">Life Books</span>
+                        <a href="#" class="book-action-btn">View Book</a>
+                    </div>
+                    <div class="book-card">
+                        <img src="https://placehold.co/170x180/f97316/ffffff?text=Life+Book" alt="Mindset Cover"
+                            class="book-thumbnail">
+                        <h3>Mindset: The New Psychology of Success</h3>
+                        <p class="author">Carol S. Dweck</p>
+                        <span class="category-tag">Life Books</span>
+                        <a href="#" class="book-action-btn">View Book</a>
+                    </div>
+                    <div class="book-card">
+                        <img src="https://placehold.co/170x180/f97316/ffffff?text=Life+Book+5" alt="Book 5 Cover"
+                            class="book-thumbnail">
+                        <h3>Book 5 Title</h3>
+                        <p class="author">Author 5</p>
+                        <span class="category-tag">Life Books</span>
+                        <a href="#" class="book-action-btn">View Book</a>
+                    </div>
+                    <div class="book-card">
+                        <img src="https://placehold.co/170x180/f97316/ffffff?text=Life+Book+6" alt="Book 6 Cover"
+                            class="book-thumbnail">
+                        <h3>Book 6 Title</h3>
+                        <p class="author">Author 6</p>
+                        <span class="category-tag">Life Books</span>
+                        <a href="#" class="book-action-btn">View Book</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div> <!-- End Categories Section Wrapper -->
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Pal Library. All rights reserved. Connecting Ghanaian knowledge to the world.</p>
+            <p class="disclaimer">
+                Disclaimer: Pal Library directly hosts course materials and academic resources from our partner
+                universities in Ghana.
+                For other book categories (e.g., Christian, Finance, Relationship, Life Books), we provide summaries and
+                link directly to their respective legal storage on the internet (e.g., Amazon, Internet Archive).
+                We do not host content from non-partner sources to ensure strict adherence to copyright laws and to
+                maintain academic integrity.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Cookie Consent Banner HTML -->
+    <div class="cookie-consent-banner" id="cookieConsentBanner">
+        <p>This website uses cookies to ensure you get the best experience on our website. By continuing to use this
+            site, you agree to our use of cookies.</p>
+        <button id="acceptCookiesBtn">Accept Cookies</button>
+    </div>
+
+    <script>
+        // --- Theme Toggle Functionality ---
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const mobileThemeToggleBtn = document.getElementById('mobile-theme-toggle');
+        const body = document.body;
+
+        const prefersLightMode = window.matchMedia('(prefers-color-scheme: light)');
+
+        function setTheme(isLight) {
+            if (isLight) {
+                body.classList.add('light-mode');
+                themeToggleBtn.textContent = '🌙'; // Moon icon for dark mode toggle
+                mobileThemeToggleBtn.textContent = '🌙';
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.classList.remove('light-mode');
+                themeToggleBtn.textContent = '☀️'; // Sun icon for light mode toggle
+                mobileThemeToggleBtn.textContent = '☀️';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Initialize theme based on localStorage or system preference
+        function initializeTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                setTheme(savedTheme === 'light');
+            } else {
+                setTheme(prefersLightMode.matches);
+            }
+        }
+
+        // Listen for system theme changes
+        prefersLightMode.addEventListener('change', (event) => {
+            // Only update if no explicit user preference is saved
+            if (!localStorage.getItem('theme')) {
+                setTheme(event.matches);
+            }
+        });
+
+        // Toggle theme on button click
+        themeToggleBtn.addEventListener('click', () => {
+            setTheme(!body.classList.contains('light-mode'));
+        });
+        mobileThemeToggleBtn.addEventListener('click', () => {
+            setTheme(!body.classList.contains('light-mode'));
+        });
+
+        document.addEventListener('DOMContentLoaded', initializeTheme); // Initialize theme when DOM is ready
+
+        // --- Smooth Scrolling for navigation links ---
+        document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                // If it's the categories dropdown button on mobile, toggle the dropdown
+                if (this.classList.contains('dropdown-btn')) {
+                    if (window.innerWidth < 768) { // Only for mobile view
+                        e.preventDefault(); // Prevent page scroll
+                        const dropdownContent = this.nextElementSibling;
+                        const arrowIcon = this.querySelector('.arrow-icon');
+                        if (dropdownContent) {
+                            dropdownContent.classList.toggle('open-mobile-dropdown');
+                            if (arrowIcon) {
+                                arrowIcon.style.transform = dropdownContent.classList.contains('open-mobile-dropdown') ? 'rotate(180deg)' : 'rotate(0deg)';
+                            }
+                        }
+                    }
+                    return; // Don't scroll the page for dropdown button click
+                }
+
+                e.preventDefault(); // Prevent default hash scroll for other links
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+                // Close mobile menu if open after clicking a non-dropdown link
+                const mobileNav = document.getElementById('mobileNavOverlay');
+                if (mobileNav && mobileNav.classList.contains('open')) {
+                    mobileNav.classList.remove('open');
+                    // Ensure all mobile dropdowns are closed when main menu closes
+                    mobileNav.querySelectorAll('.dropdown-content.open-mobile-dropdown').forEach(dropdown => {
+                        dropdown.classList.remove('open-mobile-dropdown');
+                        const btn = dropdown.previousElementSibling;
+                        const arrowIcon = btn ? btn.querySelector('.arrow-icon') : null;
+                        if (arrowIcon) {
+                            arrowIcon.style.transform = 'rotate(0deg)';
+                        }
+                    });
+                }
+            });
+        });
+
+        // --- Mobile Menu Toggle ---
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileNavOverlay = document.getElementById('mobileNavOverlay');
+        const closeMenuBtn = document.getElementById('closeMenuBtn');
+
+        if (menuToggle && mobileNavOverlay && closeMenuBtn) {
+            menuToggle.addEventListener('click', () => {
+                mobileNavOverlay.classList.add('open');
+                // Ensure no dropdowns are open when menu first opens, or reset them
+                mobileNavOverlay.querySelectorAll('.dropdown-content.open-mobile-dropdown').forEach(dropdown => {
+                    dropdown.classList.remove('open-mobile-dropdown');
+                    const btn = dropdown.previousElementSibling;
+                    const arrowIcon = btn ? btn.querySelector('.arrow-icon') : null;
+                    if (arrowIcon) {
+                        arrowIcon.style.transform = 'rotate(0deg)';
+                    }
+                });
+            });
+
+            closeMenuBtn.addEventListener('click', () => {
+                mobileNavOverlay.classList.remove('open');
+                // Ensure all mobile dropdowns are closed when main menu closes
+                mobileNavOverlay.querySelectorAll('.dropdown-content.open-mobile-dropdown').forEach(dropdown => {
+                    dropdown.classList.remove('open-mobile-dropdown');
+                    const btn = dropdown.previousElementSibling;
+                    const arrowIcon = btn ? btn.querySelector('.arrow-icon') : null;
+                    if (arrowIcon) {
+                        arrowIcon.style.transform = 'rotate(0deg)';
+                    }
+                });
+            });
+
+            // Close mobile menu when a link inside it is clicked (excluding dropdown-btn)
+            mobileNavOverlay.querySelectorAll('.mobile-nav-links a:not(.dropdown-btn)').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileNavOverlay.classList.remove('open');
+                    // Ensure all mobile dropdowns are closed when main menu closes
+                    mobileNavOverlay.querySelectorAll('.dropdown-content.open-mobile-dropdown').forEach(dropdown => {
+                        dropdown.classList.remove('open-mobile-dropdown');
+                        const btn = dropdown.previousElementSibling;
+                        const arrowIcon = btn ? btn.querySelector('.arrow-icon') : null;
+                        if (arrowIcon) {
+                            arrowIcon.style.transform = 'rotate(0deg)';
+                        }
+                    });
+                });
+            });
+        }
+
+        // --- Header show/hide on scroll direction ---
+        const header = document.querySelector('.header');
+        let lastScrollY = window.scrollY;
+        const headerShowThreshold = 100; // Pixels scrolled before hiding/showing on direction change
+
+        window.addEventListener('scroll', () => {
+            const currentScrollY = window.scrollY;
+
+            // Always show header at the very top
+            if (currentScrollY === 0) {
+                header.classList.remove('scrolled-hidden');
+                header.classList.remove('scrolled-visible');
+            }
+            // Scrolling Down: Hide header
+            else if (currentScrollY > lastScrollY && currentScrollY > headerShowThreshold) {
+                header.classList.add('scrolled-hidden');
+                header.classList.remove('scrolled-visible');
+            }
+            // Scrolling Up: Show header
+            else if (currentScrollY < lastScrollY && currentScrollY > headerShowThreshold) {
+                header.classList.remove('scrolled-hidden');
+                header.classList.add('scrolled-visible');
+            }
+
+            lastScrollY = currentScrollY;
+        });
+
+        // --- Cookie Consent Banner Logic ---
+        const cookieBanner = document.getElementById('cookieConsentBanner');
+        const acceptCookiesBtn = document.getElementById('acceptCookiesBtn');
+        const cookieConsentKey = 'palLibraryCookieConsent';
+
+        // Function to show the banner
+        function showCookieBanner() {
+            if (!localStorage.getItem(cookieConsentKey)) {
+                cookieBanner.classList.add('show');
+            }
+        }
+
+        // Function to hide the banner and set consent
+        function acceptCookies() {
+            localStorage.setItem(cookieConsentKey, 'true');
+            cookieBanner.classList.remove('show');
+        }
+
+        // Event listener for the accept button
+        if (acceptCookiesBtn) {
+            acceptCookiesBtn.addEventListener('click', acceptCookies);
+        }
+
+        // Show banner on page load if consent not given
+        document.addEventListener('DOMContentLoaded', showCookieBanner);
+
+
+        // --- Placeholder for Login Button ---
+        document.querySelectorAll('.login-btn').forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                alert('Login functionality will be available soon!');
+                // In a real application, you would redirect to your login page here:
+                // window.location.href = '/login.html';
+            });
+        });
+
+        // --- Placeholder for View All Buttons ---
+        document.querySelectorAll('.view-all-btn').forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                const categoryName = button.closest('.category-section').querySelector('h2').textContent;
+                alert(`Redirecting to all ${categoryName} soon!`);
+                // In a real application, this would redirect to a page showing all books in that category.
+                // window.location.href = `/category.html?name=${encodeURIComponent(categoryName)}`;
+            });
+        });
+
+        // --- Placeholder for individual Book/Paper Action Buttons ---
+        document.querySelectorAll('.book-action-btn').forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                const bookTitle = button.closest('.book-card').querySelector('h3').textContent;
+                const actionText = button.textContent;
+                alert(`${actionText} for "${bookTitle}" functionality will be available soon!`);
+                // In a real application, this would link to the specific book/paper's detail page or file.
+                // window.location.href = `/book-details.html?title=${encodeURIComponent(bookTitle)}`;
+            });
+        });
+    </script>
+</body>
+
+</html>

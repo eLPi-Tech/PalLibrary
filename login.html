@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pal Library - Login</title>
+    <!-- Removed Tailwind CSS script -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom colors */
+        :root {
+            --pal-green: #04631a;
+            --pal-orange: #fd7e14;
+            --pal-blue-black: #212529;
+            --pal-white: #ffffff;
+            --pal-light-gray: #f8f9fa;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(./img/library.png);
+            background-position: top left;
+            background-repeat: no-repeat;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            /* Prevent scrollbar from animation */
+            position: relative;
+        }
+
+        /* Background animation */
+        .animated-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .animated-background .shape {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            animation: moveShapes 15s infinite ease-in-out alternate;
+        }
+
+        .animated-background .shape:nth-child(1) {
+            width: 150px;
+            height: 150px;
+            top: 10%;
+            left: 5%;
+            animation-delay: 0s;
+        }
+
+        .animated-background .shape:nth-child(2) {
+            width: 200px;
+            height: 200px;
+            top: 70%;
+            left: 80%;
+            animation-delay: 2s;
+        }
+
+        .animated-background .shape:nth-child(3) {
+            width: 100px;
+            height: 100px;
+            top: 40%;
+            left: 30%;
+            animation-delay: 4s;
+        }
+
+        .animated-background .shape:nth-child(4) {
+            width: 180px;
+            height: 180px;
+            top: 20%;
+            left: 70%;
+            animation-delay: 6s;
+        }
+
+        .animated-background .shape:nth-child(5) {
+            width: 120px;
+            height: 120px;
+            top: 85%;
+            left: 15%;
+            animation-delay: 8s;
+        }
+
+        @keyframes moveShapes {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 0.05;
+            }
+
+            50% {
+                transform: translate(50px, 50px) scale(1.1);
+                opacity: 0.1;
+            }
+
+            100% {
+                transform: translate(0, 0) scale(1);
+                opacity: 0.05;
+            }
+        }
+
+        /* Card specific styles with glass effect */
+        .login-card {
+            background-color: rgba(255, 255, 255, 0.15);
+            /* Semi-transparent white */
+            backdrop-filter: blur(10px);
+            /* Glass effect */
+            -webkit-backdrop-filter: blur(10px);
+            /* For Safari */
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            /* Subtle border */
+            padding: 2.5rem;
+            /* 40px */
+            border-radius: 1.5rem;
+            /* 24px More rounded corners */
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+            /* Enhanced shadow */
+            text-align: center;
+            max-width: 450px;
+            width: 90%;
+            position: relative;
+            z-index: 1;
+            /* Ensure card is above animation */
+            animation: fadeIn 1s ease-out;
+            color: var(--pal-white);
+            /* Text color for readability on glass */
+        }
+
+        .logo {
+            width: 200px;
+            max-height: 100px;
+        }
+
+
+        .login-card h2,
+        .pal-logo {
+            color: var(--pal-white);
+            /* Ensure headings and logo are visible */
+        }
+
+        .pal-logo span:first-child {
+            color: var(--pal-green);
+        }
+
+        .pal-logo span:last-child {
+            color: var(--pal-orange);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .pal-logo {
+            font-size: 2.5rem;
+            /* 40px */
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            /* 24px */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            /* 12px 16px */
+            margin-bottom: 1rem;
+            /* 16px */
+            background-color: rgba(255, 255, 255, 0.2);
+            /* Semi-transparent input background */
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 0.75rem;
+            /* 12px Rounded input fields */
+            font-size: 1rem;
+            /* 16px */
+            color: var(--pal-white);
+            /* Input text color */
+            transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+        }
+
+        /* Fix for dropdown text visibility */
+        .input-field#university {
+            color: var(--pal-blue-black);
+            width: 100%;
+            /* Make dropdown text dark for visibility */
+            background-color: var(--pal-white);
+            /* Ensure solid background for dropdown */
+        }
+
+        .input-field#university option {
+            color: var(--pal-blue-black);
+            /* Ensure options are dark */
+            background-color: var(--pal-white);
+            /* Ensure options have solid background */
+        }
+
+
+        .input-field::placeholder {
+            color: rgb(83, 83, 83);
+            font-weight: 600;
+            /* Placeholder color */
+        }
+
+        .input-field:focus {
+            outline: none;
+            background-color: rgba(255, 255, 255, 0.3);
+            /* Slightly more opaque on focus */
+            border-color: var(--pal-green);
+            box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.3);
+            /* Green focus ring */
+        }
+
+        .btn {
+            background-color: var(--pal-green);
+            color: var(--pal-white);
+            padding: 0.85rem 1.5rem;
+            /* 13.6px 24px */
+            border-radius: 0.75rem;
+            /* 12px */
+            font-size: 1.05rem;
+            /* 16.8px */
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            width: 100%;
+            border: none;
+            margin-top: 0.5rem;
+            /* 8px */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn:hover {
+            background-color: #218838;
+            /* Darker green */
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-orange {
+            background-color: var(--pal-orange);
+        }
+
+        .btn-orange:hover {
+            background-color: #e66b0e;
+            /* Darker orange */
+        }
+
+        .btn-blue-black {
+            background-color: var(--pal-blue-black);
+        }
+
+        .btn-blue-black:hover {
+            background-color: #1a1e21;
+            /* Darker blue-black */
+        }
+
+        .user-type-buttons {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 1.5rem;
+            /* 24px */
+            gap: 10px;
+            /* Space between buttons */
+        }
+
+        .user-type-buttons .btn {
+            flex: 1;
+            /* Distribute space equally */
+            padding: 0.75rem 1rem;
+            /* 12px 16px */
+            font-size: 0.95rem;
+            /* 15.2px */
+            margin-top: 0;
+            /* Override default margin-top */
+        }
+
+        /* Message box styles */
+        .message-box {
+            transition: opacity 0.3s ease-in-out;
+            position: fixed;
+            bottom: 1rem;
+            /* 16px */
+            right: 1rem;
+            /* 16px */
+            padding: 1rem;
+            /* 16px */
+            border-radius: 0.5rem;
+            /* 8px */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            color: var(--pal-white);
+            z-index: 50;
+        }
+
+        .message-box.hide {
+            opacity: 0;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            .login-card {
+                padding: 1.5rem;
+                /* 24px */
+                border-radius: 1rem;
+                /* 16px */
+            }
+
+            .pal-logo {
+                font-size: 2rem;
+                /* 32px */
+                margin-bottom: 1rem;
+                /* 16px */
+            }
+
+            .input-field {
+                padding: 0.65rem 0.8rem;
+                /* 10.4px 12.8px */
+                font-size: 0.9rem;
+                /* 14.4px */
+            }
+
+            .btn {
+                padding: 0.75rem 1.2rem;
+                /* 12px 19.2px */
+                font-size: 0.95rem;
+                /* 15.2px */
+            }
+
+            .user-type-buttons {
+                flex-direction: column;
+                /* Stack buttons on small screens */
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Animated Background Shapes -->
+    <div class="animated-background">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <div class="login-card">
+        <div class="pal-logo">
+            <img src="./img/logo1.png" alt="Pal Library logo" class="logo">
+        </div>
+        <h2 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1.5rem; color: var(--pal-green);">Welcome Back!
+        </h2>
+
+        <div class="user-type-buttons">
+            <button type="button" class="btn btn-orange" onclick="renderFormFields('partner')">Partner Student</button>
+            <button type="button" class="btn btn-blue-black" onclick="renderFormFields('librarian')">Librarian</button>
+        </div>
+
+        <form id="loginForm">
+            <div id="formFieldsContainer">
+                <!-- Dynamic form fields will be loaded here by JavaScript -->
+            </div>
+            <button type="submit" class="btn btn-primary" id="submitButton" style="margin-top: 1rem;">Login</button>
+        </form>
+    </div>
+
+    <script>
+        // List of Ghanaian universities, sorted alphabetically
+        const ghanaianUniversities = [
+            "Accra Technical University",
+            "African University College of Communications",
+            "Ashesi University",
+            "Central University",
+            "Christian Service University College",
+            "Garden City University College",
+            "Ghana Institute of Journalism",
+            "Ghana Institute of Management and Public Administration (GIMPA)",
+            "Kwame Nkrumah University of Science and Technology (KNUST)",
+            "Lancaster University Ghana",
+            "Methodist University College Ghana",
+            "Mountcrest University College",
+            "National Film and Television Institute (NAFTI)",
+            "Presbyterian University College, Ghana",
+            "Regional Maritime University",
+            "Spiritan University College",
+            "Takoradi Technical University",
+            "University of Cape Coast (UCC)",
+            "University of Education, Winneba (UEW)",
+            "University of Ghana",
+            "University of Health and Allied Sciences (UHAS)",
+            "University of Professional Studies, Accra (UPSA)",
+            "Valley View University",
+            "Wisconsin International University College"
+        ].sort();
+
+        // Hardcoded user data for demonstration
+        const partnerStudents = [
+            { university: "University of Ghana", studentId: "UG12345", password: "studentpass" },
+            { university: "Kwame Nkrumah University of Science and Technology (KNUST)", studentId: "KNUST67890", password: "knustpass" },
+            { university: "University of Cape Coast (UCC)", studentId: "UCC11223", password: "uccpass" }
+        ];
+
+        const librarians = [
+            { university: "University of Ghana", librarianId: "LIBRARIAN001", password: "libpassUG" },
+            { university: "Kwame Nkrumah University of Science and Technology (KNUST)", librarianId: "LIBRARIAN002", password: "libpassKNUST" },
+            { university: "University of Education, Winneba (UEW)", librarianId: "LIBRARIAN003", password: "libpassUEW" }
+        ];
+
+
+        let currentLoginType = 'partner'; // Default to partner student login
+
+        // Function to render the appropriate form fields based on user type
+        function renderFormFields(type) {
+            const container = document.getElementById('formFieldsContainer');
+            const submitButton = document.getElementById('submitButton'); // Get the submit button element
+            let htmlContent = '';
+            currentLoginType = type; // Update the current login type
+
+            switch (type) {
+                case 'partner':
+                    htmlContent = `
+                        <select id="university" class="input-field" required>
+                            <option value="">Select University</option>
+                            ${ghanaianUniversities.map(uni => `<option value="${uni}">${uni}</option>`).join('')}
+                        </select>
+                        <input type="text" id="studentId" class="input-field" placeholder="Student / Library ID" required>
+                        <input type="password" id="password" class="input-field" placeholder="Password" required>
+                    `;
+                    // Ensure submitButton exists before setting textContent
+                    if (submitButton) {
+                        submitButton.textContent = 'Login as Partner University Student';
+                    }
+                    break;
+                case 'librarian':
+                    htmlContent = `
+                        <select id="university" class="input-field" required>
+                            <option value="">Select University</option>
+                            ${ghanaianUniversities.map(uni => `<option value="${uni}">${uni}</option>`).join('')}
+                        </select>
+                        <input type="text" id="librarianId" class="input-field" placeholder="Librarian ID" required>
+                        <input type="password" id="password" class="input-field" placeholder="Password" required>
+                    `;
+                    // Ensure submitButton exists before setting textContent
+                    if (submitButton) {
+                        submitButton.textContent = 'Login as Librarian';
+                    }
+                    break;
+            }
+            container.innerHTML = htmlContent;
+        }
+
+        // Function to handle login attempts
+        function handleLogin(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            let message = '';
+            let loginData = {};
+            let isAuthenticated = false;
+
+            switch (currentLoginType) {
+                case 'partner':
+                    const university = document.getElementById('university').value;
+                    const studentId = document.getElementById('studentId').value;
+                    const partnerPassword = document.getElementById('password').value;
+                    if (!university || !studentId || !partnerPassword) {
+                        showMessage('Please select university, enter student ID, and password.', 'error');
+                        return;
+                    }
+                    loginData = { university, studentId, password: partnerPassword };
+
+                    // Check against hardcoded partner students
+                    isAuthenticated = partnerStudents.some(student =>
+                        student.university === university &&
+                        student.studentId === studentId &&
+                        student.password === partnerPassword
+                    );
+
+                    if (isAuthenticated) {
+                        message = `Login successful as Partner University Student from ${university}! Redirecting...`;
+                        showMessage(message, 'success');
+                        setTimeout(() => {
+                            window.location.href = 'librarian-dashboard.html'; // Redirect to dashboard or relevant page
+                        }, 1500);
+                    } else {
+                        message = 'Login failed. Please check your university, student ID, and password.';
+                        showMessage(message, 'error');
+                    }
+                    break;
+
+                case 'librarian':
+                    const libUniversity = document.getElementById('university').value;
+                    const librarianId = document.getElementById('librarianId').value;
+                    const librarianPassword = document.getElementById('password').value;
+                    if (!libUniversity || !librarianId || !librarianPassword) {
+                        showMessage('Please select university, enter librarian ID, and password.', 'error');
+                        return;
+                    }
+                    loginData = { university: libUniversity, librarianId, password: librarianPassword };
+
+                    // Check against hardcoded librarians
+                    isAuthenticated = librarians.some(librarian =>
+                        librarian.university === libUniversity &&
+                        librarian.librarianId === librarianId &&
+                        librarian.password === librarianPassword
+                    );
+
+                    if (isAuthenticated) {
+                        message = `Login successful as Librarian from ${libUniversity}! Redirecting...`;
+                        showMessage(message, 'success');
+                        setTimeout(() => {
+                            window.location.href = 'librarian-dashboard.html'; // Redirect to librarian dashboard
+                        }, 1500);
+                    } else {
+                        message = 'Login failed. Please check your university, librarian ID, and password.';
+                        showMessage(message, 'error');
+                    }
+                    break;
+            }
+
+            console.log('Login Data:', loginData);
+        }
+
+        // Function to show a message (replaces alert())
+        function showMessage(message, type) {
+            const existingMessage = document.querySelector('.message-box');
+            if (existingMessage) {
+                existingMessage.remove();
+            }
+
+            const messageBox = document.createElement('div');
+            messageBox.className = `message-box`; /* No Tailwind classes here */
+            messageBox.style.cssText = `
+                position: fixed;
+                bottom: 1rem;
+                right: 1rem;
+                padding: 1rem;
+                border-radius: 0.5rem;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                color: var(--pal-white);
+                z-index: 50;
+                background-color: ${type === 'error' ? '#dc3545' : (type === 'success' ? '#28a745' : '#007bff')};
+            `;
+            messageBox.textContent = message;
+
+            document.body.appendChild(messageBox);
+
+            // Automatically remove message after 3 seconds
+            setTimeout(() => {
+                messageBox.remove();
+            }, 3000);
+        }
+
+        // Attach the handleLogin function to the form's submit event
+        document.getElementById('loginForm').addEventListener('submit', handleLogin);
+
+        // Render the partner student form fields on page load
+        window.onload = () => {
+            renderFormFields('partner');
+        };
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pal Library - Your Academic & Life Resource Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="./index.css">
+    <link rel="shortcut icon" href="./img/favicon.png" type="image/x-icon">
+
+</head>
+
+<body>
+
+
+
+
+    <!-- ==============================================================================
+     =========================================================================================
+     ========================= TOP SECTION WRAPPER ==================================================================-->
+    <div class="top-section-wrapper">
+        <div class="background-overlay"></div>
+
+        <!--====================== HEADER ====================-->
+        <header class="header">
+            <div class="container navbar">
+                <div>
+                    <img src="./img/logo1.png" class="logo" alt="">
+                </div>
+                <nav class="nav-links">
+                    <a href="/">Home</a>
+                    <div class="dropdown">
+                        <a href="#categories-section" class="dropdown-btn">Categories <span
+                                class="arrow-icon">▼</span></a>
+                        <div class="dropdown-content">
+                            <a href="./christian.html">Christian Books</a>
+                            <a href="./academic.html">Academic Books</a>
+                            <a href="./research_thesis.html">Research & Project Papers</a>
+                            <a href="./past_questions.html">Past Questions</a>
+                            <a href="./finance.html">Finance Books</a>
+                            <a href="./love.html">Relationship Books</a>
+                            <a href="./life.html">Life Books</a>
+                        </div>
+                    </div>
+                    <a href="./about.html">About Us</a>
+                    <a href="./support.html">Support</a>
+                </nav>
+                <button id="theme-toggle" class="theme-toggle">☀️</button>
+                <a href="./login.html" class="login-btn">Login</a>
+                <button class="menu-toggle" id="menuToggle">&#9776;</button>
+            </div>
+        </header>
+
+
+        <!-- ====================================
+         ================ MOBILE MENU ============================== -->
+        <div class="mobile-nav-overlay" id="mobileNavOverlay">
+            <button class="close-menu-btn" id="closeMenuBtn">&times;</button>
+            <nav class="mobile-nav-links">
+                <a href="/">Home</a>
+                <div class="dropdown">
+                    <a href="#categories-section" class="dropdown-btn">Categories <span class="arrow-icon">▼</span></a>
+                    <div class="dropdown-content">
+                        <a href="./christian.html">Christian Books</a>
+                        <a href="./academic.html">Academic Books</a>
+                        <a href="./research_thesis.html">Research Papers</a>
+                        <a href="./past_questions.html">Project Thesis</a>
+                        <a href="./finance.html">Finance Books</a>
+                        <a href="./love.html">Relationship Books</a>
+                        <a href="./life.html">Life Books</a>
+                    </div>
+                </div>
+                <a href="./about.html">About Us</a>
+                <a href="./support.html">Support</a>
+                <a href="./login.html" class="login-btn">Login</a>
+                <button id="mobile-theme-toggle" class="theme-toggle">☀️</button>
+            </nav>
+        </div>
+
+
+
+
+
+
+        <!-- ===========================================================================================================
+         ===================== HERO SECTION ==================================================================== -->
+        <section class="hero" id="home">
+            <div class="container hero-content">
+                <h1>Discover Knowledge, Anytime, Anywhere.</h1>
+                <p>
+                    Dive into a vast collection of academic resources from over 20 Ghanaian universities and explore
+                    curated insights from Christian, Finance, and Relationship books.
+                </p>
+                <div class="hero-buttons">
+                    <a href="./academic.html" class="button button-primary">Explore Academic</a>
+                    <a href="./life.html" class="button button-secondary">Discover Life Books</a>
+                </div>
+            </div>
+        </section>
+    </div>
+    <!-- END OF TOP SECTION -->
+
+
+
+
+
+    <!-- =============================================================================================
+     ======================================================================================================
+     ====================== CATEGORIES SECTION ==========================================================
+     ============================================================================= -->
+    <div id="categories-section">
+
+        <!-- ===================================================
+         ======================= CHRISTIAN BOOKS -->
+        <section class="category-section" id="christian-books-section">
+            <div class="container">
+                <div class="category-header">
+                    <h2>Christian Books</h2>
+                    <a href="./christian.html" class="view-all-btn">View All &rarr;</a>
+                </div>
+                <div class="book-grid">
+
+                    <div class="book-card">
+                        <img src="https://m.media-amazon.com/images/I/61hGte+Zj2L.jpg" alt="Mere Christianity Cover"
+                            class="book-thumbnail">
+                        <h3>Mere Christianity</h3>
+                        <p class="author">C.S. Lewis</p>
+                        <span class="category-tag">Christian Books</span>
+                        <a href="https://harpercollins.co.uk/products/mere-christianity-c-s-lewis-signature-classic-c-s-lewis?variant=40027293941838"
+                            rel="noopener" target="_blank" class="book-action-btn">View Book</a>
+                    </div>
+
+                    <div class="book-card">
+                        <img src="https://m.media-amazon.com/images/I/81iqKK67S6L._UF894,1000_QL80_.jpg"
+                            alt="The Problem of Pain Cover" class="book-thumbnail">
+                        <h3>The Problem of Pain</h3>
+                        <p class="author">C.S. Lewis</p>
+                        <span class="category-tag">Christian Books</span>
+                        <a href="https://www.amazon.com/Problem-Pain-C-S-Lewis/dp/0060652969" target="_blank"
+                            rel="noopener" class="book-action-btn">View Book</a>
+                    </div>
+
+                    <div class="book-card">
+                        <img src="https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1448776489i/73186.jpg"
+                            alt="The Case for Christ Cover" class="book-thumbnail">
+                        <h3>The Case for Christ</h3>
+                        <p class="author">Lee Strobel</p>
+                        <span class="category-tag">Christian Books</span>
+                        <a href="https://www.goodreads.com/book/show/73186.The_Case_for_Christ" target="_blank"
+                            rel="noopener" class="book-action-btn">View Book</a>
+                    </div>
+
+                    <div class="book-card">
+                        <img src="https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1405982367i/29797.jpg"
+                            alt="Pilgrim's Progress Cover" class="book-thumbnail">
+                        <h3>Pilgrim's Progress</h3>
+                        <p class="author">John Bunyan</p>
+                        <span class="category-tag">Christian Books</span>
+                        <a href="https://document.desiringgod.org/the-pilgrim-s-progress-en.pdf?ts=1446648353"
+                            rel="noopener" target="_blank" class="book-action-btn">View Book</a>
+                    </div>
+
+                    <div class="book-card">
+                        <img src="https://images-na.ssl-images-amazon.com/images/I/815PIFIw7zL._AC_UL600_SR600,600_.jpg"
+                            alt="God's Generals - the Revivalists" class="book-thumbnail">
+                        <h3>God's Generals - the Revivalists</h3>
+                        <p class="author">Roberts Liardon</p>
+                        <span class="category-tag">Christian Books</span>
+                        <a href="https://www.christianbook.com/gods-generals-the-revivalists/roberts-liardon/9781603740258/pd/740258?srsltid=AfmBOopwBTpS7mu6ZB8_G-p-T0idTX6m74-un768DZk3jnKJXoGZBX-d"
+                            rel="noopener" target="_blank" class="book-action-btn">View Book</a>
+                    </div>
+
+                    <div class="book-card">
+                        <img src="https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1387732189i/1399425.jpg"
+                            alt="School of the Spirit" class="book-thumbnail">
+                        <h3>School of the Spirit</h3>
+                        <p class="author">Roberts Liardon</p>
+                        <span class="category-tag">Christian Books</span>
+                        <a href="https://www.amazon.com/School-Spirit-Operating-Powerfully-Realm/dp/0884193608"
+                            rel="noopener" class="book-action-btn" target="_blank">View Book</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+        <!-- =======================================================
+         ================= ACADEMIC BOOKS ======================== -->
+        <section class="category-section" id="academic-books-section">
+            <div class="container">
+                <div class="category-header">
+                    <h2>Academic Books</h2>
+                    <a href="./academic.html" class="view-all-btn">View All &rarr;</a>
+                </div>
+                <div class="book-grid">
+                    <div class="book-card">
+                        <img src="https://0.academia-photos.com/attachment_thumbnails/56447792/mini_magick20190112-21672-1swu6hj.png?1547285629"
+                            alt="Introduction to Economics Cover" class="book-thumbnail">
+                        <h3>Introduction to Economics</h3>
+                        <!-- <p class="author">Paul Krugman</p> -->
+                        <span class="category-tag">Academic Books</span>
+                        <a href="https://wcu.edu.et/FirstYearModule/ECONOMICS%20module.pdf" class="book-action-btn"
+                            rel="noopener" target="_blank">View Book</a>
+                    </div>
+
+                    <div class="book-card">
+                        <img src="https://media.springernature.com/full/springer-static/cover-hires/book/978-3-030-48028-8"
+                            alt="Principles of Physics Cover" class="book-thumbnail">
+                        <h3>Principles of Physics</h3>
+                        <!-- <p class="author">Halliday & Resnick</p> -->
+                        <span class="category-tag">Academic Books</span>
+                        <a href="https://jnvdeoria.wordpress.com/wp-content/uploads/2020/04/2013_book_principlesofphysics.pdf"
+                            class="book-action-btn">View Book</a>
+                    </div>
+
+                    <div class="book-card">
+                        <img src="https://i0.wp.com/booknook.store/wp-content/uploads/2023/06/1000127402.jpg?fit=1080%2C1600&ssl=1"
+                            alt="Ghanaian Constitutional Law Cover" class="book-thumbnail">
+                        <h3>Ghanaian Constitutional Law</h3>
+                        <!-- <p class="author">S.O. Gyandoh Jr.</p> -->
+                        <span class="category-tag">Academic Books</span>
+                        <a href="http://aanma.gov.gh/documents/1992%20Constitution%20of%20Ghana.pdf"
+                            class="book-action-btn">View Book</a>
+                    </div>
+
+                    <div class="book-card">
+                        <img src="https://0.academia-photos.com/attachment_thumbnails/49772326/mini_magick20190130-9032-b6znxt.png?1548892303"
+                            alt="African History Cover" class="book-thumbnail">
+                        <h3>African History: A Survey</h3>
+                        <!-- <p class="author">Various Scholars</p> -->
+                        <span class="category-tag">Academic Books</span>
+                        <a href="https://www.egyankosh.ac.in/bitstream/123456789/27531/1/Unit-20.pdf"
+                            class="book-action-btn">View Book</a>
+                    </div>
+
+                    <div class="book-card">
+                        <img src="https://images.booksense.com/images/816/360/9798869360816.jpg"
+                            alt="Introduction to Python Programming" class="book-thumbnail">
+                        <h3>Introduction to Python Programming</h3>
+                        <!-- <p class="author">Author 5</p> -->
+                        <span class="category-tag">Academic Books</span>
+                        <a href="https://assets.openstax.org/oscms-prodcms/media/documents/Introduction_to_Python_Programming_-_WEB.pdf"
+                            class="book-action-btn">View Book</a>
+                    </div>
+
+                    <div class="book-card">
+                        <img src="https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1348753274i/236664.jpg"
+                            alt="Introduction to Database Systems" class="book-thumbnail">
+                        <h3>Introduction to Database Systems</h3>
+                        <p class="author">C. J. Date</p>
+                        <span class="category-tag">Academic Books</span>
+                        <a href="https://www.london.ac.uk/sites/default/files/study-guides/database-systems.pdf"
+                            class="book-action-btn">View Book</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Project Thesis Section -->
+        <!-- <section class="category-section" id="project-thesis-section">
+            <div class="container">
+                <div class="category-header">
+                    <h2>Project Thesis</h2>
+                    <a href="#" class="view-all-btn">View All &rarr;</a>
+                </div>
+                <div class="book-grid">
+                    <div class="book-card">
+                        <img src="https://placehold.co/170x180/1e293b/ffffff?text=Project+Thesis"
+                            alt="Mobile App Thesis Thumbnail" class="book-thumbnail">
+                        <h3>Development of a Mobile App for Campus Navigation</h3>
+                        <p class="author">J. Appiah (UG)</p>
+                        <span class="category-tag">Project Thesis</span>
+                        <a href="#" class="book-action-btn">View Paper</a>
+                    </div>
+                    <div class="book-card">
+                        <img src="https://placehold.co/170x180/1e293b/ffffff?text=Project+Thesis"
+                            alt="Water Quality Thesis Thumbnail" class="book-thumbnail">
+                        <h3>Analysis of Water Quality in Accra's Informal Settlements</h3>
+                        <p class="author">M. Kumasi (KNUST)</p>
+                        <span class="category-tag">Project Thesis</span>
+                        <a href="#" class="book-action-btn">View Paper</a>
+                    </div>
+                    <div class="book-card">
+                        <img src="https://placehold.co/170x180/1e293b/ffffff?text=Project+Thesis"
+                            alt="Online Learning Thesis Thumbnail" class="book-thumbnail">
+                        <h3>The Effectiveness of Online Learning Platforms in Ghanaian Universities</h3>
+                        <p class="author">N. Osei (UEW)</p>
+                        <span class="category-tag">Project Thesis</span>
+                        <a href="#" class="book-action-btn">View Paper</a>
+                    </div>
+                    <div class="book-card">
+                        <img src="https://placehold.co/170x180/1e293b/ffffff?text=Project+Thesis"
+                            alt="Solar Energy Thesis Thumbnail" class="book-thumbnail">
+                        <h3>Optimizing Solar Energy Systems for Residential Use in Ghana</h3>
+                        <p class="author">K. Mensah (UCC)</p>
+                        <span class="category-tag">Project Thesis</span>
+                        <a href="#" class="book-action-btn">View Paper</a>
+                    </div>
+                    <div class="book-card">
+                        <img src="https://placehold.co/170x180/1e293b/ffffff?text=Project+Thesis+5" alt="Book 5 Cover"
+                            class="book-thumbnail">
+                        <h3>Book 5 Title</h3>
+                        <p class="author">Author 5</p>
+                        <span class="category-tag">Project Thesis</span>
+                        <a href="#" class="book-action-btn">View Paper</a>
+                    </div>
+                    <div class="book-card">
+                        <img src="https://placehold.co/170x180/1e293b/ffffff?text=Project+Thesis+6" alt="Book 6 Cover"
+                            class="book-thumbnail">
+                        <h3>Book 6 Title</h3>
+                        <p class="author">Author 6</p>
+                        <span class="category-tag">Project Thesis</span>
+                        <a href="#" class="book-action-btn">View Paper</a>
+                    </div>
+                </div>
+            </div>
+        </section> -->
+
+        <!-- Subscribe Section -->
+        <section class="subscribe-section">
+            <div class="container">
+                <h2>Stay Updated with Pal Library!</h2>
+                <p>
+                    Join our newsletter to receive the latest academic resources, new book summaries, and updates on
+                    partner universities directly in your inbox.
+                </p>
+                <form class="subscribe-form"
+                    onsubmit="event.preventDefault(); console.log('Subscribe form submitted!'); alert('Thank you for subscribing!'); this.reset();">
+                    <input type="email" placeholder="Enter your email address" required>
+                    <input type="text" placeholder="Name" required>
+                    <button id="subscribe-button" type="submit">Subscribe Now</button>
+                </form>
+            </div>
+        </section>
+
+        <!--===============================================================
+        ========================================== RESEARCH AND PROJECT PAPERS =============================== -->
+        <section class="category-section" id="research-papers-section">
+            <div class="container">
+                <div class="category-header">
+                    <h2>Research & Project Papers</h2>
+                    <a href="./research_thesis.html" class="view-all-btn">View All &rarr;</a>
+                </div>
+
+                <div class="book-grid">
+                    <div class="book-card">
+                        <img src="./research_thesis/impact_of_microfinance.png"
+                            alt="Microfinance Research Paper Thumbnail" class="book-thumbnail">
+                        <h3>Impact of Microfinance on Rural Development in Ghana</h3>
+                        <p class="author">DANIEL DUNCAN DADZIE</p>
+                        <span class="category-tag">Research Papers</span>
+                        <a href="https://ir.ucc.edu.gh/xmlui/bitstream/handle/123456789/3066/DANIEL%20DUNCAN%20DADZIE.pdf?sequence=1&isAllowed=y"
+                            class="book-action-btn">View Paper</a>
+                    </div>
+
+                    <div class="book-card">
+                        <img src="./research_thesis/ensuring_cloud_computing_using_cloud_computing.png"
+                            alt="Ensuring Cloud Data Security Using the Soldier Ant Algorithm" class="book-thumbnail">
+                        <h3>Ensuring Cloud Data Security Using the Soldier Ant Algorithm</h3>
+                        <p class="author">John Dawson, Sylvester Agyemang, Philimon Baah, Ben B. K. Ayawli</p>
+                        <span class="category-tag">Research Papers</span>
+                        <a href="https://www.jait.us/uploadfile/2023/JAIT-V14N1-130.pdf" class="book-action-btn">View
+                            Paper</a>
+                    </div>
+
+                    <div class="book-card">
+                        <img src="./research_thesis/climate_change_adaptation_strategies.png"
+                            alt="Climate Change Paper Thumbnail" class="book-thumbnail">
+                        <h3>Climate Change Adaptation Strategies in Coastal Communities</h3>
+                        <p class="author">Abednego Adjei Baffour</p>
+                        <span class="category-tag">Research Papers</span>
+                        <a href="https://www.discoveryjournals.org/climate_change/current_issue/v10/n28/e6cc1033.pdf?"
+                            class="book-action-btn">View Paper</a>
+                    </div>
+
+                    <div class="book-card">
+                        <img src="./research_thesis/role_of_traditional_leadership.png"
+                            alt="The strategic role of traditional leadership in promoting good governance"
+                            class="book-thumbnail">
+                        <h3>The strategic role of traditional leadership in promoting good governance</h3>
+                        <p class="author">Noluthando Manyathi Matsiliza</p>
+                        <span class="category-tag">Research Papers</span>
+                        <a href="https://www.researchgate.net/publication/381304013_The_strategic_role_of_traditional_leadership_in_promoting_good_governance"
+                            class="book-action-btn">View Paper</a>
+                    </div>
+
+                    <div class="book-card">
+                        <img src="./research_thesis/africa_smart_agriculture.png" alt="AFRICA CLIMATE SMART AGRICULTURE"
+                            class="book-thumbnail">
+                        <h3>AFRICA CLIMATE SMART AGRICULTURE</h3>
+                        <p class="author">European Commision</p>
+                        <span class="category-tag">Project Implementation</span>
+                        <a href="https://www.desiralift.org/wp-content/uploads/2023/10/africa-climate-smart-agriculture-implementation-plan-2022-2032-download-1.pdf"
+                            class="book-action-btn">View Paper</a>
+                    </div>
+
+                    <div class="book-card">
+                        <img src="./research_thesis/AI_in_animal_desease_detection.png"
+                            alt="Artificial Intelligence and its Application in Animal Disease Diagnosis"
+                            class="book-thumbnail">
+                        <h3>Artificial Intelligence and its Application in Animal Disease Diagnosis</h3>
+                        <p class="author">Savleen Kour, Rajesh Agrawal, Neelesh Sharma, Abha Tikoo, Nishi Pande, Ayushi
+                            Sawhney.</p>
+                        <span class="category-tag">Project Papers</span>
+                        <a href="https://www.researchgate.net/publication/361141445_Artificial_Intelligence_and_its_Application_in_Animal_Disease_Diagnosis"
+                            class="book-action-btn">View Paper</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+        <!-- ===================================================================================
+         ============================================ FIANCE BOOKS =================================== -->
+        <section class="category-section" id="finance-books-section">
+            <div class="container">
+                <div class="category-header">
+                    <h2>Finance Books</h2>
+                    <a href="./finance.html" class="view-all-btn">View All &rarr;</a>
+                </div>
+                <div class="book-grid">
+                    <div class="book-card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_Ynnp1YKY8uCDHxF0OBX64nR6W67CPdIS8w&s"
+                            alt="The Intelligent Investor Cover" class="book-thumbnail">
+                        <h3>The Intelligent Investor</h3>
+                        <p class="author">Benjamin Graham</p>
+                        <span class="category-tag">Finance Books</span>
+                        <a href="https://library.accramet.edu.gh/js/pdfjs/web/viewer.html?file=../../../repository//The%20Intelligent%20Investor.pdf"
+                            class="book-action-btn">View Book</a>
+                    </div>
+
+                    <div class="book-card">
+                        <img src="https://cdn.kobo.com/book-images/1200d87a-ec1d-4651-826d-52afb86d10f1/1200/1200/False/rich-dad-poor-dad-10.jpg"
+                            alt="Rich Dad Poor Dad Cover" class="book-thumbnail">
+                        <h3>Rich Dad Poor Dad</h3>
+                        <p class="author">Robert Kiyosaki</p>
+                        <span class="category-tag">Finance Books</span>
+                        <a href="https://dn721905.ca.archive.org/0/items/rich-dad-poor-dad_bongotweet/rich-dad-poor-dad.pdf"
+                            class="book-action-btn">View Book</a>
+                    </div>
+
+                    <div class="book-card">
+                        <img src="https://shoppersstore.net/wp-content/uploads/2025/03/the-psychology-of-money-pdf-download%E2%80%8B.png"
+                            alt="The Psychology of Money Cover" class="book-thumbnail">
+                        <h3>The Psychology of Money</h3>
+                        <p class="author">Morgan Housel</p>
+                        <span class="category-tag">Finance Books</span>
+                        <a href="https://static.booktopia.com.au/pdf/9780857197689-1.pdf" class="book-action-btn">View
+                            Book</a>
+                    </div>
+
+                    <div class="book-card">
+                        <img src="https://img1.od-cdn.com/ImageType-400/1523-1/%7BED2C357D-CFAD-46B7-A7CF-E8F81F3183C4%7DIMG400.JPG"
+                            alt="Your Money or Your Life Cover" class="book-thumbnail">
+                        <h3>Your Money or Your Life</h3>
+                        <p class="author">Vicki Robin</p>
+                        <span class="category-tag">Finance Books</span>
+                        <a href="https://files.addictbooks.com/wp-content/uploads/2023/02/Your-Money-or-Your-Life.pdf"
+                            class="book-action-btn">View Book</a>
+                    </div>
+
+                    <div class="book-card">
+                        <img src="https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1548274938i/43691014.jpg"
+                            alt="Money Matters: Everything You Should Have Learned in School, but Didn't"
+                            class="book-thumbnail">
+                        <h3>Money Matters: Everything You Should Have Learned in School, but Didn't</h3>
+                        <p class="author">
+                            Veronica KarasVeronica Karas
+                        </p>
+                        <span class="category-tag">Finance Books</span>
+                        <a href="https://www.amazon.com/Money-Matters-Everything-Should-Learned/dp/1543960049"
+                            class="book-action-btn">View Book</a>
+                    </div>
+
+                    <div class="book-card">
+                        <img src="https://img.perlego.com/book-covers/2924282/9781087919270.jpg"
+                            alt="Think and Grow Rich" class="book-thumbnail">
+                        <h3>Think and Grow Rich</h3>
+                        <p class="author">Napoleon Hill</p>
+                        <span class="category-tag">Finance Books</span>
+                        <a href="https://archive.org/details/think-and-grow-rich-napolean-hill"
+                            class="book-action-btn">View Book</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+
+        <!-- ================================================================
+         ========================== LOVE AND RELATIONSHIPS ============================== -->
+        <section class="category-section" id="relationship-books-section">
+            <div class="container">
+                <div class="category-header">
+                    <h2>Relationship Books</h2>
+                    <a href="./love.html" class="view-all-btn">View All &rarr;</a>
+                </div>
+                <div class="book-grid">
+                    <div class="book-card">
+                        <img src="https://covers.storytel.com/jpg-640/9781608142118.f04a5440-66ac-4df0-a533-8944a19c0bc9?optimize=high"
+                            alt="The 5 Love Languages Cover" class="book-thumbnail">
+                        <h3>The 5 Love Languages</h3>
+                        <p class="author">Gary Chapman</p>
+                        <span class="category-tag">Relationship Books</span>
+                        <a href="https://www.thetbs.org/study-materials/wp-content/uploads/2023/03/The-Five-Love-Languages-How-to-Express-Heartfelt-Commitment-to-Your-Mate-by-Gary-Chapman-z-lib.org_.epub_.pdf"
+                            class="book-action-btn">View Book</a>
+                    </div>
+
+                    <div class="book-card">
+                        <img src="https://book2action-5d2aff0.divio-media.net/filer_public/0a/9a/0a9a1bee-c931-4b7d-9cfc-13db6be22f2b/men_are_from_mars_women_are_from_venus_1.png"
+                            alt="Men Are from Mars Cover" class="book-thumbnail">
+                        <h3>Men Are from Mars, Women Are from Venus</h3>
+                        <p class="author">John Gray</p>
+                        <span class="category-tag">Relationship Books</span>
+                        <a href="https://archive.org/details/MenAreFromMarsAndWomenAreFromVenus"
+                            class="book-action-btn">View Book</a>
+                    </div>
+
+                    <div class="book-card">
+                        <img src="https://img2.od-cdn.com/ImageType-400/1191-1/087/56F/88/%7B08756F88-AC88-4465-A13E-29C0887A1E97%7DImg400.jpg"
+                            alt="Attached Cover" class="book-thumbnail">
+                        <h3>Attached</h3>
+                        <p class="author">Amir Levine & Rachel Heller</p>
+                        <span class="category-tag">Relationship Books</span>
+                        <a href="https://archive.org/details/AttachementTheory" class="book-action-btn">View Book</a>
+                    </div>
+
+                    <div class="book-card">
+                        <img src="https://m.media-amazon.com/images/I/61XNLSEPCOL._UF1000,1000_QL80_.jpg"
+                            alt="Seven Principles Marriage Cover" class="book-thumbnail">
+                        <h3>The Seven Principles for Making Marriage Work</h3>
+                        <p class="author">John M. Gottman</p>
+                        <span class="category-tag">Relationship Books</span>
+                        <a href="https://archive.org/details/the-seven-principles-for-making-marriage-work"
+                            class="book-action-btn">View Book</a>
+                    </div>
+
+                    <div class="book-card">
+                        <img src="https://www.dealtar.com/wp-content/uploads/2017/12/I-Kissed-Dating-Goodbye-by-Joshua-Harris.jpg"
+                            alt="I kissed Dating Goodbye" class="book-thumbnail">
+                        <h3>I kissed Dating Goodbye</h3>
+                        <p class="author">Joshua Harris</p>
+                        <span class="category-tag">Relationship Books</span>
+                        <a href="https://www.dealtar.com/downloads/i-kissed-dating-goodbye-joshua-harris-ebook/"
+                            class="book-action-btn">View Book</a>
+                    </div>
+                    <div class="book-card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqsbxrrKtgRIYFHgCFWQLpBfM7WZhmokRuOw&s"
+                            alt="Rules for Love" class="book-thumbnail">
+                        <h3>The Rules for Love</h3>
+                        <p class="author">Richard Templar</p>
+                        <span class="category-tag">Relationship Books</span>
+                        <a href="https://www.dirzon.com/file/telegram/aberehote%20yanetareneete%20beetamatsaahhefe/4_5940760555798136616.pdf"
+                            class="book-action-btn">View Book</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+        <!-- ====================================================
+         =================== LIFE BOOKS ========================= -->
+        <section class="category-section" id="life-books-section">
+            <div class="container">
+                <div class="category-header">
+                    <h2>Life Books</h2>
+                    <a href="./life.html" class="view-all-btn">View All &rarr;</a>
+                </div>
+                <div class="book-grid">
+                    <div class="book-card">
+                        <img src="https://bookhero.co.nz/cdn/shop/files/9781847941831-atomic-habits-james-clear.jpg?crop=center&height=1200&v=1741827543&width=1200"
+                            alt="Atomic Habits Cover" class="book-thumbnail">
+                        <h3>Atomic Habits</h3>
+                        <p class="author">James Clear</p>
+                        <span class="category-tag">Life Books</span>
+                        <a href="https://jamesclear.com/atomic-habits" class="book-action-btn">View Book</a>
+                    </div>
+
+                    <div class="book-card">
+                        <img src="https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1632024090i/27213329.jpg"
+                            alt="Grit Cover" class="book-thumbnail">
+                        <h3>Grit: The Power of Passion and Perseverance</h3>
+                        <p class="author">Angela Duckworth</p>
+                        <span class="category-tag">Life Books</span>
+                        <a href="https://www.amazon.com/Grit-Passion-Perseverance-Angela-Duckworth/dp/1501111108"
+                            class="book-action-btn">View Book</a>
+                    </div>
+
+                    <div class="book-card">
+                        <img src="https://d28hgpri8am2if.cloudfront.net/book_images/onix/cvr9781471195709/the-7-habits-of-highly-effective-people-revised-and-updated-9781471195709_hr.jpg"
+                            alt="7 Habits Cover" class="book-thumbnail">
+                        <h3>The 7 Habits of Highly Effective People</h3>
+                        <p class="author">Stephen Covey</p>
+                        <span class="category-tag">Life Books</span>
+                        <a href="https://www.amazon.com/Habits-Highly-Effective-People-Powerful/dp/0743269519"
+                            class="book-action-btn">View Book</a>
+                    </div>
+
+                    <div class="book-card">
+                        <img src="https://gw.alicdn.com/imgextra/i4/2157923729/O1CN01h8TUeR1dPvTSzkkMy_!!0-item_pic.jpg"
+                            alt="Mindset Cover" class="book-thumbnail">
+                        <h3>Mindset: The New Psychology of Success</h3>
+                        <p class="author">Carol S. Dweck</p>
+                        <span class="category-tag">Life Books</span>
+                        <a href="https://www.amazon.com/Mindset-Psychology-Carol-S-Dweck/dp/0345472322"
+                            class="book-action-btn">View Book</a>
+                    </div>
+
+                    <div class="book-card">
+                        <img src="https://placehold.co/170x180/f97316/ffffff?text=Life+Book+5" alt="Book 5 Cover"
+                            class="book-thumbnail">
+                        <h3>Book 5 Title</h3>
+                        <p class="author">Author 5</p>
+                        <span class="category-tag">Life Books</span>
+                        <a href="#" class="book-action-btn">View Book</a>
+                    </div>
+
+                    <div class="book-card">
+                        <img src="https://placehold.co/170x180/f97316/ffffff?text=Life+Book+6" alt="Book 6 Cover"
+                            class="book-thumbnail">
+                        <h3>Book 6 Title</h3>
+                        <p class="author">Author 6</p>
+                        <span class="category-tag">Life Books</span>
+                        <a href="#" class="book-action-btn">View Book</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div> <!-- End Categories Section Wrapper -->
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Pal Library. All rights reserved. Connecting Ghanaian knowledge to the world.</p>
+            <p class="disclaimer">
+                Disclaimer: Pal Library directly hosts course materials and academic resources from our partner
+                universities in Ghana.
+                For other book categories (e.g., Christian, Finance, Relationship, Life Books), we provide summaries and
+                link directly to their respective legal storage on the internet (e.g., Amazon, Internet Archive).
+                We do not host content from non-partner sources to ensure strict adherence to copyright laws and to
+                maintain academic integrity.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Cookie Consent Banner HTML -->
+    <div class="cookie-consent-banner" id="cookieConsentBanner">
+        <p>This website uses cookies to ensure you get the best experience on our website. By continuing to use this
+            site, you agree to our use of cookies.</p>
+        <button id="acceptCookiesBtn">Accept Cookies</button>
+    </div>
+
+    <script>
+        // --- Theme Toggle Functionality ---
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const mobileThemeToggleBtn = document.getElementById('mobile-theme-toggle');
+        const body = document.body;
+
+        const prefersLightMode = window.matchMedia('(prefers-color-scheme: light)');
+
+        function setTheme(isLight) {
+            if (isLight) {
+                body.classList.add('light-mode');
+                themeToggleBtn.textContent = '🌙'; // Moon icon for dark mode toggle
+                mobileThemeToggleBtn.textContent = '🌙';
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.classList.remove('light-mode');
+                themeToggleBtn.textContent = '☀️'; // Sun icon for light mode toggle
+                mobileThemeToggleBtn.textContent = '☀️';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Initialize theme based on localStorage or system preference
+        function initializeTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                setTheme(savedTheme === 'light');
+            } else {
+                setTheme(false); // Force dark mode if no preference is saved
+            }
+        }
+
+        // Listen for system theme changes
+        prefersLightMode.addEventListener('change', (event) => {
+            // Only update if no explicit user preference is saved
+            if (!localStorage.getItem('theme')) {
+                setTheme(event.matches);
+            }
+        });
+
+        // Toggle theme on button click
+        themeToggleBtn.addEventListener('click', () => {
+            setTheme(!body.classList.contains('light-mode'));
+        });
+        mobileThemeToggleBtn.addEventListener('click', () => {
+            setTheme(!body.classList.contains('light-mode'));
+        });
+
+        document.addEventListener('DOMContentLoaded', initializeTheme); // Initialize theme when DOM is ready
+
+        // --- Smooth Scrolling for navigation links ---
+        document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                // If it's the categories dropdown button on mobile, toggle the dropdown
+                if (this.classList.contains('dropdown-btn')) {
+                    if (window.innerWidth < 768) { // Only for mobile view
+                        e.preventDefault(); // Prevent page scroll
+                        const dropdownContent = this.nextElementSibling;
+                        const arrowIcon = this.querySelector('.arrow-icon');
+                        if (dropdownContent) {
+                            dropdownContent.classList.toggle('open-mobile-dropdown');
+                            if (arrowIcon) {
+                                arrowIcon.style.transform = dropdownContent.classList.contains('open-mobile-dropdown') ? 'rotate(180deg)' : 'rotate(0deg)';
+                            }
+                        }
+                    }
+                    return; // Don't scroll the page for dropdown button click
+                }
+
+                e.preventDefault(); // Prevent default hash scroll for other links
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+                // Close mobile menu if open after clicking a non-dropdown link
+                const mobileNav = document.getElementById('mobileNavOverlay');
+                if (mobileNav && mobileNav.classList.contains('open')) {
+                    mobileNav.classList.remove('open');
+                    // Ensure all mobile dropdowns are closed when main menu closes
+                    mobileNav.querySelectorAll('.dropdown-content.open-mobile-dropdown').forEach(dropdown => {
+                        dropdown.classList.remove('open-mobile-dropdown');
+                        const btn = dropdown.previousElementSibling;
+                        const arrowIcon = btn ? btn.querySelector('.arrow-icon') : null;
+                        if (arrowIcon) {
+                            arrowIcon.style.transform = 'rotate(0deg)';
+                        }
+                    });
+                }
+            });
+        });
+
+        // --- Mobile Menu Toggle ---
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileNavOverlay = document.getElementById('mobileNavOverlay');
+        const closeMenuBtn = document.getElementById('closeMenuBtn');
+
+        if (menuToggle && mobileNavOverlay && closeMenuBtn) {
+            menuToggle.addEventListener('click', () => {
+                mobileNavOverlay.classList.add('open');
+                // Ensure no dropdowns are open when menu first opens, or reset them
+                mobileNavOverlay.querySelectorAll('.dropdown-content.open-mobile-dropdown').forEach(dropdown => {
+                    dropdown.classList.remove('open-mobile-dropdown');
+                    const btn = dropdown.previousElementSibling;
+                    const arrowIcon = btn ? btn.querySelector('.arrow-icon') : null;
+                    if (arrowIcon) {
+                        arrowIcon.style.transform = 'rotate(0deg)';
+                    }
+                });
+            });
+
+            closeMenuBtn.addEventListener('click', () => {
+                mobileNavOverlay.classList.remove('open');
+                // Ensure all mobile dropdowns are closed when main menu closes
+                mobileNavOverlay.querySelectorAll('.dropdown-content.open-mobile-dropdown').forEach(dropdown => {
+                    dropdown.classList.remove('open-mobile-dropdown');
+                    const btn = dropdown.previousElementSibling;
+                    const arrowIcon = btn ? btn.querySelector('.arrow-icon') : null;
+                    if (arrowIcon) {
+                        arrowIcon.style.transform = 'rotate(0deg)';
+                    }
+                });
+            });
+
+            // Close mobile menu when a link inside it is clicked (excluding dropdown-btn)
+            mobileNavOverlay.querySelectorAll('.mobile-nav-links a:not(.dropdown-btn)').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileNavOverlay.classList.remove('open');
+                    // Ensure all mobile dropdowns are closed when main menu closes
+                    mobileNavOverlay.querySelectorAll('.dropdown-content.open-mobile-dropdown').forEach(dropdown => {
+                        dropdown.classList.remove('open-mobile-dropdown');
+                        const btn = dropdown.previousElementSibling;
+                        const arrowIcon = btn ? btn.querySelector('.arrow-icon') : null;
+                        if (arrowIcon) {
+                            arrowIcon.style.transform = 'rotate(0deg)';
+                        }
+                    });
+                });
+            });
+        }
+
+        // --- Header show/hide on scroll direction ---
+        const header = document.querySelector('.header');
+        let lastScrollY = window.scrollY;
+        const headerShowThreshold = 100; // Pixels scrolled before hiding/showing on direction change
+
+        window.addEventListener('scroll', () => {
+            const currentScrollY = window.scrollY;
+
+            // Always show header at the very top
+            if (currentScrollY === 0) {
+                header.classList.remove('scrolled-hidden');
+                header.classList.remove('scrolled-visible');
+            }
+            // Scrolling Down: Hide header
+            else if (currentScrollY > lastScrollY && currentScrollY > headerShowThreshold) {
+                header.classList.add('scrolled-hidden');
+                header.classList.remove('scrolled-visible');
+            }
+            // Scrolling Up: Show header
+            else if (currentScrollY < lastScrollY && currentScrollY > headerShowThreshold) {
+                header.classList.remove('scrolled-hidden');
+                header.classList.add('scrolled-visible');
+            }
+
+            lastScrollY = currentScrollY;
+        });
+
+        // --- Cookie Consent Banner Logic ---
+        const cookieBanner = document.getElementById('cookieConsentBanner');
+        const acceptCookiesBtn = document.getElementById('acceptCookiesBtn');
+        const cookieConsentKey = 'palLibraryCookieConsent';
+
+        // Function to show the banner
+        function showCookieBanner() {
+            if (!localStorage.getItem(cookieConsentKey)) {
+                cookieBanner.classList.add('show');
+            }
+        }
+
+        // Function to hide the banner and set consent
+        function acceptCookies() {
+            localStorage.setItem(cookieConsentKey, 'true');
+            cookieBanner.classList.remove('show');
+        }
+
+        // Event listener for the accept button
+        if (acceptCookiesBtn) {
+            acceptCookiesBtn.addEventListener('click', acceptCookies);
+        }
+
+        // Show banner on page load if consent not given
+        document.addEventListener('DOMContentLoaded', showCookieBanner);
+
+
+        // --- Placeholder for Login Button ---
+        document.querySelectorAll('.login-btn').forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                alert('Login functionality will be available soon!');
+                // In a real application, you would redirect to your login page here:
+                // window.location.href = '/login.html';
+            });
+        });
+
+        // --- Placeholder for View All Buttons ---
+        //document.querySelectorAll('.view-all-btn').forEach(button => {
+        //  button.addEventListener('click', (e) => {
+        //    e.preventDefault();
+        //  const categoryName = button.closest('.category-section').querySelector('h2').textContent;
+        //alert(`Redirecting to all ${categoryName} soon!`);
+        //});
+        //});
+
+        // --- Placeholder for individual Book/Paper Action Buttons ---
+        document.querySelectorAll('.book-action-btn').forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                const bookTitle = button.closest('.book-card').querySelector('h3').textContent;
+                const actionText = button.textContent;
+                alert(`${actionText} for "${bookTitle}" functionality will be available soon!`);
+                // In a real application, this would link to the specific book/paper's detail page or file.
+                // window.location.href = `/book-details.html?title=${encodeURIComponent(bookTitle)}`;
+            });
+        });
+    </script>
+</body>
+
+</html>

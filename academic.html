@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pal Library - Academic Books</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        /* Custom Colors (Dark Mode Defaults) - Copied from homepage */
+        :root {
+            --primary-green: #22c55e;
+            /* Brand Green */
+            --primary-green-dark: #16a34a;
+            /* Darker Green for hover */
+            --accent-orange: #f97316;
+            /* Brand Orange */
+            --accent-orange-dark: #ea580c;
+            /* Darker Orange for hover */
+            --light-white: #ffffff;
+            /* Explicitly define white for all button text */
+
+            /* Dark Mode Specific Variables */
+            --bg-body: #0f172a;
+            /* slate-900 */
+            --bg-section-alt: #1e293b;
+            /* slate-800 for even sections */
+            --bg-card: #0f172a;
+            /* slate-900 for cards in odd sections */
+            --bg-card-alt: #1e293b;
+            /* slate-800 for cards in even sections */
+            --text-heading: #ffffff;
+            /* white */
+            --text-body: #e2e8f0;
+            /* light slate text */
+            --text-medium: #94a3b8;
+            /* slate-400 */
+            --text-input: #334155;
+            /* slate-700, for input text in light background */
+            --text-input-placeholder: #64748b;
+            /* slate-500 */
+            --border-color: rgba(255, 255, 255, 0.08);
+            /* Light border for dark cards */
+            --header-bg-scrolled: #0f172a;
+            /* Opaque dark-blue-black when scrolled */
+            --header-box-shadow-scrolled: rgba(0, 0, 0, 0.5);
+            --card-box-shadow: rgba(0, 0, 0, 0.3);
+            --card-box-shadow-hover: rgba(0, 0, 0, 0.4);
+            --overlay-bg: rgba(15, 23, 42, 0.6);
+            /* Slightly less opaque overlay */
+            --dropdown-bg: #0f172a;
+            /* Dark background for dropdown */
+            --dropdown-hover-bg: #1e293b;
+            /* Lighter dark-blue-black on dropdown hover */
+            --cookie-banner-bg: rgba(0, 0, 0, 0.8);
+            /* Semi-transparent black for cookie banner */
+            --cookie-banner-text: #ffffff;
+
+            /* New Academic Card Specific Variables */
+            --academic-card-bg-overlay: rgba(0, 0, 0, 0.7);
+            /* Dark overlay for text on image */
+            --academic-card-text-color: var(--light-white);
+            --academic-card-author-color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Light Mode Overrides - Copied from homepage */
+        body.light-mode {
+            /* Primary Green for Light Mode (Darker) */
+            --primary-green: #168a44;
+            /* Darker green for light mode */
+            --primary-green-dark: #0f6a31;
+            /* Even darker green for hover in light mode */
+
+            /* Backgrounds */
+            --bg-body: #f8fafc;
+            /* slate-50 */
+            --bg-section-alt: #ffffff;
+            /* white for even sections */
+            --bg-card: #f8fafc;
+            /* slate-50 for cards in odd sections */
+            --bg-card-alt: #ffffff;
+            /* white for cards in even sections */
+
+            /* Text Colors */
+            --text-heading: #1e293b;
+            /* dark slate */
+            --text-body: #475569;
+            /* slate-600 */
+            --text-medium: #64748b;
+            /* slate-500 */
+            --text-input: #475569;
+            /* slate-600 */
+            --text-input-placeholder: #94a3b8;
+            /* slate-400 */
+            --border-color: rgba(0, 0, 0, 0.1);
+            /* Darker border for light cards */
+
+            /* Header Specific Overrides for Light Mode */
+            --header-bg-scrolled: #ffffff;
+            /* Opaque white on scroll */
+            --header-box-shadow-scrolled: rgba(0, 0, 0, 0.15);
+
+            /* Card Specific Overrides for Light Mode */
+            --card-box-shadow: rgba(0, 0, 0, 0.1);
+            --card-box-shadow-hover: rgba(0, 0, 0, 0.2);
+
+            /* Overlay for hero background (lighter for contrast in light mode) */
+            --overlay-bg: rgba(255, 255, 255, 0.7);
+
+            /* Dropdown background in light mode */
+            --dropdown-bg: #ffffff;
+            --dropdown-hover-bg: #f1f5f9;
+            /* slate-100 */
+            --cookie-banner-bg: rgba(255, 255, 255, 0.9);
+            /* Semi-transparent white for cookie banner */
+            --cookie-banner-text: #1e293b;
+
+            /* New Academic Card Specific Variables for Light Mode */
+            --academic-card-bg-overlay: rgba(255, 255, 255, 0.8);
+            /* Light overlay for text on image */
+            --academic-card-text-color: var(--text-heading);
+            --academic-card-author-color: var(--text-body);
+        }
+
+        /* Base Styles - Copied from homepage */
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: var(--bg-body);
+            color: var(--text-body);
+            line-height: 1.6;
+            min-height: 100vh;
+            /* Adjusted for single page */
+            transition: background-color 0.3s ease, color 0.3s ease;
+            /* Smooth theme transition */
+            color-scheme: dark;
+            /* Default color scheme for browser elements */
+        }
+
+        body.light-mode {
+            color-scheme: light;
+            /* Light color scheme for browser elements */
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            color: var(--text-heading);
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* --- Header --- Copied from homepage */
+        .top-section-wrapper {
+            /* This wrapper is for the hero background, not needed here */
+            position: relative;
+            background-color: var(--bg-body);
+            /* Use body background for consistency */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .background-overlay {
+            /* Not needed on this page */
+            display: none;
+        }
+
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 1rem 0;
+            background-color: var(--bg-body);
+            /* Solid background by default */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            /* Always have a shadow */
+            transition: background-color 0.3s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease, transform 0.3s ease;
+            -webkit-backdrop-filter: blur(0);
+            backdrop-filter: blur(0);
+        }
+
+        body.light-mode .header {
+            background-color: var(--bg-section-alt);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Header states when scrolled (removed hide/show logic as it's a shorter page) */
+        .header.scrolled-visible,
+        .header.scrolled-hidden {
+            transform: translateY(0);
+            /* Always visible */
+            background-color: var(--header-bg-scrolled);
+            box-shadow: 0 6px 20px var(--header-box-shadow-scrolled);
+            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(8px);
+        }
+
+        /* Ensure header is always visible on this page */
+        .header {
+            transform: translateY(0) !important;
+        }
+
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .logo {
+            width: 200px;
+            max-height: 100px;
+        }
+
+
+        .nav-links {
+            display: none;
+            /* Hidden by default on small screens */
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-links a,
+        .login-btn {
+            color: var(--text-heading);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-green);
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-btn {
+            cursor: pointer;
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            position: relative;
+            z-index: 101;
+        }
+
+        .dropdown-btn .arrow-icon {
+            font-size: 0.7em;
+            margin-left: 0.5em;
+            transition: transform 0.2s ease;
+            display: inline-block;
+        }
+
+        .dropdown:hover .dropdown-btn .arrow-icon {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: var(--dropdown-bg);
+            min-width: 200px;
+            box-shadow: 0 8px 16px 0px rgba(0, 0, 0, 0.4);
+            z-index: 100;
+            border-radius: 8px;
+            padding: 0.5rem 0;
+            top: calc(100% + 5px);
+            left: 50%;
+            transform: translateX(-50%);
+            border: 1px solid var(--border-color);
+            transition: background-color 0.3s ease;
+        }
+
+        .dropdown-content a {
+            color: var(--text-body);
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .dropdown-content a:hover {
+            background-color: var(--dropdown-hover-bg);
+            color: var(--primary-green);
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .login-btn {
+            background-color: var(--accent-orange);
+            color: var(--light-white);
+            padding: 0.6rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .login-btn:hover {
+            background-color: var(--accent-orange-dark);
+            transform: translateY(-1px);
+        }
+
+        .menu-toggle {
+            display: block;
+            background: none;
+            border: none;
+            color: var(--text-heading);
+            font-size: 2rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-heading);
+            transition: color 0.3s ease;
+            padding: 0.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+
+        .theme-toggle:hover {
+            color: var(--primary-green);
+        }
+
+        /* Mobile navigation overlay - Copied from homepage */
+        .mobile-nav-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-body);
+            z-index: 1001;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out, background-color 0.3s ease;
+        }
+
+        .mobile-nav-overlay.open {
+            transform: translateX(0);
+        }
+
+        .mobile-nav-overlay a {
+            color: var(--text-heading);
+            font-size: 1.8rem;
+            margin: 1rem 0;
+            text-decoration: none;
+            display: block;
+            transition: color 0.3s ease;
+        }
+
+        .mobile-nav-overlay a:hover {
+            color: var(--primary-green);
+        }
+
+        .close-menu-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            background: none;
+            border: none;
+            color: var(--text-heading);
+            font-size: 3rem;
+            cursor: pointer;
+        }
+
+        .mobile-nav-overlay .dropdown-content {
+            position: static;
+            display: none;
+            box-shadow: none;
+            background-color: transparent;
+            width: auto;
+            min-width: unset;
+            margin-top: 0;
+            transform: none;
+            border: none;
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+        }
+
+        .mobile-nav-overlay .dropdown-content.open-mobile-dropdown {
+            display: block;
+            max-height: 500px;
+            opacity: 1;
+        }
+
+        .mobile-nav-overlay .dropdown-content a {
+            font-size: 1.5rem;
+            padding: 0.5rem 0;
+            text-align: center;
+            color: var(--text-body);
+        }
+
+        /* --- Main Content Section for Academic Books --- */
+        .academic-books-main {
+            /* New class for this page */
+            padding: 4rem 0;
+            background-color: var(--bg-body);
+            min-height: calc(100vh - 150px);
+            /* Adjust height to account for header/footer */
+        }
+
+        .academic-books-main h2 {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--primary-green);
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        /* Search & Filter Container Styling */
+        .filter-controls {
+            display: flex;
+            flex-wrap: wrap;
+            /* Allow items to wrap on smaller screens */
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding: 0 1rem;
+            max-width: 900px;
+            /* Wider to accommodate filters */
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .filter-controls .search-input-group {
+            flex-grow: 1;
+            /* Allow search input to take available space */
+            display: flex;
+            gap: 0.5rem;
+            /* Space between input and search/clear buttons */
+            min-width: 280px;
+            /* Ensure search input doesn't get too small */
+        }
+
+        .filter-controls input[type="text"],
+        .filter-controls select {
+            flex-grow: 1;
+            padding: 0.8rem 1.2rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: var(--bg-card);
+            /* Use card background for input */
+            color: var(--text-body);
+            font-size: 1rem;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            min-width: 150px;
+            /* Minimum width for select boxes */
+        }
+
+        .filter-controls input[type="text"]:focus,
+        .filter-controls select:focus {
+            outline: none;
+            border-color: var(--primary-green);
+            box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.3);
+        }
+
+        .filter-controls input::placeholder {
+            color: var(--text-medium);
+        }
+
+        .filter-controls button {
+            background-color: var(--primary-green);
+            color: var(--light-white);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+            white-space: nowrap;
+            /* Prevent button text from wrapping */
+        }
+
+        .filter-controls button:hover {
+            background-color: var(--primary-green-dark);
+            transform: translateY(-2px);
+        }
+
+        .filter-controls button.clear-btn {
+            background-color: var(--accent-orange);
+        }
+
+        .filter-controls button.clear-btn:hover {
+            background-color: var(--accent-orange-dark);
+        }
+
+
+        .books-grid {
+            /* New grid for this page */
+            display: grid;
+            grid-template-columns: 1fr;
+            /* Single column on small screens */
+            gap: 1.5rem;
+            /* Space between cards */
+            justify-content: center;
+            /* Center items in grid */
+        }
+
+        @media (min-width: 768px) {
+            .books-grid {
+                grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+                /* Two columns on larger screens */
+            }
+        }
+
+        /* Book Card - Horizontal Layout with Background Image */
+        .book-card {
+            display: flex;
+            /* Make it a flex container for horizontal layout */
+            flex-direction: row;
+            /* Arrange items horizontally */
+            align-items: stretch;
+            /* Stretch items to fill height */
+            background-color: var(--bg-card);
+            border-radius: 12px;
+            box-shadow: 0 6px 20px var(--card-box-shadow);
+            transition: transform 0.2s ease, box-shadow 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+            border: 1px solid var(--border-color);
+            height: 180px;
+            /* Fixed height for consistency in horizontal layout */
+            overflow: hidden;
+            /* Hide overflow from rounded corners */
+        }
+
+        body.light-mode .book-card {
+            background-color: var(--bg-card-alt);
+            /* Use light mode card background */
+        }
+
+        .book-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px var(--card-box-shadow-hover);
+        }
+
+        /* Left part of the card: Thumbnail as background + Text Overlay */
+        .book-details-area {
+            flex-grow: 1;
+            /* Takes up most of the space */
+            position: relative;
+            background-size: cover;
+            /* Cover the area */
+            background-position: center;
+            /* Center the image */
+            background-repeat: no-repeat;
+            border-radius: 12px 0 0 12px;
+            /* Rounded only on the left side */
+            overflow: hidden;
+            /* Ensure overlay respects rounded corners */
+            display: flex;
+            /* Use flex to center overlay content */
+            align-items: center;
+            /* Center horizontally */
+            justify-content: center;
+            /* Center vertically */
+            padding: 1rem;
+            /* Padding inside the area */
+        }
+
+        .book-text-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--academic-card-bg-overlay);
+            /* Translucent background */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 1rem;
+            box-sizing: border-box;
+            /* Include padding in width/height */
+            border-radius: 12px 0 0 12px;
+            /* Match parent's rounded corners */
+        }
+
+        .book-card h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--academic-card-text-color);
+            /* Use specific color for overlay text */
+            margin-bottom: 0.2rem;
+            line-height: 1.3;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            /* Add subtle text shadow for readability */
+        }
+
+        .book-card .author {
+            font-size: 0.9rem;
+            font-style: italic;
+            color: var(--academic-card-author-color);
+            /* Use specific color for author text */
+            margin-bottom: 0;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            /* Add subtle text shadow */
+        }
+
+        /* Right part of the card: View Book Button */
+        .book-action-btn-container {
+            flex-shrink: 0;
+            /* Prevent from shrinking */
+            width: 120px;
+            /* Fixed width for the button container */
+            display: flex;
+            align-items: center;
+            /* Vertically center the button */
+            justify-content: center;
+            /* Horizontally center the button */
+            padding: 1rem;
+            /* Padding around the button */
+            background-color: var(--bg-section-alt);
+            /* A slightly different background for this part */
+            border-left: 1px solid var(--border-color);
+            /* Separator line */
+            border-radius: 0 12px 12px 0;
+            /* Rounded only on the right side */
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .book-action-btn {
+            display: block;
+            width: 100%;
+            /* Make button fill its container */
+            background-color: var(--primary-green);
+            color: var(--light-white);
+            padding: 0.7rem 0.5rem;
+            /* Adjusted padding */
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-align: center;
+            /* Center text within button */
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .book-action-btn:hover {
+            background-color: var(--primary-green-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* On very small screens, stack vertically */
+        @media (max-width: 480px) {
+            .book-card {
+                flex-direction: column;
+                /* Stack content vertically */
+                height: auto;
+                /* Allow height to expand */
+                min-height: 250px;
+                /* Minimum height for stacked card */
+                padding: 0;
+                /* Remove padding from main card, apply to inner elements */
+            }
+
+            .book-details-area {
+                width: 100%;
+                /* Full width */
+                min-height: 180px;
+                /* Ensure image is visible */
+                border-radius: 12px 12px 0 0;
+                /* Rounded top corners */
+            }
+
+            .book-text-overlay {
+                border-radius: 12px 12px 0 0;
+                /* Match parent */
+            }
+
+            .book-action-btn-container {
+                width: 100%;
+                /* Full width */
+                border-left: none;
+                /* Remove left border */
+                border-top: 1px solid var(--border-color);
+                /* Add top border */
+                border-radius: 0 0 12px 12px;
+                /* Rounded bottom corners */
+                padding: 1rem;
+            }
+
+            .book-action-btn {
+                width: 80%;
+                /* Button takes 80% width in stacked view */
+            }
+        }
+
+
+        /* --- Footer --- Copied from homepage */
+        .footer {
+            background-color: var(--bg-section-alt);
+            color: var(--text-medium);
+            padding: 2.5rem 0;
+            text-align: center;
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border-color);
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .footer p {
+            margin: 0;
+            padding: 0.5rem 0;
+        }
+
+        .footer .disclaimer {
+            font-size: 0.85rem;
+            color: var(--text-body);
+            margin-top: 1rem;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.4;
+        }
+
+        /* --- Cookie Consent Banner --- Copied from homepage */
+        .cookie-consent-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--cookie-banner-bg);
+            color: var(--cookie-banner-text);
+            padding: 1rem;
+            text-align: center;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.3);
+            transform: translateY(100%);
+            transition: transform 0.5s ease-out, background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .cookie-consent-banner.show {
+            transform: translateY(0);
+        }
+
+        .cookie-consent-banner p {
+            margin: 0;
+            max-width: 800px;
+        }
+
+        .cookie-consent-banner button {
+            background-color: var(--primary-green);
+            color: var(--light-white);
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .cookie-consent-banner button:hover {
+            background-color: var(--primary-green-dark);
+            transform: translateY(-1px);
+        }
+
+        /* --- Responsive Design --- Copied from homepage and adapted */
+        @media (max-width: 767px) {
+            .cookie-consent-banner {
+                flex-direction: column;
+            }
+
+            .cookie-consent-banner p {
+                font-size: 0.9rem;
+            }
+
+            .filter-controls {
+                flex-direction: column;
+                gap: 0.8rem;
+            }
+
+            .filter-controls .search-input-group,
+            .filter-controls select,
+            .filter-controls button {
+                width: 100%;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .navbar {
+                justify-content: space-between;
+            }
+
+            .nav-links {
+                display: flex;
+            }
+
+            .menu-toggle {
+                display: none;
+            }
+
+            .navbar .theme-toggle {
+                order: 3;
+                margin-left: 1rem;
+            }
+
+            .navbar .login-btn {
+                order: 4;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <div class="top-section-wrapper"> <!-- Used for consistent background, though overlay is hidden -->
+        <div class="background-overlay"></div> <!-- Hidden on this page -->
+
+        <!--====================== HEADER ====================-->
+        <header class="header">
+            <div class="container navbar">
+                <div>
+                    <img src="./img/logo1.png" class="logo" alt="">
+                </div>
+                <nav class="nav-links">
+                    <a href="/">Home</a>
+                    <div class="dropdown">
+                        <a href="#categories-section" class="dropdown-btn">Categories <span
+                                class="arrow-icon">▼</span></a>
+                        <div class="dropdown-content">
+                            <a href="./christian.html">Christian Books</a>
+                            <a href="./academic.html">Academic Books</a>
+                            <a href="./research_thesis.html">Research & Project Papers</a>
+                            <a href="./past_questions.html">Past Questions</a>
+                            <a href="./finance.html">Finance Books</a>
+                            <a href="./love.html">Relationship Books</a>
+                            <a href="./life.html">Life Books</a>
+                        </div>
+                    </div>
+                    <a href="./about.html">About Us</a>
+                    <a href="./support.html">Support</a>
+                </nav>
+                <button id="theme-toggle" class="theme-toggle">☀️</button>
+                <a href="./login.html" class="login-btn">Login</a>
+                <button class="menu-toggle" id="menuToggle">&#9776;</button>
+            </div>
+        </header>
+
+
+        <!-- ====================================
+         ================ MOBILE MENU ============================== -->
+        <div class="mobile-nav-overlay" id="mobileNavOverlay">
+            <button class="close-menu-btn" id="closeMenuBtn">&times;</button>
+            <nav class="mobile-nav-links">
+                <a href="/">Home</a>
+                <div class="dropdown">
+                    <a href="#categories-section" class="dropdown-btn">Categories <span class="arrow-icon">▼</span></a>
+                    <div class="dropdown-content">
+                        <a href="./christian.html">Christian Books</a>
+                        <a href="./academic.html">Academic Books</a>
+                        <a href="./research_thesis.html">Research Papers</a>
+                        <a href="./past_questions.html">Project Thesis</a>
+                        <a href="./finance.html">Finance Books</a>
+                        <a href="./love.html">Relationship Books</a>
+                        <a href="./life.html">Life Books</a>
+                    </div>
+                </div>
+                <a href="./about.html">About Us</a>
+                <a href="./support.html">Support</a>
+                <a href="./login.html" class="login-btn">Login</a>
+                <button id="mobile-theme-toggle" class="theme-toggle">☀️</button>
+            </nav>
+        </div>
+
+
+
+
+        <!-- Main Content for Academic Books -->
+        <main class="academic-books-main">
+            <div class="container">
+                <h2>Our Academic Books Collection</h2>
+
+                <div class="filter-controls">
+                    <div class="search-input-group">
+                        <input type="text" id="searchInput" placeholder="Search by title or author...">
+                        <button id="searchButton">Search</button>
+                        <button id="clearSearchButton" class="clear-btn">Clear</button>
+                    </div>
+
+                    <select id="subjectFilter">
+                        <option value="">All Subjects</option>
+                        <!-- Options will be dynamically loaded by JavaScript -->
+                    </select>
+
+                    <select id="programFilter">
+                        <option value="">All Programs</option>
+                        <!-- Options will be dynamically loaded by JavaScript -->
+                    </select>
+                </div>
+
+                <div id="booksGrid" class="books-grid">
+                    <!-- Books will be dynamically loaded here by JavaScript -->
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <p>&copy; 2025 Pal Library. All rights reserved. Connecting Ghanaian knowledge to the world.</p>
+                <p class="disclaimer">
+                    Disclaimer: Pal Library directly hosts course materials and academic resources from our partner
+                    universities in Ghana.
+                    For other book categories (e.g., Christian, Finance, Relationship, Life Books), we provide summaries
+                    and
+                    link directly to their respective legal storage on the internet (e.g., Amazon, Internet Archive).
+                    We do not host content from non-partner sources to ensure strict adherence to copyright laws and to
+                    maintain academic integrity.
+                </p>
+            </div>
+        </footer>
+
+        <!-- Cookie Consent Banner HTML -->
+        <div class="cookie-consent-banner" id="cookieConsentBanner">
+            <p>This website uses cookies to ensure you get the best experience on our website. By continuing to use this
+                site, you agree to our use of cookies.</p>
+            <button id="acceptCookiesBtn">Accept Cookies</button>
+        </div>
+
+        <script>
+            // --- Academic Books Data Array ---
+            const academicBooks = [
+                {
+                    title: "Introduction to Algorithms",
+                    author: "Thomas H. Cormen et al.",
+                    image: "https://placehold.co/170x180/f97316/ffffff?text=Algorithms",
+                    link: "#",
+                    subject: "Computer Science",
+                    program: "Computer Science"
+                },
+                {
+                    title: "Calculus: Early Transcendentals",
+                    author: "James Stewart",
+                    image: "https://placehold.co/170x180/f97316/ffffff?text=Calculus",
+                    link: "#",
+                    subject: "Mathematics",
+                    program: "Mathematics"
+                },
+                {
+                    title: "Principles of Accounting",
+                    author: "Weygandt, Kimmel, Kieso",
+                    image: "https://placehold.co/170x180/f97316/ffffff?text=Accounting",
+                    link: "#",
+                    subject: "Accounting",
+                    program: "Accounting"
+                },
+                {
+                    title: "Biology: A Global Approach",
+                    author: "Campbell, Reece et al.",
+                    image: "https://placehold.co/170x180/f97316/ffffff?text=Biology",
+                    link: "#",
+                    subject: "Biology",
+                    program: "Biological Sciences"
+                },
+                {
+                    title: "Data Structures and Algorithms in Python",
+                    author: "Michael T. Goodrich et al.",
+                    image: "https://placehold.co/170x180/f97316/ffffff?text=DSA+Python",
+                    link: "#",
+                    subject: "Computer Science",
+                    program: "Computer Science"
+                },
+                {
+                    title: "Linear Algebra and Its Applications",
+                    author: "David C. Lay",
+                    image: "https://placehold.co/170x180/f97316/ffffff?text=Linear+Algebra",
+                    link: "#",
+                    subject: "Mathematics",
+                    program: "Mathematics"
+                },
+                {
+                    title: "Financial Management: Principles and Applications",
+                    author: "Arthur J. Keown et al.",
+                    image: "https://placehold.co/170x180/f97316/ffffff?text=Financial+Mgmt",
+                    link: "#",
+                    subject: "Finance",
+                    program: "Finance"
+                },
+                {
+                    title: "General Microbiology",
+                    author: "Hans G. Schlegel",
+                    image: "https://placehold.co/170x180/f97316/ffffff?text=Microbiology",
+                    link: "#",
+                    subject: "Biology",
+                    program: "Microbiology"
+                },
+                {
+                    title: "Introduction to Hospitality Management",
+                    author: "Dennis L. Foster",
+                    image: "https://placehold.co/170x180/f97316/ffffff?text=Hospitality",
+                    link: "#",
+                    subject: "Hospitality",
+                    program: "Hospitality Management"
+                },
+                {
+                    title: "Nursing Fundamentals: Caring for the Patient",
+                    author: "Patricia A. Potter et al.",
+                    image: "https://placehold.co/170x180/f97316/ffffff?text=Nursing+Fund",
+                    link: "#",
+                    subject: "Nursing",
+                    program: "Nursing"
+                },
+                {
+                    title: "Web Development with HTML, CSS, and JavaScript",
+                    author: "Jon Duckett",
+                    image: "https://placehold.co/170x180/f97316/ffffff?text=Web+Dev",
+                    link: "#",
+                    subject: "Information Technology",
+                    program: "Information Technology"
+                },
+                {
+                    title: "Statistics for Business and Economics",
+                    author: "David R. Anderson et al.",
+                    image: "https://placehold.co/170x180/f97316/ffffff?text=Statistics",
+                    link: "#",
+                    subject: "Statistics",
+                    program: "Economics"
+                },
+                {
+                    title: "Discrete Mathematics and Its Applications",
+                    author: "Kenneth H. Rosen",
+                    image: "https://placehold.co/170x180/f97316/ffffff?text=Discrete+Math",
+                    link: "#",
+                    subject: "Mathematics",
+                    program: "Computer Science"
+                },
+                {
+                    title: "Organic Chemistry",
+                    author: "Paula Yurkanis Bruice",
+                    image: "https://placehold.co/170x180/f97316/ffffff?text=Organic+Chem",
+                    link: "#",
+                    subject: "Chemistry",
+                    program: "Chemistry"
+                },
+                {
+                    title: "Introduction to Public Health",
+                    author: "Mary-Jane Schneider",
+                    image: "https://placehold.co/170x180/f97316/ffffff?text=Public+Health",
+                    link: "#",
+                    subject: "Public Health",
+                    program: "Public Health"
+                }
+            ];
+
+            // --- Function to Load Books into the Grid ---
+            function loadBooks(booksToDisplay) {
+                const booksGridContainer = document.getElementById('booksGrid');
+                if (!booksGridContainer) return;
+
+                booksGridContainer.innerHTML = ''; // Clear existing content
+
+                if (booksToDisplay.length === 0) {
+                    booksGridContainer.innerHTML = '<p style="text-align: center; width: 100%; color: var(--text-medium);">No books found matching your current filters.</p>';
+                    return;
+                }
+
+                booksToDisplay.forEach(book => {
+                    const bookCard = document.createElement('div');
+                    bookCard.classList.add('book-card');
+
+                    // New internal structure for horizontal layout
+                    bookCard.innerHTML = `
+                    <div class="book-details-area" style="background-image: url('${book.image}');">
+                        <div class="book-text-overlay">
+                            <h3>${book.title}</h3>
+                            <p class="author">${book.author}</p>
+                        </div>
+                    </div>
+                    <div class="book-action-btn-container">
+                        <a href="${book.link}" class="book-action-btn">View Book</a>
+                    </div>
+                `;
+                    booksGridContainer.appendChild(bookCard);
+                });
+
+                // Add event listeners for book action buttons
+                booksGridContainer.querySelectorAll('.book-action-btn').forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const bookTitle = button.closest('.book-card').querySelector('h3').textContent;
+                        alert(`Viewing "${bookTitle}" functionality will be available soon!`);
+                    });
+                });
+            }
+
+            // --- Filter Options Generation ---
+            function generateFilterOptions() {
+                const subjectFilter = document.getElementById('subjectFilter');
+                const programFilter = document.getElementById('programFilter');
+
+                const subjects = new Set();
+                const programs = new Set();
+
+                academicBooks.forEach(book => {
+                    subjects.add(book.subject);
+                    programs.add(book.program);
+                });
+
+                // Populate Subject Filter
+                subjectFilter.innerHTML = '<option value="">All Subjects</option>'; // Reset to ensure default is always first
+                Array.from(subjects).sort().forEach(subject => { // Sort for consistent order
+                    const option = document.createElement('option');
+                    option.value = subject;
+                    option.textContent = subject;
+                    subjectFilter.appendChild(option);
+                });
+
+                // Populate Program Filter
+                programFilter.innerHTML = '<option value="">All Programs</option>'; // Reset
+                Array.from(programs).sort().forEach(program => { // Sort for consistent order
+                    const option = document.createElement('option');
+                    option.value = program;
+                    option.textContent = program;
+                    programFilter.appendChild(option);
+                });
+            }
+
+            // --- Search & Filter Functionality ---
+            const searchInput = document.getElementById('searchInput');
+            const searchButton = document.getElementById('searchButton');
+            const clearSearchButton = document.getElementById('clearSearchButton');
+            const subjectFilter = document.getElementById('subjectFilter');
+            const programFilter = document.getElementById('programFilter');
+
+            function applyFilters() {
+                const query = searchInput.value.toLowerCase().trim();
+                const selectedSubject = subjectFilter.value;
+                const selectedProgram = programFilter.value;
+
+                let filteredBooks = academicBooks.filter(book => {
+                    const titleMatch = book.title.toLowerCase().includes(query);
+                    const authorMatch = book.author.toLowerCase().includes(query);
+                    const subjectMatch = selectedSubject === '' || book.subject === selectedSubject;
+                    const programMatch = selectedProgram === '' || book.program === selectedProgram;
+
+                    return (titleMatch || authorMatch) && subjectMatch && programMatch;
+                });
+                loadBooks(filteredBooks);
+            }
+
+            // Event Listeners for filters and search
+            if (searchButton) {
+                searchButton.addEventListener('click', applyFilters);
+            }
+            if (searchInput) {
+                searchInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        applyFilters();
+                    }
+                });
+            }
+            if (clearSearchButton) {
+                clearSearchButton.addEventListener('click', () => {
+                    searchInput.value = '';
+                    subjectFilter.value = ''; // Reset subject filter
+                    programFilter.value = ''; // Reset program filter
+                    applyFilters(); // Re-apply filters to show all
+                });
+            }
+            if (subjectFilter) {
+                subjectFilter.addEventListener('change', applyFilters);
+            }
+            if (programFilter) {
+                programFilter.addEventListener('change', applyFilters);
+            }
+
+            // --- Theme Toggle Functionality ---
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            const mobileThemeToggleBtn = document.getElementById('mobile-theme-toggle');
+            const body = document.body;
+
+            const prefersLightMode = window.matchMedia('(prefers-color-scheme: light)');
+
+            function setTheme(isLight) {
+                if (isLight) {
+                    body.classList.add('light-mode');
+                    themeToggleBtn.textContent = '🌙'; // Moon icon for dark mode toggle
+                    mobileThemeToggleBtn.textContent = '🌙';
+                    localStorage.setItem('theme', 'light');
+                } else {
+                    body.classList.remove('light-mode');
+                    themeToggleBtn.textContent = '☀️'; // Sun icon for light mode toggle
+                    mobileThemeToggleBtn.textContent = '☀️';
+                    localStorage.setItem('theme', 'dark');
+                }
+            }
+
+            // Initialize theme based on localStorage or system preference
+            function initializeTheme() {
+                const savedTheme = localStorage.getItem('theme');
+                if (savedTheme) {
+                    setTheme(savedTheme === 'light');
+                } else {
+                    setTheme(false); // Force dark mode if no preference is saved
+                }
+            }
+
+            // Listen for system theme changes
+            prefersLightMode.addEventListener('change', (event) => {
+                // Only update if no explicit user preference is saved
+                if (!localStorage.getItem('theme')) {
+                    setTheme(event.matches);
+                }
+            });
+
+            // Toggle theme on button click
+            themeToggleBtn.addEventListener('click', () => {
+                setTheme(!body.classList.contains('light-mode'));
+            });
+            mobileThemeToggleBtn.addEventListener('click', () => {
+                setTheme(!body.classList.contains('light-mode'));
+            });
+
+            // --- Smooth Scrolling for navigation links (adapted for this page) ---
+            document.querySelectorAll('nav a[href^="index.html#"], nav a[href$="-books-page.html"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    // If it's a link to the current page, allow default behavior
+                    if (this.getAttribute('href') === 'academic-books-page.html' || this.getAttribute('href').startsWith('#')) {
+                        // For dropdowns on mobile, toggle the dropdown
+                        if (this.classList.contains('dropdown-btn') && window.innerWidth < 768) {
+                            e.preventDefault();
+                            const dropdownContent = this.nextElementSibling;
+                            const arrowIcon = this.querySelector('.arrow-icon');
+                            if (dropdownContent) {
+                                dropdownContent.classList.toggle('open-mobile-dropdown');
+                                if (arrowIcon) {
+                                    arrowIcon.style.transform = dropdownContent.classList.contains('open-mobile-dropdown') ? 'rotate(180deg)' : 'rotate(0deg)';
+                                }
+                            }
+                            return; // Don't proceed with page scroll for dropdown toggle
+                        }
+                        return; // Allow default navigation for direct links on this page or internal anchors
+                    }
+
+                    // For links back to homepage with specific sections
+                    e.preventDefault();
+                    const targetHref = this.getAttribute('href');
+                    window.location.href = targetHref; // Redirect to homepage with hash
+                });
+            });
+
+            // --- Mobile Menu Toggle ---
+            const menuToggle = document.getElementById('menuToggle');
+            const mobileNavOverlay = document.getElementById('mobileNavOverlay');
+            const closeMenuBtn = document.getElementById('closeMenuBtn');
+
+            if (menuToggle && mobileNavOverlay && closeMenuBtn) {
+                menuToggle.addEventListener('click', () => {
+                    mobileNavOverlay.classList.add('open');
+                    mobileNavOverlay.querySelectorAll('.dropdown-content.open-mobile-dropdown').forEach(dropdown => {
+                        dropdown.classList.remove('open-mobile-dropdown');
+                        const btn = dropdown.previousElementSibling;
+                        const arrowIcon = btn ? btn.querySelector('.arrow-icon') : null;
+                        if (arrowIcon) {
+                            arrowIcon.style.transform = 'rotate(0deg)';
+                        }
+                    });
+                });
+
+                closeMenuBtn.addEventListener('click', () => {
+                    mobileNavOverlay.classList.remove('open');
+                    mobileNavOverlay.querySelectorAll('.dropdown-content.open-mobile-dropdown').forEach(dropdown => {
+                        dropdown.classList.remove('open-mobile-dropdown');
+                        const btn = dropdown.previousElementSibling;
+                        const arrowIcon = btn ? btn.querySelector('.arrow-icon') : null;
+                        if (arrowIcon) {
+                            arrowIcon.style.transform = 'rotate(0deg)';
+                        }
+                    });
+                });
+
+                mobileNavOverlay.querySelectorAll('.mobile-nav-links a:not(.dropdown-btn)').forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileNavOverlay.classList.remove('open');
+                        mobileNavOverlay.querySelectorAll('.dropdown-content.open-mobile-dropdown').forEach(dropdown => {
+                            dropdown.classList.remove('open-mobile-dropdown');
+                            const btn = dropdown.previousElementSibling;
+                            const arrowIcon = btn ? btn.querySelector('.arrow-icon') : null;
+                            if (arrowIcon) {
+                                arrowIcon.style.transform = 'rotate(0deg)';
+                            }
+                        });
+                    });
+                });
+            }
+
+            // --- Header show/hide on scroll direction (simplified for this page) ---
+            const header = document.querySelector('.header');
+            // On this page, the header will always be visible, so no complex scroll logic needed.
+            // The `header` element will automatically pick up the `background-color` and `box-shadow` from its default style.
+
+            // --- Cookie Consent Banner Logic ---
+            const cookieBanner = document.getElementById('cookieConsentBanner');
+            const acceptCookiesBtn = document.getElementById('acceptCookiesBtn');
+            const cookieConsentKey = 'palLibraryCookieConsent';
+
+            function showCookieBanner() {
+                if (!localStorage.getItem(cookieConsentKey)) {
+                    cookieBanner.classList.add('show');
+                }
+            }
+
+            function acceptCookies() {
+                localStorage.setItem(cookieConsentKey, 'true');
+                cookieBanner.classList.remove('show');
+            }
+
+            if (acceptCookiesBtn) {
+                acceptCookiesBtn.addEventListener('click', acceptCookies);
+            }
+
+            // --- Placeholder for Login Button ---
+            document.querySelectorAll('.login-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    alert('Login functionality will be available soon!');
+                });
+            });
+
+            // Initial load of books and theme
+            document.addEventListener('DOMContentLoaded', () => {
+                initializeTheme();
+                generateFilterOptions(); // Generate filter dropdown options
+                applyFilters(); // Load all books initially with no filters applied
+            });
+        </script>
+</body>
+
+</html>
